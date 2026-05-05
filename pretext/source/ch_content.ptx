@@ -3,31 +3,1413 @@
   <title>Document Elements</title>
 
   <p>
-    This chapter is a skeleton to be filled in. It will introduce tips and
-    tricks for customizing or generating document elements in R Markdown,
-    including page breaks, YAML metadata, section headings, citations,
+    In this chapter, we introduce some tips and tricks that can be used to
+    customize or generate the document elements of R Markdown, including page
+    breaks, the YAML metadata, section headings, citations,
     cross-references, equations, animations, interactive plots, diagrams,
     and comments.
   </p>
 
+  <section xml:id="pagebreaks">
+    <title>Insert page breaks</title>
+
+    <p>
+      When you want to break a page, you can insert the command
+      <c>\newpage</c> in the document. It is a LaTeX command, but the
+      <em>rmarkdown</em> package is able to recognize it for both LaTeX
+      output formats and a few non-LaTeX output formats including
+      HTML,<fn>For HTML output, page breaks only make sense when you print
+      the HTML page, otherwise you will not see the page breaks, because an
+      HTML page is just a single continuous page.</fn> Word, and ODT. For
+      example:
+    </p>
+
+    <program language="md">
+      <input>
+---
+title: Breaking pages
+output:
+  pdf_document: default
+  word_document: default
+  html_document: default
+  odt_document: default
+---
+
+# The first section
+
+\newpage
+
+# The second section
+      </input>
+    </program>
+
+    <p>
+      This feature is based on Pandoc's Lua filters (see
+      <xref ref="lua-filters"/>). For those who are interested in the
+      technology, you may view this package vignette:
+    </p>
+
+    <program language="r">
+      <input>
+vignette("lua-filters", package = "rmarkdown")
+      </input>
+    </program>
+
+  </section>
+
+  <section xml:id="dynamic-yaml">
+    <title>Set the document title dynamically</title>
+
+    <p>
+      You can use inline R code (see <xref ref="r-code"/>) anywhere in an
+      Rmd document, including the YAML metadata section. This means some
+      YAML metadata can be dynamically generated with inline R code, such
+      as the document title. For example:
+    </p>
+
+    <program language="yaml">
+      <input>
+---
+title: "An analysis of `r nrow(mtcars)` cars"
+---
+      </input>
+    </program>
+
+    <p>
+      If your title depends on an R variable created later in the document,
+      you may add the <c>title</c> field in a later YAML section, e.g., the
+      following:
+    </p>
+
+    <program language="md">
+      <input>
+---
+author: "Smart Analyst"
+output: pdf_document
+---
+
+I just tried really hard to calculate our market share:
+
+```{r}
+share &lt;- runif(1)
+```
+
+---
+title: "Our market share is `r round(100 * share, 2)`% now!"
+---
+
+I feel `r if(share > 0.8) "happy" else "sad"` about it.
+      </input>
+    </program>
+
+    <p>
+      In the example above, we added the document title after we created
+      the variable <c>share</c>. The title works in this case because
+      Pandoc can read any number of YAML sections in a document (and merge
+      them).
+    </p>
+
+    <p>
+      You can also generate titles or any YAML fields dynamically from
+      parameters in parameterized reports (see
+      <xref ref="parameterized-reports"/>), e.g.,
+    </p>
+
+    <program language="yaml">
+      <input>
+---
+title: "`r params$doc_title`"
+author: "Smart Analyst"
+params:
+  doc_title: "The Default Title"
+---
+      </input>
+    </program>
+
+    <p>
+      With the title being a dynamic parameter, you can easily generate a
+      batch of reports with different titles.
+    </p>
+
+    <p>
+      We used the title as the example in this section, but the idea can
+      be applied to any metadata fields in the YAML section.
+    </p>
+
+  </section>
+
+  <section xml:id="document-metadata">
+    <title>Access the document metadata in R code</title>
+
+    <p>
+      When an Rmd document is compiled, all of its metadata in the YAML
+      section will be stored in the list object
+      <c>rmarkdown::metadata</c>. For example,
+      <c>rmarkdown::metadata$title</c> gives you the title of the
+      document. You can use this <c>metadata</c> object in your R code, so
+      that you do not need to hard-code information that has been provided
+      in the YAML metadata. For example, when you send an email with the
+      <em>blastula</em> package within an Rmd document, you may use the
+      title of the document as the email subject, and get the sender
+      information from the author field:
+    </p>
+
+    <program language="md">
+      <input>
+---
+title: An important report
+author: John Doe
+email: john@example.com
+---
+
+We have done an important analysis, and want to email
+the results.
+
+```{r}
+library(rmarkdown)
+library(blastula)
+smtp_send(
+  ...,
+  from = setNames(metadata$email, metadata$author),
+  subject = metadata$title
+)
+```
+      </input>
+    </program>
+
+  </section>
+
+  <section xml:id="unnumbered-sections">
+    <title>Unnumbered sections</title>
+
+    <p>
+      Most output formats support an option <c>number_sections</c>, which
+      can be used to enable numbering sections if set to <c>true</c>, e.g.,
+    </p>
+
+    <program language="yaml">
+      <input>
+output:
+  html_document:
+    number_sections: true
+  pdf_document:
+    number_sections: true
+      </input>
+    </program>
+
+    <p>
+      If you want a certain section to be unnumbered when the option
+      <c>number_sections</c> is <c>true</c>, you may add <c>{-}</c> after
+      the section heading, e.g.,
+    </p>
+
+    <program language="md">
+      <input>
+# This section is unnumbered {-}
+      </input>
+    </program>
+
+    <p>
+      Equivalently, you may also use <c>{.unnumbered}</c>. You can also
+      add other attributes to the heading, e.g.,
+      <c>{.unnumbered #section-id}</c>. Please see
+      <url href="https://pandoc.org/MANUAL.html#extension-header_attributes"/>
+      for more information.
+    </p>
+
+    <p>
+      Unnumbered sections are often used for providing extra information
+      about the writing. For example, for this book, the chapters
+      <q>Preface</q> and <q>About the Authors</q> are unnumbered, since
+      they do not belong to the body of this book. As you may see in
+      <xref ref="fig-unnumbered-sections"/>, the actual body starts after
+      the two unnumbered chapters, and the chapters in the book body are
+      numbered.
+    </p>
+
+    <figure xml:id="fig-unnumbered-sections">
+      <caption>A screenshot of the table of contents of this book to show
+      numbered and unnumbered chapters.</caption>
+      <image source="external/images/unnumbered-sections.png" width="100%">
+        <description>A screenshot of the table of contents of this book to
+        show numbered and unnumbered chapters.</description>
+      </image>
+    </figure>
+
+    <p>
+      Section numbers are incremental. If you insert an unnumbered section
+      after a numbered section, and then start another numbered section,
+      the section number will resume incrementing.
+    </p>
+
+  </section>
+
   <section xml:id="bibliography">
     <title>Bibliographies and citations</title>
-    <p>This section is a placeholder to be filled in.</p>
+
+    <p>
+      For an overview of including bibliographies in your output document,
+      you may see
+      <url href="https://bookdown.org/yihui/bookdown/citations.html">Section
+      2.8</url> of the <pubtitle>bookdown</pubtitle> book. The basic usage
+      requires us to specify a bibliography file using the
+      <c>bibliography</c> metadata field in YAML. For example:
+    </p>
+
+    <program language="yaml">
+      <input>
+---
+output: html_document
+bibliography: references.bib  
+---
+      </input>
+    </program>
+
+    <p>
+      where the BibTeX database is a plain-text file with the
+      <c>*.bib</c> extension that consists of bibliography entries like
+      this:
+    </p>
+
+    <program language="bibtex">
+      <input>
+@Manual{R-base,
+  title = {R: A Language and Environment for Statistical
+           Computing},
+  author = {{R Core Team}},
+  organization = {R Foundation for Statistical Computing},
+  address = {Vienna, Austria},
+  year = {2019},
+  url = {https://www.R-project.org},
+}
+      </input>
+    </program>
+
+    <p>
+      Items can be cited directly within the documentation using the
+      syntax <c>@key</c> where <c>key</c> is the citation key in the first
+      line of the entry, e.g., <c>@R-base</c>. To put citations in
+      parentheses, use <c>[@key]</c>. To cite multiple entries, separate
+      the keys by semicolons, e.g., <c>[@key-1; @key-2; @key-3]</c>. To
+      suppress the mention of the author, add a minus sign before
+      <c>@</c>, e.g., <c>[-@R-base]</c>.
+    </p>
+
+    <subsection xml:id="bibliography-style">
+      <title>Changing citation style</title>
+
+      <p>
+        By default, Pandoc will use a Chicago author-date format for
+        citations and references. To use another style, you will need to
+        specify a CSL (Citation Style Language) file in the <c>csl</c>
+        metadata field, e.g.,
+      </p>
+
+      <program language="yaml">
+        <input>
+---
+output: html_document
+bibliography: references.bib
+csl: biomed-central.csl
+---
+        </input>
+      </program>
+
+      <p>
+        To find your required formats, we recommend using
+        <url href="https://www.zotero.org/styles">the Zotero Style
+        Repository</url>, which makes it easy to search for and download
+        your desired style.
+      </p>
+
+      <p>
+        CSL files can be tweaked to meet custom formatting requirements.
+        For example, we can change the number of authors required before
+        <q>et al.</q> is used to abbreviate them. This can be simplified
+        through the use of visual editors such as the one available at
+        <url href="https://editor.citationstyles.org"/>.
+      </p>
+
+    </subsection>
+
+    <subsection xml:id="bibliography-nocite">
+      <title>Add an item to a bibliography without using it</title>
+
+      <p>
+        By default, the bibliography will only display items that are
+        directly referenced in the document. If you want to include items
+        in the bibliography without actually citing them in the body text,
+        you can define a dummy <c>nocite</c> metadata field and put the
+        citations there.
+      </p>
+
+      <program language="yaml">
+        <input>
+---
+nocite: |
+  @item1, @item2
+---
+        </input>
+      </program>
+
+    </subsection>
+
+    <subsection xml:id="bibliography-all">
+      <title>Add all items to the bibliography</title>
+
+      <p>
+        If we do not wish to explicitly state all of the items within the
+        bibliography but would still like to show them in our references,
+        we can use the following syntax:
+      </p>
+
+      <program language="yaml">
+        <input>
+---
+nocite: '@*'
+---
+        </input>
+      </program>
+
+      <p>
+        This will force all items to be displayed in the bibliography.
+      </p>
+
+    </subsection>
+
+    <subsection xml:id="bibliography-appendix">
+      <title>Include appendix after bibliography</title>
+
+      <p>
+        By default, the bibliography appears at the very end of the
+        document. However, there can be cases in which we want to place
+        additional text after the references, most typically if we wish to
+        include appendices in the document. We can force the position of
+        the references by using <c>&lt;div id="refs"&gt;&lt;/div&gt;</c>,
+        as shown below:
+      </p>
+
+      <program language="md">
+        <input>
+# References
+
+&lt;div id="refs"&gt;&lt;/div&gt;
+
+# Appendix
+        </input>
+      </program>
+
+      <p>
+        Although <c>&lt;div&gt;</c> is an HTML tag, this method also works
+        for other output formats such as PDF.
+      </p>
+
+      <p>
+        We can improve this further by using the <em>bookdown</em> package,
+        which allows you to insert a special header
+        <c># (APPENDIX) Appendix {-}</c> before you start the appendix,
+        e.g.,
+      </p>
+
+      <program language="md">
+        <input>
+# References
+
+&lt;div id="refs"&gt;&lt;/div&gt;
+
+# (APPENDIX) Appendix {-} 
+
+# More information
+
+This will be Appendix A.
+
+# One more thing
+
+This will be Appendix B.
+        </input>
+      </program>
+
+      <p>
+        The numbering style of appendices will be automatically changed in
+        LaTeX/PDF and HTML output (usually in the form A, A.1, A.2, B,
+        B.1, and so on).
+      </p>
+
+    </subsection>
+
+  </section>
+
+  <section xml:id="write-bib">
+    <title>Generate R package citations</title>
+
+    <p>
+      To cite an R package, you can use the function <c>citation()</c>
+      from base R. If you want to generate a citation entry for BibTeX,
+      you can pass the returned object of <c>citation()</c> to
+      <c>toBibtex()</c>, e.g.,
+    </p>
+
+    <program language="r">
+      <input>
+toBibtex(citation('xaringan'))
+      </input>
+    </program>
+
+    <p>
+      To use citation entries generated from <c>toBibtex()</c>, you have
+      to copy the output to a <c>.bib</c> file, and add citation keys
+      (e.g., change <c>@Manual{,</c> to <c>@Manual{R-xaringan,</c>). This
+      can be automated via the function <c>knitr::write_bib()</c>, which
+      generates citation entries to a file and adds keys automatically,
+      e.g.,
+    </p>
+
+    <program language="r">
+      <input>
+knitr::write_bib(c(
+  .packages(), 'bookdown'
+), 'packages.bib')
+      </input>
+    </program>
+
+    <p>
+      The first argument should be a character vector of package names,
+      and the second argument is the path to the <c>.bib</c> file. In the
+      above example, <c>.packages()</c> returns the names of all packages
+      loaded in the current R session. This makes sure all packages being
+      used will have their citation entries written to the <c>.bib</c>
+      file. When any of these packages are updated (e.g., the author,
+      title, year, or version of a package is changed),
+      <c>write_bib()</c> can automatically update the <c>.bib</c> file.
+    </p>
+
+    <p>
+      There are two possible types of citation entries. One type is
+      generated from the package's <c>DESCRIPTION</c> file, and the other
+      type is generated from the package's <c>CITATION</c> file if
+      provided. For the former type, the citation keys are of the form
+      <c>R-pkgname</c>, where <c>pkgname</c> is the package name (e.g.,
+      <c>R-knitr</c>). For the latter type, the keys are created by
+      concatenating the package name and the publication year (e.g.,
+      <c>knitr2015</c>). If there are multiple entries in the same year, a
+      letter suffix will be added, e.g., <c>knitr2015a</c> and
+      <c>knitr2015b</c>. The former type is often used to cite the package
+      itself (i.e., the software), and the latter type often consists of
+      publications related to the package, such as journal papers or
+      books.
+    </p>
+
+    <p>
+      Without the file path argument, <c>knitr::write_bib()</c> writes the
+      citation entries to the R console. Note that <c>write_bib()</c> is
+      designed to overwrite the existing bibliography file. If you want to
+      manually add any other entries to the bibliography, it is recommended
+      that you create a second <c>.bib</c> file and refer to it in the
+      YAML field <c>bibliography</c>, e.g.,
+    </p>
+
+    <program language="md">
+      <input>
+---
+bibliography: [packages.bib, references.bib]
+---
+
+```{r, include=FALSE}
+knitr::write_bib(file = 'packages.bib')
+```
+      </input>
+    </program>
+
+    <p>
+      In the above example, <c>packages.bib</c> is automatically generated,
+      and you should not manually change it. All other citation entries can
+      be manually written to <c>references.bib</c>.
+    </p>
+
   </section>
 
   <section xml:id="cross-ref">
     <title>Cross-referencing within documents</title>
-    <p>This section is a placeholder to be filled in.</p>
+
+    <p>
+      Cross-referencing is a useful way of directing your readers through
+      your document, and can be automatically done within R Markdown. While
+      this has been explained in
+      <url href="https://bookdown.org/yihui/bookdown/components.html">Chapter
+      2</url> from the <em>bookdown</em> book, we want to present a brief
+      summary below.
+    </p>
+
+    <p>
+      To use cross-references, you will need:
+    </p>
+
+    <ul>
+      <li>
+        <p>
+          <em>A bookdown output format</em>: Cross-referencing is not
+          provided directly within the base <em>rmarkdown</em> package,
+          but is provided as an extension in <em>bookdown</em>. We must
+          therefore use an output format from <em>bookdown</em> (e.g.,
+          <c>html_document2</c>, <c>pdf_document2</c>, and
+          <c>word_document2</c>, etc.) in the YAML <c>output</c> field.
+        </p>
+      </li>
+      <li>
+        <p>
+          <em>A caption to your figure (or table)</em>: Figures without a
+          caption will be included directly as images and will therefore
+          not be a numbered figure.
+        </p>
+      </li>
+      <li>
+        <p>
+          <em>A labeled code chunk</em>: This provides the identifier for
+          referencing the figure generated by the chunk.
+        </p>
+      </li>
+    </ul>
+
+    <p>
+      After these conditions are met, we can make cross-references within
+      the text using the syntax <c>\@ref(type:label)</c>, where
+      <c>label</c> is the chunk label and <c>type</c> is the environment
+      being referenced (e.g. <c>tab</c>, <c>fig</c>, or <c>eq</c>). The
+      output of a cross-referenced document is shown in
+      <xref ref="fig-bookdown-ref"/>.
+    </p>
+
+    <figure xml:id="fig-bookdown-ref">
+      <caption>Example of cross-referencing within an R Markdown
+      document.</caption>
+      <image source="external/images/bookdown-ref.png" width="100%">
+        <description>Example of cross-referencing within an R Markdown
+        document.</description>
+      </image>
+    </figure>
+
+    <p>
+      You can also cross-reference equations, theorems, and section
+      headers. These types of references are explained further in Section
+      2.2 and Section 2.6 of the <em>bookdown</em> book.
+    </p>
+
+  </section>
+
+  <section xml:id="update-date">
+    <title>Update the date automatically</title>
+
+    <p>
+      If you want the date on which the Rmd document is compiled to be
+      reflected in the output report, you can add an inline R expression
+      to the <c>date</c> field in YAML, and use the <c>Sys.Date()</c> or
+      <c>Sys.time()</c> function to obtain the current date, e.g.,
+    </p>
+
+    <program language="yaml">
+      <input>
+date: "`r Sys.Date()`"
+      </input>
+    </program>
+
+    <p>
+      You may want to specify the desired date or date-time format to make
+      it more human-readable, e.g.,
+    </p>
+
+    <program language="yaml">
+      <input>
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+      </input>
+    </program>
+
+    <p>
+      This will generate the date dynamically each time you knit your
+      document. If you wish to customize the format of the dates, you can
+      alter the time format by providing your own format string. Here are
+      some examples:
+    </p>
+
+    <ul>
+      <li><p><c>%B %Y</c>: full month name and four-digit year</p></li>
+      <li><p><c>%d/%m/%y</c>: day/month/two-digit year</p></li>
+      <li><p><c>%a/%d/%b</c>: abbreviated weekday/day/abbreviated month</p></li>
+    </ul>
+
+    <p>
+      As a final note, you may also want to include some explanatory text
+      along with the date. You can add any text such as
+      <q>Last compiled on</q> before the R code as follows:
+    </p>
+
+    <program language="yaml">
+      <input>
+date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
+      </input>
+    </program>
+
+  </section>
+
+  <section xml:id="multiple-authors">
+    <title>Multiple authors in a document</title>
+
+    <p>
+      We can add multiple authors to an R Markdown document within the
+      YAML frontmatter in a number of ways. If we simply want to list them
+      on the same line, we can provide a single string to the document,
+      e.g.,
+    </p>
+
+    <program language="yaml">
+      <input>
+---
+title: "Untitled"
+author: "John Doe, Jane Doe"
+---
+      </input>
+    </program>
+
+    <p>
+      Alternatively, if we wish each entry to be on its own line, we can
+      provide a list of entries to the YAML field. This can be useful if
+      you wish to include further information about each author such as an
+      email address or institution, e.g.,
+    </p>
+
+    <program language="yaml">
+      <input>
+---
+author:
+  - John Doe, Institution One
+  - Jane Doe, Institution Two
+---
+      </input>
+    </program>
+
+    <p>
+      We can make use of the Markdown syntax <c>^[]</c> to add additional
+      information as a footnote to the document. This may be more useful
+      if you have extended information that you wish to include for each
+      author, such as providing a contact Email and address. The exact
+      behavior will depend on the output format:
+    </p>
+
+    <program language="yaml">
+      <input>
+---
+author:
+  - John Doe^[Institution One, john@example.org]
+  - Jane Doe^[Institution Two, jane@example.org]
+---
+      </input>
+    </program>
+
+    <p>
+      Certain R Markdown templates will allow you to specify additional
+      parameters directly within the YAML. For example, the Distill output
+      format allows <c>url</c>, <c>affiliation</c>, and
+      <c>affiliation_url</c> to be specified. After you install the
+      <em>distill</em> package:
+    </p>
+
+    <program language="r">
+      <input>
+install.packages('distill')
+      </input>
+    </program>
+
+    <p>
+      you can use the Distill format with detailed author information,
+      e.g.,
+    </p>
+
+    <program language="yaml">
+      <input>
+---
+title: "Distill for R Markdown"
+author:
+  - name: "JJ Allaire"
+    url: https://github.com/jjallaire
+    affiliation: RStudio
+    affiliation_url: https://www.rstudio.com
+output: distill::distill_article
+---
+      </input>
+    </program>
+
+  </section>
+
+  <section xml:id="figure-number">
+    <title>Numbered figure captions</title>
+
+    <p>
+      We can use <em>bookdown</em> output formats to add figure numbers to
+      their captions. Below is an example:
+    </p>
+
+    <program language="yaml">
+      <input>
+---
+output: bookdown::html_document2
+---
+      </input>
+    </program>
+
+    <program language="md">
+      <input>
+```{r cars, fig.cap = "An amazing plot"}
+plot(cars)
+```
+
+```{r mtcars, fig.cap = "Another amazing plot"}
+plot(mpg ~ hp, mtcars)
+```
+      </input>
+    </program>
+
+    <p>
+      <xref ref="cross-ref"/> demonstrates how this works for other
+      elements such as tables and equations, and how to cross-reference
+      the numbered elements within the text. Besides
+      <c>html_document2</c>, there are several other similar functions for
+      other output formats, such as <c>pdf_document2</c> and
+      <c>word_document2</c>.
+    </p>
+
+    <p>
+      You can add this feature to R Markdown output formats outside
+      <em>bookdown</em>, too. The key is to use those formats as the
+      <q>base formats</q> of <em>bookdown</em> output formats. For
+      example, to number and cross-reference figures in the
+      <c>rticles::jss_article</c> format, you can use:
+    </p>
+
+    <program language="yaml">
+      <input>
+output:
+  bookdown::pdf_book:
+    base_format: rticles::jss_article
+      </input>
+    </program>
+
+    <p>
+      Please read the help pages of the <em>bookdown</em> output format
+      functions to see if they have the <c>base_format</c> argument (e.g.,
+      <c>?bookdown::html_document2</c>).
+    </p>
+
   </section>
 
   <section xml:id="combine-words">
     <title>Combine words into a comma-separated phrase</title>
-    <p>This section is a placeholder to be filled in.</p>
+
+    <p>
+      When you want to output a character vector for humans to read (e.g.,
+      <c>x &lt;- c("apple", "banana", "cherry")</c>), you probably do not
+      want something like <c>[1] "apple" "banana" "cherry"</c>, which is
+      the normal way to print a vector in R. Instead, you may want a
+      character string <q>apple, banana, and cherry</q>. There is a base
+      R function, <c>paste()</c>, that you can use to concatenate a
+      character vector into a single string, e.g.,
+      <c>paste(x, collapse = ', ')</c>, and the output will be
+      <c>"apple, banana, cherry"</c>. The problems are (1) the conjunction
+      <q>and</q> is missing, and (2) when the vector only contains two
+      elements, we should not use commas (e.g., the output should be
+      <q>apple and banana</q> instead of <q>apple, banana</q>).
+    </p>
+
+    <p>
+      The function <c>knitr::combine_words()</c> can be used to
+      concatenate words into a phrase regardless of the length of the
+      character vector. Basically, for a single word, it will just return
+      this word; for two words A and B, it returns <c>"A and B"</c>; for
+      three or more words, it returns <c>"A, B, C, ..., Y, and Z"</c>.
+      The function also has a few arguments that can customize the output.
+      For example, if you want to output the words in pairs of backticks,
+      you may use <c>knitr::combine_words(x, before = '`')</c>. Below are
+      more examples with different arguments:
+    </p>
+
+    <program language="r">
+      <input>
+v = c("apple", "banana", "cherry")
+knitr::combine_words(v)
+knitr::combine_words(v, before = '`', after = "'")
+knitr::combine_words(v, and = "")
+knitr::combine_words(v, sep = " / ", and = "")
+knitr::combine_words(v[1])  # a single word
+knitr::combine_words(v[1:2])  # two words
+knitr::combine_words(LETTERS[1:5])
+      </input>
+    </program>
+
+    <p>
+      This function can be particularly handy when it is used in an inline
+      R expression, e.g.,
+    </p>
+
+    <program language="md">
+      <input>
+This morning we had `r knitr::combine_words(v)` for breakfast.
+      </input>
+    </program>
+
+  </section>
+
+  <section xml:id="linebreaks">
+    <title>Preserve a large number of line breaks</title>
+
+    <p>
+      Markdown users may be surprised to realize that whitespaces
+      (including line breaks) are usually meaningless unless they are used
+      in a verbatim environment (code blocks). Two or more spaces are the
+      same as one space, and a line break is the same as a space. If you
+      have used LaTeX or HTML before, you may not be surprised because the
+      rule is the same in these languages.
+    </p>
+
+    <p>
+      In Markdown, we often use a blank line to separate elements such as
+      paragraphs. To break a line without introducing a new paragraph, you
+      have to use two trailing spaces. Sometimes you may want to break the
+      lines many times, especially when you write or quote poems or lyrics.
+      Adding two spaces after each line manually is a tedious task. The
+      function <c>blogdown:::quote_poem()</c> can do this task
+      automatically, e.g.,
+    </p>
+
+    <program language="r">
+      <input>
+blogdown:::quote_poem(c('This line', 'should be', 'broken.'))
+      </input>
+    </program>
+
+    <p>
+      If you use the RStudio IDE and have installed the package
+      <em>blogdown</em>, you can select the text in which you want to
+      preserve the line breaks, and click the RStudio addin
+      <q>Quote Poem</q> in the drop-down menu <q>Addins</q> on the
+      toolbar. For example, the text below (in a fenced code block) does
+      not contain trailing spaces:
+    </p>
+
+    <program language="md">
+      <input>
+Like Barley Bending
+
+Like barley bending
+　In low fields by the sea,
+Singing in hard wind
+　Ceaselessly;
+
+Like barley bending
+　And rising again,
+So would I, unbroken,
+　Rise from pain;
+
+So would I softly,
+　Day long, night long,
+Change my sorrow
+　Into song.
+
+--- Sara Teasdale
+      </input>
+    </program>
+
+    <p>
+      After we select the above poem and click the RStudio addin
+      <q>Quote Poem</q>, the output will have trailing spaces added to
+      each line, preserving the line breaks when rendered.
+    </p>
+
+    <p>
+      Some users may ask, <q>Since the fenced code block preserves
+      whitespaces, why not put poems in code blocks?</q> Code could be
+      poetic, but poems are not code.
+    </p>
+
+  </section>
+
+  <section xml:id="equatiomatic">
+    <title>Convert models to equations</title>
+
+    <p>
+      The <em>equatiomatic</em> package
+      (<url href="https://github.com/datalorax/equatiomatic"/>) developed
+      by Daniel Anderson et al. provides a convenient and automatic way to
+      show the equations corresponding to models fitted in R. We show a
+      few brief examples below:
+    </p>
+
+    <program language="r">
+      <input>
+fit &lt;- lm(mpg ~ cyl + disp, mtcars)
+# show the theoretical model
+equatiomatic::extract_eq(fit)
+# display the actual coefficients
+equatiomatic::extract_eq(fit, use_coefs = TRUE)
+      </input>
+    </program>
+
+    <p>
+      To display the actual math equations, you need the chunk option
+      <c>results = "asis"</c>, otherwise the equations will be displayed
+      as normal text output.
+    </p>
+
+    <p>
+      Please read the documentation and follow the development of this
+      package on GitHub if you are interested in knowing more about it.
+    </p>
+
+  </section>
+
+  <section xml:id="animation">
+    <title>Create an animation from multiple R plots</title>
+
+    <p>
+      When you generate a series of plots in a code chunk, you can combine
+      them into an animation. It is easy to do so if the output format is
+      HTML — you only need to install the <em>gifski</em> package and set
+      the chunk option <c>animation.hook = "gifski"</c>. Below is a simple
+      <q>Pac-man</q> animation created from the code chunk below:
+    </p>
+
+    <program language="md">
+      <input>
+```{r, animation.hook="gifski"}
+for (i in 1:2) {
+  pie(c(i %% 2, 6), col = c('red', 'yellow'), labels = NA)
+}
+```
+      </input>
+    </program>
+
+    <p>
+      The image format of the animation is GIF, which works well for HTML
+      output, but it is not straightforward to support GIF in LaTeX.
+    </p>
+
+    <p>
+      Animations can work in PDF, but there are two prerequisites. First,
+      you have to load the LaTeX package <em>animate</em>. Second, you
+      can only use Acrobat Reader to view the animation. Then the chunk
+      option <c>fig.show = "animate"</c> will use the <em>animate</em>
+      package to create the animation. The time interval between image
+      frames in the animation can be set by the chunk option
+      <c>interval</c>. By default, <c>interval = 1</c> (i.e., one second).
+    </p>
+
+    <p>
+      The R package <em>animation</em> contains several animation examples
+      to illustrate methods and ideas in statistical computing. The
+      <em>gganimate</em> package allows us to create smooth animations
+      based on <em>ggplot2</em>. Both packages work with R Markdown.
+    </p>
+
+  </section>
+
+  <section xml:id="diagrams">
+    <title>Create diagrams</title>
+
+    <p>
+      There are many separate programs (e.g., Graphviz) that can be used
+      to produce diagrams and flowcharts, but it can be easier to manage
+      them directly inside R code chunks in Rmd documents.
+    </p>
+
+    <p>
+      While there are several different packages available for R, we will
+      only briefly introduce the package <em>DiagrammeR</em>, and mention
+      other packages at the end. You can find the full documentation of
+      <em>DiagrammeR</em> at
+      <url href="https://rich-iannone.github.io/DiagrammeR/"/>. In this
+      section, we will introduce the basic usages and also how to use R
+      code in diagrams.
+    </p>
+
+    <subsection xml:id="diagrams-basic">
+      <title>Basic diagrams</title>
+
+      <p>
+        <em>DiagrammeR</em> provides methods to build graphs for a number
+        of different graphing languages. We will present a Graphviz example
+        in this section,<fn>Depending on your background, this section may
+        be a biased introduction to <em>DiagrammeR</em>. Please see its
+        official documentation if you are interested in this package.</fn>
+        but you can also use pure R code to create graphs and diagrams with
+        <em>DiagrammeR</em>.
+      </p>
+
+      <p>
+        The RStudio IDE provides native support for Graphviz (<c>.gv</c>)
+        and mermaid (<c>.mmd</c>) files. Editing these types of files in
+        RStudio has the advantage of syntax highlighting. RStudio also
+        allows you to preview the diagrams by clicking the
+        <q>Preview</q> button on the toolbar.
+        <xref ref="fig-diagram-profit"/> is a simple flowchart example
+        that has four rectangles representing four steps, generated by the
+        code below:
+      </p>
+
+      <program language="r">
+        <input>
+DiagrammeR::grViz("digraph {
+  graph [layout = dot, rankdir = TB]
+  
+  node [shape = rectangle]        
+  rec1 [label = 'Step 1. Wake up']
+  rec2 [label = 'Step 2. Write code']
+  rec3 [label =  'Step 3. ???']
+  rec4 [label = 'Step 4. PROFIT']
+  
+  # edge definitions with the node IDs
+  rec1 -> rec2 -> rec3 -> rec4
+  }",
+  height = 500)
+        </input>
+      </program>
+
+      <figure xml:id="fig-diagram-profit">
+        <caption>A diagram showing a programmer's daydream.</caption>
+        <image source="external/images/diagram-profit.jpg" width="100%">
+          <description>A diagram showing a programmer's daydream.</description>
+        </image>
+      </figure>
+
+      <p>
+        There are extensive controls that can be used to define the shape
+        of nodes, colors, line types, and add additional parameters.
+      </p>
+
+    </subsection>
+
+    <subsection xml:id="diagrams-params">
+      <title>Adding parameters to plots</title>
+
+      <p>
+        Graphviz substitution allows for mixing R expressions into a
+        Graphviz graph specification, without sacrificing readability. If
+        you specify a substitution with <c>@@</c>, you must ensure there
+        is a valid R expression for that substitution. The expressions are
+        placed as footnotes and their evaluations must result in an R
+        vector object. The <c>@@</c> notation is immediately followed by a
+        number, and that number should correspond to the number of the R
+        expression footnote. <xref ref="fig-diagram-params"/> shows an
+        example of embedding and evaluating R code in the diagram.
+      </p>
+
+      <program language="r">
+        <input>
+DiagrammeR::grViz("
+  digraph graph2 {
+  
+  graph [layout = dot, rankdir = LR]
+  
+  # node definitions with substituted label text
+  node [shape = oval]
+  a [label = '@@1']
+  b [label = '@@2']
+  c [label = '@@3']
+  d [label = '@@4']
+  
+  a -> b -> c -> d
+  }
+  
+  [1]: names(iris)[1]
+  [2]: names(iris)[2]
+  [3]: names(iris)[3]
+  [4]: names(iris)[4]
+  ",
+  height = 100)
+        </input>
+      </program>
+
+      <figure xml:id="fig-diagram-params">
+        <caption>A diagram using parameters input from R.</caption>
+        <image source="external/images/diagram-params.jpg" width="100%">
+          <description>A diagram using parameters input from R.</description>
+        </image>
+      </figure>
+
+    </subsection>
+
+    <subsection xml:id="diagrams-other">
+      <title>Other packages for making diagrams</title>
+
+      <p>
+        You may also check out these packages for creating diagrams:
+        <em>nomnoml</em>, <em>diagram</em>, <em>dagitty</em>,
+        <em>ggdag</em>, and <em>plantuml</em>
+        (<url href="https://github.com/rkrug/plantuml"/>).
+      </p>
+
+    </subsection>
+
+  </section>
+
+  <section xml:id="special-chars">
+    <title>Escape special characters</title>
+
+    <p>
+      Some characters have special meanings in the Markdown syntax. If
+      you want these characters verbatim, you have to escape them. For
+      example, a pair of underscores surrounding text usually makes the
+      text italic. You need to escape the underscores if you want verbatim
+      underscores instead of italic text. The way to escape a special
+      character is to add a backslash before it, e.g.,
+      <c>I do not want \_italic text\_ here</c>. Similarly, if <c>#</c>
+      does not indicate a section heading, you may write
+      <c>\# This is not a heading</c>.
+    </p>
+
+    <p>
+      As mentioned in <xref ref="linebreaks"/>, a sequence of whitespaces
+      will be rendered as a single regular space. If you want to render the
+      sequence of spaces literally, you need to escape each of them, e.g.,
+      <c>keep the social \ \ \ distance</c>. When a space is escaped, it
+      is converted to a <q>non-breaking space</q>, which means the line
+      will not be wrapped at this space, e.g., <c>Mr.\ Dervieux</c>.
+    </p>
+
+  </section>
+
+  <section xml:id="comments">
+    <title>Comment out text</title>
+
+    <p>
+      It is useful to comment out text in the source document, which will
+      not be displayed in the final output document. For this purpose, we
+      can use the HTML syntax <c>&lt;!-- your comment --&gt;</c>. The
+      comments will not be displayed in any output format.
+    </p>
+
+    <p>
+      Comments can span either a single line or multiple lines. This may
+      be useful for you to write draft content.
+    </p>
+
+    <p>
+      If you use RStudio, you can use the keyboard shortcut
+      <c>Ctrl + Shift + C</c> (<c>Command + Shift + C</c> on macOS) to
+      comment out a line of text.
+    </p>
+
+  </section>
+
+  <section xml:id="toc-unlisted">
+    <title>Omit a heading in the table of contents</title>
+
+    <p>
+      If you do not want certain section headings to be included in the
+      table of contents, you can add two classes to the heading:
+      <c>unlisted</c> and <c>unnumbered</c>. For example:
+    </p>
+
+    <program language="md">
+      <input>
+# Section heading {.unlisted .unnumbered}
+      </input>
+    </program>
+
+    <p>
+      Note that this feature requires at least Pandoc 2.10. You may check
+      your Pandoc version via <c>rmarkdown::pandoc_version()</c>. If the
+      version is lower than 2.10, you may install a newer version (see
+      <xref ref="install-pandoc"/>).
+    </p>
+
+  </section>
+
+  <section xml:id="code-appendix">
+    <title>Put together all code in the appendix</title>
+
+    <p>
+      Unless the target readers are highly interested in the computational
+      details while they read a report, you may not want to show the
+      source code blocks in the report. For this purpose, you can set the
+      chunk option <c>echo = FALSE</c> to hide the source code instead, so
+      readers will not be distracted by the program code for computing.
+      However, the source code is still important for the sake of
+      reproducible research. Sometimes readers may want to verify the
+      computational correctness after they have finished reading the
+      report. In this case, it can be a good idea to hold all code blocks
+      in the body of the report, and display them at the end of a document
+      (e.g., in an appendix).
+    </p>
+
+    <p>
+      There is a simple method of extracting all code chunks in a document
+      and putting them together in a single code chunk using the chunk
+      option <c>ref.label</c> and the function
+      <c>knitr::all_labels()</c>, e.g.,
+    </p>
+
+    <program language="md">
+      <input>
+# Appendix: All code for this report
+
+```{r ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE}
+```
+      </input>
+    </program>
+
+    <p>
+      The function <c>knitr::all_labels()</c> returns a vector of all
+      chunk labels in the document, so
+      <c>ref.label = knitr::all_labels()</c> means retrieving all source
+      code chunks to this code chunk. With the chunk options
+      <c>echo = TRUE</c> (display the code) and <c>eval = FALSE</c> (do
+      not evaluate this particular code chunk because all code has been
+      executed before), you can show a copy of all your source code in one
+      code chunk.
+    </p>
+
+    <p>
+      Since <c>ref.label</c> can be a character vector of arbitrary chunk
+      labels, you can certainly filter the labels to decide a subset of
+      code chunks to display in the code appendix. Below is an example of
+      excluding the labels <c>setup</c> and <c>get-labels</c>:
+    </p>
+
+    <program language="md">
+      <input>
+```{r get-labels, echo = FALSE}
+labs = knitr::all_labels()
+labs = setdiff(labs, c("setup", "get-labels"))
+```
+
+```{r all-code, ref.label=labs, eval=FALSE}
+```
+      </input>
+    </program>
+
+    <p>
+      You can also filter code chunks using the arguments of
+      <c>knitr::all_labels()</c>. For example, you may use
+      <c>knitr::all_labels(engine == "Rcpp", echo == FALSE)</c> to obtain
+      all your code chunks that use the <c>Rcpp</c> engine and are not
+      displayed in the document. If you want precise control over which
+      code chunks to display in the appendix, you may use a special chunk
+      option <c>appendix = TRUE</c> on certain code chunks, and
+      <c>ref.label = knitr::all_labels(appendix == TRUE)</c> to obtain
+      the labels of these code chunks.
+    </p>
+
   </section>
 
   <section xml:id="lua-filters">
     <title>Manipulate Markdown via Pandoc Lua filters</title>
-    <p>This section is a placeholder to be filled in.</p>
+
+    <p>
+      Technically, this section may be a little advanced, but once you
+      learn how your Markdown content is translated into the Pandoc
+      abstract syntax tree (AST), you will have the power of manipulating
+      any Markdown elements with the programming language called Lua.
+    </p>
+
+    <p>
+      Basically, when Pandoc reads a Markdown file, the content will be
+      parsed into an AST. Pandoc allows you to modify this AST with Lua
+      scripts. After you are aware of the AST, you can modify it with the
+      Lua programming language. Pandoc has a built-in Lua interpreter, so
+      you do not need to install additional tools. The Lua scripts are
+      called <q>Lua filters</q> for Pandoc.
+    </p>
+
+    <p>
+      Next we give a quick example of raising the levels of headers by
+      one, e.g., convert level 3 headers to level 2 headers. First, we
+      create a Lua script file named <c>raise-header.lua</c>:
+    </p>
+
+    <program language="lua">
+      <input>
+function Header(el)
+  -- The header level can be accessed via the attribute 'level'
+  -- of the element. See the Pandoc documentation later.
+  if (el.level &lt;= 1) then
+    error("I don't know how to raise the level of h1")
+  end
+  el.level = el.level - 1
+  return el
+end
+      </input>
+    </program>
+
+    <p>
+      Then we can pass this script to Pandoc via the argument
+      <c>--lua-filter</c>, e.g.,
+    </p>
+
+    <program language="sh">
+      <input>
+pandoc -t markdown --markdown-headings=atx \
+  --lua-filter=raise-header.lua ast.md
+      </input>
+    </program>
+
+    <p>
+      Usually it is not robust to manipulate a structured document with
+      regular expressions, because there are almost always exceptions
+      (e.g., what if <c>##</c> means a comment in R code?). The AST gives
+      you the structured data, so you know for sure that you are modifying
+      the expected elements.
+    </p>
+
+    <p>
+      Pandoc has extensive documentation on Lua filters at
+      <url href="https://pandoc.org/lua-filters.html"/>, where you can
+      find a large number of examples. You can also find some filters
+      written by the community in the GitHub repository at
+      <url href="https://github.com/pandoc/lua-filters"/>.
+    </p>
+
+    <p>
+      In the R Markdown world, below is an incomplete list of packages
+      that have made use of Lua filters (usually they are in the
+      <c>inst/</c> directory):
+    </p>
+
+    <ul>
+      <li>
+        <p>
+          The <em>rmarkdown</em> package contains filters that insert page
+          breaks (see <xref ref="pagebreaks"/>) and generate custom blocks.
+        </p>
+      </li>
+      <li>
+        <p>
+          The <em>pagedown</em> package contains filters that help
+          implement footnotes and the list of figures on HTML pages.
+        </p>
+      </li>
+      <li>
+        <p>
+          The <em>govdown</em> package contains filters to convert
+          Pandoc's fenced <c>Div</c>s to appropriate HTML tags.
+        </p>
+      </li>
+    </ul>
+
+    <p>
+      For R Markdown users who do not want to create R packages to ship
+      the Lua filters, you may store these Lua scripts anywhere on your
+      computer, and apply them through the <c>pandoc_args</c> option of
+      an R Markdown output format, e.g.,
+    </p>
+
+    <program language="yaml">
+      <input>
+---
+output:
+  html_document:
+    pandoc_args:
+      - --lua-filter=raise-header.lua
+---
+      </input>
+    </program>
+
   </section>
 
 </chapter>
