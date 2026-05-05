@@ -13,4 +13,9 @@
     <p>This section is a placeholder to be filled in.</p>
   </section>
 
+  <section xml:id="hook-scroll">
+    <title>Scrollable text output via a hook</title>
+    <p>This section is a placeholder to be filled in.</p>
+  </section>
+
 </chapter>

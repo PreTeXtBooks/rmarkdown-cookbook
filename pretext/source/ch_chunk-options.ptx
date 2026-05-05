@@ -8,4 +8,14 @@
     of <em>knitr</em> when processing R code chunks.
   </p>
 
+  <section xml:id="attr-output">
+    <title>Attributes for text output</title>
+    <p>This section is a placeholder to be filled in.</p>
+  </section>
+
+  <section xml:id="opts-comment">
+    <title>Remove leading hashes in text output</title>
+    <p>This section is a placeholder to be filled in.</p>
+  </section>
+
 </chapter>
