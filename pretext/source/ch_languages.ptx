@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="ch-languages" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Other Languages</title>
+
+  <p>
+    This chapter is a skeleton to be filled in. It will show examples of using
+    languages other than R in R Markdown (such as Python, SQL, Bash, and more),
+    and explain how <em>knitr</em>'s language engine system works.
+  </p>
+
+</chapter>

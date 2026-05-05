@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="ch-word" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Word</title>
+
+  <p>
+    This chapter is a skeleton to be filled in. It will cover generating Word
+    documents from R Markdown, including using Word templates, formatting
+    options, and working with cross-references in Word output.
+  </p>
+
+</chapter>

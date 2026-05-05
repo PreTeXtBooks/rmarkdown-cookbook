@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="ch-workflow" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Workflow</title>
+
+  <p>
+    This chapter is a skeleton to be filled in. It will present tips on working
+    with individual R Markdown documents as well as running R Markdown projects,
+    including keyboard shortcuts, R Markdown notebooks, and rendering scripts.
+  </p>
+
+</chapter>

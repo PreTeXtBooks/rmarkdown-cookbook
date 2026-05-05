@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="ch-chunk-hooks" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Chunk Hooks</title>
+
+  <p>
+    This chapter is a skeleton to be filled in. It will introduce chunk hooks,
+    which are functions triggered by chunk options to execute additional tasks
+    beyond running the code in a chunk, such as post-processing plots or
+    recording execution time.
+  </p>
+
+</chapter>

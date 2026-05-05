@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="ch-html" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>HTML Output</title>
+
+  <p>
+    This chapter is a skeleton to be filled in. It will introduce techniques to
+    enhance HTML output from R Markdown, including how to apply custom CSS
+    rules, use custom HTML templates, style or fold code blocks, arrange content
+    in tabs, and embed files on HTML pages.
+  </p>
+
+</chapter>

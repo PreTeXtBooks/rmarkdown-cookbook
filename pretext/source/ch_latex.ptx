@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="ch-latex" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>LaTeX Output</title>
+
+  <p>
+    This chapter is a skeleton to be filled in. It will discuss approaches for
+    customizing PDF reports, such as including LaTeX code or packages in the
+    preamble, using custom LaTeX templates, adding headers and footers,
+    generating sub-figures, and writing raw LaTeX code in the document body.
+  </p>
+
+</chapter>
