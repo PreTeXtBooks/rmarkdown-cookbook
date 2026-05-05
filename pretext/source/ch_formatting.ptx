@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="ch-formatting" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Formatting</title>
+
+  <p>
+    This chapter is a skeleton to be filled in. It will show how to format
+    content in R Markdown, such as adjusting figure size and alignment, and
+    other presentation-related techniques.
+  </p>
+
+</chapter>

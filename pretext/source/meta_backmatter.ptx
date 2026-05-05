@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <backmatter xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="meta-back">
+  <references xml:id="references">
+    <title>References</title>
+    <biblio type="raw">
+      <!-- References will be populated here. -->
+    </biblio>
+  </references>
+
   <index>
     <title>Index</title>
     <index-list/>

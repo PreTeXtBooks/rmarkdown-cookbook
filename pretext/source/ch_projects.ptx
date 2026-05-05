@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="ch-projects" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Managing Projects</title>
+
+  <p>
+    This chapter is a skeleton to be filled in. It will introduce tips on how
+    to organize multiple files related to R Markdown when working on larger
+    projects or reports.
+  </p>
+
+</chapter>

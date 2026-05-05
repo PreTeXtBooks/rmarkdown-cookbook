@@ -2,14 +2,15 @@
 <frontmatter xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="meta-front">
   <bibinfo>
     <author>
-      <personname>NAME</personname>
-      <website>
-      </website>
+      <personname>Yihui Xie</personname>
+      <institution>Posit, PBC</institution>
     </author>
     <author>
-      <personname>NAME</personname>
-      <website>
-      </website>
+      <personname>Christophe Dervieux</personname>
+      <institution>Posit, PBC</institution>
+    </author>
+    <author>
+      <personname>Emily Riederer</personname>
     </author>
     <date>
       <today/>
@@ -22,7 +23,62 @@
 
   <abstract>
     <p>
-      ABSTRACT
+      This book showcases short, practical examples of lesser-known tips and
+      tricks to help users get the most out of R Markdown. After reading this
+      book, you will understand how R Markdown documents are transformed from
+      plain text and how you may customize nearly every step of this processing.
+      For example, you will learn how to dynamically create content from R code,
+      reference code in other documents or chunks, control the formatting with
+      custom templates, fine-tune how your code is processed, and incorporate
+      multiple languages into your analysis.
     </p>
   </abstract>
+
+  <preface xml:id="preface">
+    <title>Preface</title>
+    <p>
+      R Markdown is a powerful tool for combining analysis and reporting into
+      the same document. Since the birth of the <em>rmarkdown</em> package in
+      early 2014, R Markdown has grown substantially from a package that
+      supports a few output formats, to an extensive and diverse ecosystem that
+      supports the creation of books, blogs, scientific articles, websites, and
+      even resumes.
+    </p>
+    <p>
+      Despite the existence of the official documentation, R Markdown users
+      often seek help on Stack Overflow, a popular Q&amp;A forum. This book
+      aims to draw together popular posts from Stack Overflow and other online
+      resources (such as blog posts or tutorials) to provide up-to-date
+      solutions for everyday queries that users commonly make.
+    </p>
+    <p>
+      This book is designed to provide a range of examples on how to extend the
+      functionality of R Markdown documents. As a cookbook, this guide is
+      recommended to new and intermediate R Markdown users who desire to enhance
+      the efficiency of using R Markdown and also explore the power of R Markdown.
+    </p>
+  </preface>
+
+  <preface xml:id="about-authors">
+    <title>About the Authors</title>
+    <p>
+      <em>Yihui Xie</em> typed out most of the words in this book. He is a
+      software engineer at Posit, PBC. He has authored several R packages,
+      including <em>knitr</em>, <em>bookdown</em>, <em>blogdown</em>,
+      <em>xaringan</em>, and <em>tinytex</em>.
+    </p>
+    <p>
+      <em>Christophe Dervieux</em> has made substantial contributions to this
+      book by helping organize all the GitHub issues and writing several
+      sections. He is a software engineer at Posit, PBC.
+    </p>
+    <p>
+      <em>Emily Riederer</em> was originally a reviewer of this book and was
+      subsequently invited to become a co-author. Her insightful comments and
+      contributions have greatly improved the book.
+    </p>
+    <p>
+      When you see the pronoun <q>I</q> in this book, it refers to Yihui.
+    </p>
+  </preface>
 </frontmatter>

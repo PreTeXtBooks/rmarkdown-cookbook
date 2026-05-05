@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="ch-knitr-misc" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Miscellaneous knitr Tricks</title>
+
+  <p>
+    This chapter is a skeleton to be filled in. It will introduce a variety of
+    useful <em>knitr</em> tricks, such as how to reuse code chunks, exit
+    knitting early, display a plot in a custom place, and more.
+  </p>
+
+</chapter>

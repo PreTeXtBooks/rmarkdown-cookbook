@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="ch-output-hooks" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Output Hooks</title>
+
+  <p>
+    This chapter is a skeleton to be filled in. It will explain how to use
+    <em>knitr</em> output hooks to control every piece of output from code
+    chunks, such as source code, text output, messages, and plots.
+  </p>
+
+</chapter>

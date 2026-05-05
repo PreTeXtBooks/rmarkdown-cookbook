@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="ch-content" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Document Elements</title>
+
+  <p>
+    This chapter is a skeleton to be filled in. It will introduce tips and
+    tricks for customizing or generating document elements in R Markdown,
+    including page breaks, YAML metadata, section headings, citations,
+    cross-references, equations, animations, interactive plots, diagrams,
+    and comments.
+  </p>
+
+</chapter>

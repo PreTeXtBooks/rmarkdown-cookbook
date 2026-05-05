@@ -1,6 +1,6 @@
 # PreTeXt Book Version
 
-This directory contains the PreTeXt version of *Learning Statistics with R*.
+This directory contains the PreTeXt version of the *R Markdown Cookbook*.
 
 ## Building the Book
 

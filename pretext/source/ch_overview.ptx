@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="ch-overview" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Conceptual Overview</title>
+
+  <p>
+    This chapter is a skeleton to be filled in. It will provide a conceptual
+    overview of R Markdown, explaining how documents are transformed from plain
+    text and the key levers available to customize output.
+  </p>
+
+</chapter>

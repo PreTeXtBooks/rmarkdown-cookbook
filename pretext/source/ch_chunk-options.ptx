@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="ch-chunk-options" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Chunk Options</title>
+
+  <p>
+    This chapter is a skeleton to be filled in. It will show applications of
+    <em>knitr</em>'s chunk options, demonstrating how to fine-tune the behavior
+    of <em>knitr</em> when processing R code chunks.
+  </p>
+
+</chapter>

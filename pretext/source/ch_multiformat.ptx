@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="ch-multiformat" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Multiple Output Formats</title>
+
+  <p>
+    This chapter is a skeleton to be filled in. It will explore how to produce
+    output documents in multiple output formats from a single R Markdown source,
+    including techniques for handling format-specific content and images.
+  </p>
+
+</chapter>
