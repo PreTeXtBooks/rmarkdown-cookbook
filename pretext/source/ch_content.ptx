@@ -10,4 +10,24 @@
     and comments.
   </p>
 
+  <section xml:id="bibliography">
+    <title>Bibliographies and citations</title>
+    <p>This section is a placeholder to be filled in.</p>
+  </section>
+
+  <section xml:id="cross-ref">
+    <title>Cross-referencing within documents</title>
+    <p>This section is a placeholder to be filled in.</p>
+  </section>
+
+  <section xml:id="combine-words">
+    <title>Combine words into a comma-separated phrase</title>
+    <p>This section is a placeholder to be filled in.</p>
+  </section>
+
+  <section xml:id="lua-filters">
+    <title>Manipulate Markdown via Pandoc Lua filters</title>
+    <p>This section is a placeholder to be filled in.</p>
+  </section>
+
 </chapter>

@@ -9,4 +9,19 @@
     in tabs, and embed files on HTML pages.
   </p>
 
+  <section xml:id="html-css">
+    <title>Apply custom CSS</title>
+    <p>This section is a placeholder to be filled in.</p>
+  </section>
+
+  <section xml:id="chunk-styling">
+    <title>Style code blocks and text output</title>
+    <p>This section is a placeholder to be filled in.</p>
+  </section>
+
+  <section xml:id="html-tabs">
+    <title>Put content in tabs</title>
+    <p>This section is a placeholder to be filled in.</p>
+  </section>
+
 </chapter>

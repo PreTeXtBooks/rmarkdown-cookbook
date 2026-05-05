@@ -9,4 +9,9 @@
     generating sub-figures, and writing raw LaTeX code in the document body.
   </p>
 
+  <section xml:id="raw-latex">
+    <title>Write raw LaTeX code</title>
+    <p>This section is a placeholder to be filled in.</p>
+  </section>
+
 </chapter>

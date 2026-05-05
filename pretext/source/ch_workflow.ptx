@@ -8,4 +8,14 @@
     including keyboard shortcuts, R Markdown notebooks, and rendering scripts.
   </p>
 
+  <section xml:id="parameterized-reports">
+    <title>Parameterized reports</title>
+    <p>This section is a placeholder to be filled in.</p>
+  </section>
+
+  <section xml:id="custom-knit">
+    <title>Customize the Knit button</title>
+    <p>This section is a placeholder to be filled in.</p>
+  </section>
+
 </chapter>
