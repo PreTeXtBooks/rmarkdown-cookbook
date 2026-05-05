@@ -3,9 +3,286 @@
   <title>Installation</title>
 
   <p>
-    This chapter is a skeleton to be filled in. It will cover installation of
-    R, the <em>rmarkdown</em> package, and related tools required to use
-    R Markdown.
+    To use R Markdown, you have to install R and the R package
+    <em>rmarkdown</em>.
   </p>
+
+  <program language="r">
+    <input>
+# install the rmarkdown package from CRAN in R
+install.packages('rmarkdown')
+
+# or install from GitHub if you want to test the development version
+if (!requireNamespace("remotes")) install.packages('remotes')
+remotes::install_github('rstudio/rmarkdown')
+    </input>
+  </program>
+
+  <p>
+    Unless you have a favorite editor or IDE (Integrated Development
+    Environment), we recommend that you also install the RStudio IDE
+    (<url href="https://www.rstudio.com"/>). RStudio is not required, but it
+    will make it easier for an average user to work with R Markdown because of
+    the strong editor support. If you choose not to use the RStudio IDE, you
+    will need to install Pandoc (see <xref ref="install-pandoc"/>), which is
+    the tool used by <em>rmarkdown</em> to convert Markdown to other document
+    formats.
+  </p>
+
+  <p>
+    If you need to create PDF output, you may need to install LaTeX
+    (<xref ref="install-latex"/>) and certain LaTeX packages
+    (<xref ref="install-latex-pkgs"/>).
+  </p>
+
+  <section xml:id="install-pandoc">
+    <title>Use a Pandoc version not bundled with the RStudio IDE</title>
+
+    <p>
+      The RStudio IDE has bundled a version of Pandoc, so you do not need to
+      install Pandoc by yourself if you use the RStudio IDE. However, for some
+      advanced usage, the bundled version may differ from the exact version you
+      want. You can choose to install a separate copy of Pandoc by yourself.
+      Please remember that the bundled version may be more thoroughly tested with
+      R Markdown, because most RStudio users may just use the bundled version. If
+      you want to go with a different version (especially a higher version), you
+      might run into problems that other R Markdown users or developers have yet
+      to discover.
+    </p>
+
+    <p>
+      Some configurations are required if you have installed a specific Pandoc
+      version by yourself.
+    </p>
+
+    <p>
+      First, before running <c>rmarkdown::render()</c>, you may inform the
+      <em>rmarkdown</em> package by calling the function
+      <c>rmarkdown::find_pandoc()</c> in the same R session, e.g.,
+    </p>
+
+    <program language="r">
+      <input>
+# to find a specific version (e.g., if lower version on PATH)
+rmarkdown::find_pandoc(version = '2.9.1')
+
+# to find Pandoc under a specific directory (e.g., if a specific version cannot be in PATH)
+rmarkdown::find_pandoc(dir = '~/Downloads/Pandoc')
+
+# ignore the previously found Pandoc and search again (i.e., opt out of the caching mechanism).
+rmarkdown::find_pandoc(cache = FALSE)
+      </input>
+    </program>
+
+    <p>
+      As you can see in the above code chunk, several ways exist to find a
+      version of Pandoc. By default, <c>rmarkdown::find_pandoc()</c> tries to
+      find your system's highest version of Pandoc. Once found, the version
+      information is cached, and you can invalidate the cache with
+      <c>cache = FALSE</c>. Please see the help page
+      <c>?rmarkdown::find_pandoc</c> for the potential directories where the
+      <c>pandoc</c> executable may be found.
+    </p>
+
+    <p>
+      This function needs to be called outside of the Rmd document, as
+      <em>rmarkdown</em> may use the Pandoc version information before knitting
+      with code cells execution happens.
+    </p>
+
+    <p>
+      If you want an Rmd document to be compiled by a specific version of Pandoc
+      installed on your computer, the <em>pandoc</em> package will help. This
+      package is designed to help test R code with different Pandoc versions. It
+      allows installing and managing several Pandoc binary versions on the system
+      and easily switching between versions. The function
+      <c>pandoc::with_pandoc_version()</c> can help to render a document with a
+      specific version of Pandoc, e.g., the following will render the document
+      with Pandoc 2.9.1:
+    </p>
+
+    <program language="r">
+      <input>
+pandoc::with_pandoc_version(
+  version = '2.9.1',
+  rmarkdown::render('input.Rmd')
+)
+      </input>
+    </program>
+
+    <p>
+      The <em>pandoc</em> package works by default with its Pandoc binaries
+      installation. See <c>?pandoc::pandoc_install()</c> for installation
+      instructions of 2.9.1 in the example and, more generally, the
+      <url href="https://cderv.github.io/pandoc/articles/pandoc.html">Get
+      Started</url> article.
+    </p>
+
+    <p>
+      For use with the Knit button in RStudio (see <xref ref="custom-knit"/>
+      about Knit button customization), you can also customize the behavior
+      like this:
+    </p>
+
+    <program language="yaml">
+      <input>
+knit: (function(input, ...) { pandoc::with_pandoc_version("2.9.1", rmarkdown::render(input)) })
+      </input>
+    </program>
+
+    <p>
+      <c>pandoc::with_pandoc_version()</c> is a wrapper for
+      <c>rmarkdown::find_pandoc()</c>, so you could also get inspiration from
+      it to use your own version. See <c>?pandoc::with_pandoc_version()</c>
+      for more details.
+    </p>
+  </section>
+
+  <section xml:id="install-latex">
+    <title>Install LaTeX (TinyTeX) for PDF reports</title>
+
+    <p>
+      If you would like to create PDF documents from R Markdown, you will need
+      to have a LaTeX distribution installed. Although there are several
+      traditional options including MiKTeX, MacTeX, and TeX Live, we recommend
+      that R Markdown users install
+      <url href="https://yihui.org/tinytex/">TinyTeX.</url>
+    </p>
+
+    <p>
+      TinyTeX is a custom LaTeX distribution based on TeX Live that is
+      relatively small in size, but functions well in most cases, especially
+      for R users. Installing or running TinyTeX does not require sysadmin
+      privileges.<fn>Actually, we recommend that you <em>do not</em> use your
+      root privilege (i.e., <c>sudo</c>) to install TinyTeX on Linux or macOS,
+      if you are the only user of your system.</fn> You can install TinyTeX
+      with the R package <em>tinytex</em>:
+    </p>
+
+    <program language="r">
+      <input>
+tinytex::install_tinytex()
+# to uninstall TinyTeX, run tinytex::uninstall_tinytex()
+      </input>
+    </program>
+
+    <p>
+      Please note that <q>tinytex</q> refers to the R package, and
+      <q>TinyTeX</q> refers to the LaTeX distribution. There are two
+      advantages of using TinyTeX:
+    </p>
+
+    <ol>
+      <li>
+        <p>
+          TinyTeX is lightweight (compared to other LaTeX distributions),
+          cross-platform, and portable. For example, you can store a copy of
+          TinyTeX on your USB drive or other portable devices, and use it on
+          other computers with the same operating system.
+        </p>
+      </li>
+      <li>
+        <p>
+          When R Markdown is converted to PDF, Pandoc converts Markdown to an
+          intermediate LaTeX document first. The R package <em>tinytex</em>
+          has provided helper functions to compile LaTeX documents to PDF (the
+          main function is <c>tinytex::latexmk()</c>). If you use TinyTeX and
+          certain LaTeX packages are required but not installed,
+          <em>tinytex</em> will try to automatically install them for you. It
+          will also try to compile the LaTeX file for a sufficient number of
+          times to make sure all cross-references are resolved.
+        </p>
+      </li>
+    </ol>
+
+    <p>
+      If you are interested in the technical details, you may check out the
+      article and the FAQ page at
+      <url href="https://yihui.org/tinytex/faq/"/>.
+    </p>
+  </section>
+
+  <section xml:id="install-latex-pkgs">
+    <title>Install missing LaTeX packages</title>
+
+    <p>
+      When you compile a document to PDF through LaTeX, you may run into errors
+      like these:
+    </p>
+
+    <program language="latex">
+      <input>
+! LaTeX Error: File `ocgbase.sty' not found.
+
+!pdfTeX error: pdflatex (file 8r.enc):
+  cannot open encoding file for reading
+
+!pdfTeX error: /usr/local/bin/pdflatex (file tcrm0700):
+  Font tcrm0700 at 600 not found
+      </input>
+    </program>
+
+    <p>
+      If you are using TinyTeX as introduced in <xref ref="install-latex"/>,
+      usually you do not need to deal with such errors, since
+      <em>tinytex</em> will automatically deal with them, but if you run into
+      such errors anyway, it is still easy to install the missing LaTeX
+      package(s) via <c>tinytex::parse_install()</c>. This function takes the
+      path of the LaTeX log file as the input, tries to figure out the missing
+      packages automatically, and installs them if they are found on CTAN (the
+      Comprehensive TeX Archive Network,
+      <url href="https://ctan.org"/>). The LaTeX log file typically has the
+      same base name as your input document, and has an extension
+      <c>.log</c>. If you cannot find this log file, you can pass the error
+      message to the <c>text</c> argument of this function. Both ways should
+      work:
+    </p>
+
+    <program language="r">
+      <input>
+# if the log file is filename.log
+tinytex::parse_install("filename.log")
+
+# or use the `text` argument
+tinytex::parse_install(
+  text = "! LaTeX Error: File `ocgbase.sty' not found."
+)
+# it will install the "ocgx2" package
+      </input>
+    </program>
+
+    <p>
+      If you do not use TinyTeX, the R package <em>tinytex</em> can still help
+      you figure out the LaTeX package names from the error
+      log<mdash/>use the function <c>tinytex::parse_packages()</c>, e.g.,
+    </p>
+
+    <program language="r">
+      <input>
+# if the log file is filename.log
+tinytex::parse_packages("filename.log")
+
+# or use the `text` argument
+tinytex::parse_packages(
+  text = "! LaTeX Error: File `ocgbase.sty' not found."
+)
+# it should return "ocgx2"
+      </input>
+    </program>
+
+    <p>
+      Once you know the package names, you can install them with the package
+      manager of your LaTeX distribution.
+    </p>
+
+    <p>
+      If you are using MiKTeX instead, it can also install missing packages
+      automatically. During the installation of MiKTeX, be sure to check the
+      setting <q>Always install missing packages on-the-fly.</q> If you have
+      already installed it without this setting,
+      <url href="https://github.com/rstudio/rmarkdown/issues/1285#issuecomment-374340175">you
+      can still change it in the MiKTeX Console.</url>
+    </p>
+  </section>
 
 </chapter>
