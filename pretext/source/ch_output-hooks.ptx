@@ -8,4 +8,9 @@
     chunks, such as source code, text output, messages, and plots.
   </p>
 
+  <section xml:id="hook-hide">
+    <title>Hide content by hook</title>
+    <p>This section is a placeholder to be filled in.</p>
+  </section>
+
 </chapter>

@@ -3,10 +3,398 @@
   <title>Basics</title>
 
   <p>
-    This chapter is a skeleton to be filled in. It will present key concepts
-    about R Markdown, including the basic components of an R Markdown document
-    (prose and code) and how to convert between R Markdown documents and
-    R scripts.
+    In this chapter, we present some key concepts about R Markdown. First, we
+    introduce the basic components of an R Markdown document: the prose and
+    code. Next, we show how to convert R Markdown documents to R scripts, and
+    vice versa.
   </p>
 
+  <p>
+    For those seeking lower-level basics, please read Chapter 2 of the
+    <pubtitle>R Markdown: The Definitive Guide</pubtitle>
+    (<url href="https://bookdown.org/yihui/rmarkdown/"/>).
+  </p>
+
+  <section xml:id="r-code">
+    <title>Code chunks and inline R code</title>
+
+    <p>
+      An R Markdown document consists of intermingled prose (narratives) and
+      code. There are two types of code in an Rmd document: code chunks and
+      inline R code. Below is a quick example:
+    </p>
+
+    <program language="md">
+      <input>
+```{r}
+x &lt;- 5  # radius of a circle
+```
+
+For a circle with the radius `r x`,
+its area is `r pi * x^2`.
+      </input>
+    </program>
+
+    <p>
+      A code chunk usually starts with <c>```{}</c> and ends with
+      <c>```</c>. You can write any number of lines of code in it. Inline R
+      code is embedded in the narratives of the document using the syntax
+      <c>`r `</c>. In the above example, we defined a variable <c>x</c> in a
+      code chunk, which is the radius of a circle, and calculated its area in
+      the next paragraph.
+    </p>
+
+    <p>
+      You can customize the behavior and output of code chunks through chunk
+      options (provided inside the curly brackets <c>{}</c>). You will find
+      several examples in <xref ref="ch-chunk-options"/>. You may write code of
+      other languages in code chunks, too (see <xref ref="ch-languages"/>).
+    </p>
+
+  </section>
+
+  <section xml:id="rstudio-visual">
+    <title>Write Markdown in the RStudio visual editor</title>
+
+    <p>
+      If you are not familiar with Markdown yet, or do not prefer writing
+      Markdown code, RStudio v1.4 has included an experimental visual editor
+      for Markdown documents, which feels similar to traditional WYSIWYG
+      editors like Word, as shown in <xref ref="fig-visual-edit"/>. You can
+      find the full documentation at
+      <url href="https://rstudio.github.io/visual-markdown-editing/"/>.
+    </p>
+
+    <figure xml:id="fig-visual-edit">
+      <caption>The visual Markdown editor in RStudio.</caption>
+      <image source="external/images/visual-edit.png" width="100%">
+        <description>The visual Markdown editor in RStudio.</description>
+      </image>
+    </figure>
+
+    <p>
+      With the visual editor, you can visually edit almost any Markdown
+      elements supported by Pandoc, such as section headers, figures, tables,
+      footnotes, and so on. That means you do not have to remember the syntax
+      for all elements. In case you forget the syntax for a certain element,
+      you may use the RStudio toolbar (see <xref ref="fig-visual-edit"/>) or a
+      keyboard shortcut to add or edit it.
+    </p>
+
+    <p>
+      If you are already a Markdown expert, you can still write your document
+      in the source mode by clicking the rightmost button on the toolbar, which
+      allows you to switch between the source mode and the visual mode.
+    </p>
+
+  </section>
+
+  <section xml:id="spin">
+    <title>Render an R script to a report</title>
+
+    <p>
+      Even if you are a long-time R Markdown user, you may have missed another
+      possibility. Dean Attali called it
+      <url href="https://deanattali.com/2015/03/24/knitrs-best-hidden-gem-spin/"><em>knitr</em>'s
+      best hidden gem</url>. That is, you can render a pure R script to a
+      report directly. If you use the RStudio IDE, the keyboard shortcut to
+      render R scripts is the same as when you knit Rmd documents
+      (<c>Ctrl / Cmd + Shift + K</c>). Or equivalently, you can call
+      <c>rmarkdown::render()</c> on the R script.
+    </p>
+
+    <p>
+      When rendering an R script to a report via <c>rmarkdown::render()</c>,
+      the function <c>knitr::spin()</c> is called under the hood to convert
+      the R script to an Rmd file first. This function is what Dean Attali
+      called <em>knitr</em>'s best hidden gem. You will see all text and
+      graphical output in the report.
+    </p>
+
+    <p>
+      If you want granular control over the elements in the report, below are
+      a few syntax rules to help you:
+    </p>
+
+    <ul>
+      <li>
+        <p>
+          Roxygen comments will be treated as normal text. A roxygen comment
+          is an R comment that starts with <c>#'</c>. This can help you write
+          narratives in your report. You can use any Markdown syntax in the
+          comments.
+        </p>
+      </li>
+      <li>
+        <p>
+          A comment starting with <c>#+</c> is treated as the <em>knitr</em>
+          chunk header. For example, <c>knitr::spin()</c> will translate the
+          comment <c>#+ label, fig.width=5</c> to the chunk header
+          <c>```{r label, fig.width=5}</c> in R Markdown.
+        </p>
+      </li>
+      <li>
+        <p>
+          R code of the form <c>{{ code }}</c> is translated to an inline R
+          expression in R Markdown. Please note that <c>{{ code }}</c> must be
+          on its own line.
+        </p>
+      </li>
+      <li>
+        <p>
+          The YAML frontmatter can be written in the beginning of the R script
+          in roxygen comments, too. Please watch out for the indentation in
+          YAML fields. It is very important. If you omit the indentation, the
+          data structure expressed in your YAML will be different and
+          incorrect. For example, the field <c>keep_tex: true</c> should be
+          indented for two more spaces under <c>pdf_document</c> in the
+          example below.
+        </p>
+      </li>
+      <li>
+        <p>
+          Any text between <c>/*</c> and <c>*/</c> will be ignored (i.e.,
+          they are treated as true comments).
+        </p>
+      </li>
+    </ul>
+
+    <p>
+      Below is a full example illustrating the above rules:
+    </p>
+
+    <program language="r">
+      <input>
+#' ---
+#' title: "A report generated from a pure R script"
+#' output:
+#'   pdf_document:
+#'     keep_tex: true
+#' ---
+#'
+#' This is a report generated by `knitr::spin()`.
+#'
+#' Let's try some **knitr** options:
+
+#+ echo=FALSE, fig.width=7
+#  This is a normal R comment.
+plot(cars)
+
+#' Now write an inline value. We know the value of $\pi$ is
+{{ pi }}
+#' .
+#'
+#' Finally please note that all roxygen comments are
+#' optional. You do not need chunk options, either,
+#' unless you want more control over the output
+#' elements such as the size of plots.
+
+# /* Write comments between /* and */ like C comments:
+Sys.sleep(60)
+# */
+      </input>
+    </program>
+
+    <p>
+      When this script is rendered to a report, <c>knitr::spin()</c> will
+      convert it to R Markdown:
+    </p>
+
+    <program language="md">
+      <input>
+---
+title: "A report generated from a pure R script"
+output:
+  pdf_document:
+    keep_tex: true
+---
+
+This is a report generated by `knitr::spin()`.
+
+Let's try some **knitr** options:
+
+```{r echo=FALSE, fig.width=7}
+#  This is a normal R comment.
+plot(cars)
+```
+
+Now write an inline value. We know the value of $\pi$ is
+`r pi`
+.
+
+Finally please note that all roxygen comments are
+optional. You do not need chunk options, either,
+unless you want more control over the output
+elements such as the size of plots.
+      </input>
+    </program>
+
+    <p>
+      This method of generating reports can be particularly useful when you
+      primarily work with R scripts and do not need a lot of narratives. If the
+      proportion of text is substantial in your report, R Markdown may be a
+      better choice, because you do not need to put all text in roxygen
+      comments.
+    </p>
+
+  </section>
+
+  <section xml:id="purl">
+    <title>Convert R Markdown to R script</title>
+
+    <p>
+      When you want to extract all R code from an R Markdown document, you can
+      call the function <c>knitr::purl()</c>. Below is a simple Rmd example
+      with the filename <c>purl.Rmd</c>:
+    </p>
+
+    <program language="md">
+      <input>
+---
+title: Use `purl()` to extract R code
+---
+
+The function `knitr::purl()` extracts R code chunks from
+a **knitr** document and save the code to an R script.
+
+Below is a simple chunk:
+
+```{r, simple, echo=TRUE}
+1 + 1
+```
+
+Inline R expressions like `r 2 * pi` are ignored by default.
+
+If you do not want certain code chunks to be extracted,
+you can set the chunk option `purl = FALSE`, e.g.,
+
+```{r, ignored, purl=FALSE}
+x = rnorm(1000)
+```
+      </input>
+    </program>
+
+    <p>
+      If we call <c>knitr::purl("purl.Rmd")</c>, it generates the following
+      R script (with the filename <c>purl.R</c> by default):
+    </p>
+
+    <program language="r">
+      <input>
+## ----simple, echo=TRUE--------------------------------------------------------
+1 + 1
+      </input>
+    </program>
+
+    <p>
+      The above R script contains the chunk options in a comment. If you want
+      pure R code, you may call <c>knitr::purl()</c> with the argument
+      <c>documentation = 0</c>, which will generate the R script below:
+    </p>
+
+    <program language="r">
+      <input>
+1 + 1
+      </input>
+    </program>
+
+    <p>
+      If you want to retain all the text, you may use the argument
+      <c>documentation = 2</c>, which generates the R script below:
+    </p>
+
+    <program language="r">
+      <input>
+#' ---
+#' title: Use `purl()` to extract R code
+#' ---
+#'
+#' The function `knitr::purl()` extracts R code chunks from
+#' a **knitr** document and save the code to an R script.
+#'
+#' Below is a simple chunk:
+#'
+## ----simple, echo=TRUE--------------------------------------------------------
+1 + 1
+#' Inline R expressions like `r 2 * pi` are ignored by default.
+#'
+#' If you do not want certain code chunks to be extracted,
+#' you can set the chunk option `purl = FALSE`, e.g.,
+      </input>
+    </program>
+
+    <p>
+      Note that code chunks with the option <c>purl = FALSE</c> will be
+      excluded in the R script.
+    </p>
+
+    <p>
+      Inline R expressions are ignored by default. If you want to include them
+      in the R script, you need to set the global R option
+      <c>options(knitr.purl.inline = TRUE)</c> before calling
+      <c>knitr::purl()</c>.
+    </p>
+
+  </section>
+
+  <section xml:id="notebook">
+    <title>R Markdown Notebooks</title>
+
+    <p>
+      As mentioned in
+      <url href="https://bookdown.org/yihui/rmarkdown/compile.html">Section
+      2.2</url> of the
+      <pubtitle>R Markdown: The Definitive Guide</pubtitle>, there are
+      several ways to compile an Rmd document. One of them is to use R
+      Markdown Notebooks, with the output format <c>html_notebook</c>, e.g.,
+    </p>
+
+    <program language="yaml">
+      <input>
+---
+title: An R Markdown Notebook
+output: html_notebook
+---
+      </input>
+    </program>
+
+    <p>
+      When you use this output format in RStudio, the <c>Knit</c> button on
+      the toolbar will become the <c>Preview</c> button.
+    </p>
+
+    <p>
+      The main advantage of using notebooks is that you can work on an Rmd
+      document <em>iteratively in the same R session</em>. You can run one
+      code chunk at a time by clicking the green arrow button on each chunk,
+      and you will see the text or plot output in the editor. When you click
+      the <c>Preview</c> button on the toolbar, it only renders the Rmd
+      document to an HTML output document containing the output of all code
+      chunks that you have already executed. The <c>Preview</c> button does
+      not execute any code chunks. By comparison, when you use other output
+      formats and hit the <c>Knit</c> button, RStudio launches a new R session
+      to compile the whole document (hence all code chunks are executed at
+      once), which usually takes more time.
+    </p>
+
+    <p>
+      If you do not like RStudio's default behavior of showing the output of
+      code chunks inline when you run them individually, you can uncheck the
+      option <q>Show output inline for all R Markdown documents</q> from the
+      menu <c>Tools -&gt; Global Options -&gt; R Markdown</c>. After that,
+      when you run a code chunk, the output will be shown in the R console
+      instead of inside the source editor. You can also set this option for an
+      individual Rmd document in its YAML metadata:
+    </p>
+
+    <program language="yaml">
+      <input>
+editor_options:
+  chunk_output_type: console
+      </input>
+    </program>
+
+  </section>
+
 </chapter>
+
