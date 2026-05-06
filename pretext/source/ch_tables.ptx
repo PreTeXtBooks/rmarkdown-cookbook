@@ -280,8 +280,14 @@ knitr::kable(d, escape = FALSE)
         Without <c>escape = FALSE</c>, special characters will either be
         escaped or substituted. For example, <c>$</c> is escaped as
         <c>\$</c>, <c>_</c> is escaped as <c>\_</c>, and <c>\</c> is
-        substituted with <c>\textbackslash{}</c>.
+        substituted with <c>\textbackslash{}</c>:
       </p>
+
+      <program language="r">
+        <input>
+knitr::kable(d, format = 'latex', escape = TRUE)
+        </input>
+      </program>
 
       <p>
         Other common special LaTeX characters include <c>#</c>, <c>%</c>,

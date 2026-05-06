@@ -501,6 +501,12 @@ knitr::write_bib(c(
       books.
     </p>
 
+    <program language="r">
+      <input>
+knitr::write_bib(c('knitr', 'rmarkdown'), width = 60)
+      </input>
+    </program>
+
     <p>
       Without the file path argument, <c>knitr::write_bib()</c> writes the
       citation entries to the R console. Note that <c>write_bib()</c> is
@@ -1322,8 +1328,51 @@ labs = setdiff(labs, c("setup", "get-labels"))
     <p>
       Basically, when Pandoc reads a Markdown file, the content will be
       parsed into an AST. Pandoc allows you to modify this AST with Lua
-      scripts. After you are aware of the AST, you can modify it with the
-      Lua programming language. Pandoc has a built-in Lua interpreter, so
+      scripts. We use the following simple Markdown file (named
+      <c>ast.md</c>) to show what the AST means:
+    </p>
+
+    <program language="md">
+      <input>
+## Section One
+
+Hello world!
+      </input>
+    </program>
+
+    <p>
+      This file contains a header and a paragraph. After Pandoc parses
+      this content, it may be easier for R users to understand the
+      resulting AST if we convert the file to the JSON format:
+    </p>
+
+    <program language="sh">
+      <input>
+pandoc -f markdown -t json -o ast.json ast.md
+      </input>
+    </program>
+
+    <p>
+      When you do this, you will see that the Markdown content is
+      represented in a recursive list. Its structure can be printed in R.
+      The label <c>t</c> stands for <q>type</q>, and <c>c</c> stands for
+      <q>content</q>. Take the header for example. Its type is
+      <q>Header</q>, and its content has three sub-elements: the header
+      level (<c>2</c>), the attributes (e.g., the ID is
+      <c>section-one</c>), and the text content.
+    </p>
+
+    <program language="r">
+      <input>
+xfun:::tree(
+  jsonlite::fromJSON('ast.json', simplifyVector = FALSE)
+)
+      </input>
+    </program>
+
+    <p>
+      After you are aware of the AST, you can modify it with the Lua
+      programming language. Pandoc has a built-in Lua interpreter, so
       you do not need to install additional tools. The Lua scripts are
       called <q>Lua filters</q> for Pandoc.
     </p>
@@ -1357,6 +1406,19 @@ end
       <input>
 pandoc -t markdown --markdown-headings=atx \
   --lua-filter=raise-header.lua ast.md
+      </input>
+    </program>
+
+    <p>
+      You can see that we have successfully converted
+      <c>## Section One</c> to <c># Section One</c>. You may feel this
+      example is trivial, and wonder why not simply replace <c>##</c>
+      with <c>#</c> with a regular expression like:
+    </p>
+
+    <program language="r">
+      <input>
+gsub('^##', '#', readLines('ast.md'))
       </input>
     </program>
 

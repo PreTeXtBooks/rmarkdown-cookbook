@@ -739,6 +739,24 @@ res &lt;- xfun::cache_rds({
     </p>
 
     <p>
+      If you are not sure if two versions of code are equivalent, you may try the
+      <c>parse_code()</c> function below:
+    </p>
+
+    <program language="r">
+      <input>
+parse_code &lt;- function(expr) {
+  deparse(substitute(expr))
+}
+# white spaces and semi-colons do not matter
+parse_code({x+1})
+parse_code({ x   +    1; })
+# left arrow and right arrow are equivalent
+identical(parse_code({x &lt;- 1}), parse_code({1 -&gt; x}))
+      </input>
+    </program>
+
+    <p>
       <em>Invalidate the cache by changes in global variables.</em>
       There are two types of variables in an expression: global variables and
       local variables. Global variables are those created outside the expression,

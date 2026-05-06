@@ -523,6 +523,12 @@ knitr::knit_hooks$set(output = function(x, options) {
       again:
     </p>
 
+    <program language="r">
+      <input>
+print(cars)
+      </input>
+    </program>
+
     <program language="r"><input>
 knitr::knit_hooks$set(output = hook_output)
     </input></program>

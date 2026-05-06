@@ -480,6 +480,26 @@ for (i in 1:5) warning('Here is the warning ', i)
     </p>
 
     <p>
+      This is what the output looks like when <c>collapse = TRUE</c>:
+    </p>
+
+    <program language="r">
+      <input>
+1 + 1
+1:10
+      </input>
+    </program>
+
+    <console>
+      <output>
+1 + 1
+## [1] 2
+1:10
+##  [1]  1  2  3  4  5  6  7  8  9 10
+      </output>
+    </console>
+
+    <p>
       By default, <c>collapse = FALSE</c> and source code and output appear in
       separate blocks.
     </p>
@@ -694,8 +714,26 @@ for (i in names(mtcars)) {
       hashes? That is because <c>#</c> indicates comments in R. When the text
       output is commented out, it will be easier for you to copy all the code from
       a code chunk in a report and run it by yourself, without worrying about the
-      fact that text output is not R code.
+      fact that text output is not R code. For example, in the code chunk below,
+      you can copy all four lines of text and run them safely as R code, because
+      the output lines starting with <c>##</c> are treated as comments:
     </p>
+
+    <program language="r">
+      <input>
+1 + 1
+2 + 2
+      </input>
+    </program>
+
+    <console>
+      <output>
+1 + 1
+## [1] 2
+2 + 2
+## [1] 4
+      </output>
+    </console>
 
     <p>
       One argument in favor of <c>comment = ""</c> is that it makes the text output
@@ -940,8 +978,19 @@ pdf2png = function(path) {
       For PDF output, if you are really picky about the typeface in your plots,
       you may use <c>dev = "tikz"</c>, because it offers native support for LaTeX,
       which means all elements in a plot, including text and symbols, are rendered
-      in high quality through LaTeX.
+      in high quality through LaTeX. Below is an example of writing LaTeX math
+      expressions in an R plot rendered with <c>dev = "tikz"</c>:
     </p>
+
+    <program language="r">
+      <input>
+par(mar = c(4, 4, 2, .1))
+curve(dnorm, -3, 3, xlab = '$x$', ylab = '$\\phi(x)$',
+      main = 'The density function of $N(0, 1)$')
+abline(h = 0.3, lty = 2)
+text(0, 0.3, '$y = 0.3$', pos = 4)
+      </input>
+    </program>
 
     <p>
       Note that base R actually supports math expressions, but they are not rendered
