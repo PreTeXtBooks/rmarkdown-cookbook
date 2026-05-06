@@ -53,8 +53,9 @@ Then we do the actual conversion:
       </input></program>
 
       <p>
-        This is based on one of the main ideas of Literate Programming, which was
-        proposed by Donald Knuth. The advantage of this technique is that you can
+        This is based on one of the main ideas of
+        <url href="https://en.wikipedia.org/wiki/Literate_programming">Literate
+        Programming</url>, which was proposed by Donald Knuth. The advantage of this technique is that you can
         split (complex) code into smaller parts, write each part in a separate code
         chunk, and explain them with narratives. All parts can be composed into the
         main code chunk to be executed.
@@ -365,10 +366,12 @@ After another paragraph, we introduce the plot:
     </p>
 
     <p>
-      This function works for any R Markdown output formats. It can be
-      particularly helpful for presenting plots on slides, because the screen
-      space is often limited on slide pages. You may present code on a slide,
-      and reveal the plot on a different slide.
+      You may see <url href="https://stackoverflow.com/a/46305297/559676"/> for
+      an application of <c>fig_chunk()</c> to <em>blogdown</em> websites. This
+      function works for any R Markdown output formats. It can be particularly
+      helpful for presenting plots on slides, because the screen space is often
+      limited on slide pages. You may present code on a slide, and reveal the
+      plot on a different slide.
     </p>
 
   </section>
@@ -398,7 +401,9 @@ knitr::opts_knit$set(global.device = TRUE)
 
     <p>
       Please note that it is <c>opts_knit</c> instead of the more frequently used
-      <c>opts_chunk</c>. When you no longer need this global graphical device,
+      <c>opts_chunk</c>. You may see the Stack Overflow post
+      <url href="https://stackoverflow.com/q/17502050"/> for an example.
+      When you no longer need this global graphical device,
       you can set the option to <c>FALSE</c>. Here is a full example:
     </p>
 
@@ -638,8 +643,9 @@ plot(10:1)
     <title>A more transparent caching mechanism</title>
 
     <p>
-      <em>Note:</em> A new caching mechanism <c>xfun::cache_exec()</c> has been
-      introduced to supersede the <c>xfun::cache_rds()</c> introduced in this
+      <em>Note:</em> A new caching mechanism
+      <url href="https://git.yihui.org/xfun/manual.html#sec:man-cache_exec"><c>xfun::cache_exec()</c></url>
+      has been introduced to supersede the <c>xfun::cache_rds()</c> introduced in this
       section. You are now recommended to use <c>xfun::cache_exec()</c>, which is
       also transparent and yet still flexible.
     </p>
@@ -863,7 +869,10 @@ plot(cars)
       The biggest disadvantage of <em>knitr</em>'s caching (and also what users
       complain most frequently about) is that your cache might be inadvertently
       invalidated, because the cache is determined by too many factors. For
-      example, any changes in chunk options can invalidate the cache, but some
+      example, any changes in chunk options can invalidate the cache,<fn>This is
+      the default behavior, and you can change it. See
+      <url href="https://yihui.org/knitr/demo/cache/"/> for how you can make the
+      cache more granular, so not all chunk options affect the cache.</fn> but some
       chunk options may not be relevant to the computing. In the code chunk below,
       changing the chunk option <c>fig.width = 6</c> to <c>fig.width = 10</c>
       should not invalidate the cache, but it will:
