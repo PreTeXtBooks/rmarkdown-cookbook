@@ -3,14 +3,760 @@
   <title>Multiple Output Formats</title>
 
   <p>
-    This chapter is a skeleton to be filled in. It will explore how to produce
-    output documents in multiple output formats from a single R Markdown source,
-    including techniques for handling format-specific content and images.
+    One main advantage of R Markdown is that it can create multiple output
+    formats from a single source, which could be one or multiple Rmd
+    documents. For example, this book was written in R Markdown, and
+    compiled to two formats: PDF for printing, and HTML for the online
+    version.
   </p>
+
+  <p>
+    Sometimes it can be challenging to make an output element of a code
+    chunk work for all output formats. For example, it is extremely simple
+    to create a rounded and circular image in HTML output with a single CSS
+    rule (<c>img { border-radius: 50%; }</c>), but not so straightforward
+    in LaTeX output (typically it will involve TikZ graphics).
+  </p>
+
+  <p>
+    Sometimes it is just impossible for an output element to work for all
+    output formats. For example, you can easily create a GIF animation with
+    the <em>gifski</em> package (see <xref ref="animation"/>), and it will
+    work perfectly for HTML output, but embedding such an animation in
+    LaTeX output is not possible without extra steps of processing the GIF
+    file and using extra LaTeX packages.
+  </p>
+
+  <p>
+    This chapter provides a few examples that can work for multiple formats.
+    If a certain feature is only available to a specific output format, we
+    will show you how to conditionally enable or disable it based on the
+    output format.
+  </p>
+
+  <section xml:id="latex-html">
+    <title>LaTeX or HTML output</title>
+
+    <p>
+      LaTeX and HTML are two commonly used output formats. The function
+      <c>knitr::is_latex_output()</c> tells you if the output format is
+      LaTeX (including Pandoc output formats <c>latex</c> and
+      <c>beamer</c>). Similarly, the function
+      <c>knitr::is_html_output()</c> tells you if the output format is
+      HTML. By default, these Pandoc output formats are considered HTML
+      formats: <c>markdown</c>, <c>epub</c>, <c>html</c>, <c>html4</c>,
+      <c>html5</c>, <c>revealjs</c>, <c>s5</c>, <c>slideous</c>, and
+      <c>slidy</c>. If you do not think a certain Pandoc format is HTML,
+      you may use the <c>excludes</c> argument to exclude it, e.g.,
+    </p>
+
+    <program language="r">
+      <input>
+# do not treat markdown as an HTML format
+knitr::is_html_output(excludes = 'markdown')
+      </input>
+    </program>
+
+    <p>
+      If a certain output element can only be generated in LaTeX or HTML,
+      you can use these functions to conditionally generate it. For
+      example, when a table is too big on a PDF page, you may include the
+      table in an environment of a smaller font size, but such a LaTeX
+      environment certainly will not work for HTML output, so it should not
+      be included in HTML output (if you want to tweak the font size for
+      HTML output, you may use CSS). Below is a full example:
+    </p>
+
+    <program language="md">
+      <input>
+---
+title: Render a table in a tiny environment
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+options(knitr.table.format = function() {
+  if (knitr::is_latex_output()) 'latex' else 'pandoc'
+})
+```
+
+The LaTeX environment `tiny` is only generated for LaTeX output.
+
+```{r, include=knitr::is_latex_output()}
+knitr::asis_output('\n\n\\begin{tiny}')
+```
+
+```{r}
+knitr::kable(mtcars)
+```
+
+```{r, include=knitr::is_latex_output()}
+knitr::asis_output('\\end{tiny}\n\n')
+```
+
+By comparison, below is the table with the normal font size.
+
+```{r}
+knitr::kable(mtcars)
+```
+      </input>
+    </program>
+
+    <p>
+      The key in the above example is the chunk option
+      <c>include = knitr::is_latex_output()</c>. That is, the environment
+      <c>\begin{tiny} \end{tiny}</c> is only included when the output
+      format is LaTeX. The two tables in the example will look identical
+      when the output format is not LaTeX.
+    </p>
+
+    <p>
+      In <xref ref="font-color"/>, we used these functions to change the
+      text color for HTML and LaTeX output. In <xref ref="animation"/>,
+      we showed an animation example, which also used this trick. The code
+      chunk that generated the animation for HTML output and static images
+      for LaTeX output is like this:
+    </p>
+
+    <program language="md">
+      <input>
+```{r animation.hook=if (knitr::is_html_output()) 'gifski'}
+for (i in 1:2) {
+  pie(c(i %% 2, 6), col = c('red', 'yellow'), labels = NA)
+}
+```
+      </input>
+    </program>
+
+    <p>
+      These conditional functions can be used anywhere. You can use them in
+      other chunk options (e.g., <c>eval</c> for conditional evaluation of
+      the chunk), or in your R code, e.g.,
+    </p>
+
+    <program language="md">
+      <input>
+```{r, eval=knitr::is_html_output(), echo=FALSE}
+cat('You will only see me in HTML output.')
+```
+
+```{r}
+if (knitr::is_latex_output()) {
+  knitr::asis_output('\n\n\\begin{tiny}')
+}
+```
+      </input>
+    </program>
+
+  </section>
+
+  <section xml:id="html-widgets">
+    <title>Display HTML widgets</title>
+
+    <p>
+      HTML widgets (<url href="https://www.htmlwidgets.org"/>) are
+      typically interactive JavaScript applications, which only work in
+      HTML output. If you knit an Rmd document containing HTML widgets to
+      a non-HTML format such as PDF or Word, you may get an error message
+      like this:
+    </p>
+
+    <program language="md">
+      <input>
+Error: Functions that produce HTML output found in document
+targeting X output. Please change the output type of this
+document to HTML. Alternatively, you can allow HTML output in
+non-HTML formats by adding this option to the YAML front-matter
+of your rmarkdown file:
+
+  always_allow_html: yes
+
+Note however that the HTML output will not be visible in
+non-HTML formats.
+      </input>
+    </program>
+
+    <p>
+      There is actually a better solution than the one mentioned in the
+      above error message, but it involves extra packages. You can install
+      the <em>webshot2</em> package in R and also install Google Chrome or
+      any other Chromium-based browser if you do not have such a browser
+      installed:
+    </p>
+
+    <program language="r">
+      <input>
+install.packages('webshot2')
+      </input>
+    </program>
+
+    <p>
+      Then if you knit an Rmd document with HTML widgets to a non-HTML
+      format, the HTML widgets will be displayed as static screenshots. The
+      screenshots are automatically taken in <em>knitr</em>.
+      <url href="https://bookdown.org/yihui/bookdown/html-widgets.html">Section 2.10</url>
+      of the <em>bookdown</em> book contains more information on finer
+      control over the screenshots.
+    </p>
+
+  </section>
+
+  <section xml:id="include-url">
+    <title>Embed a web page</title>
+
+    <p>
+      If you have the <em>webshot2</em> package and Chrome installed (see
+      <xref ref="html-widgets"/>), you can embed any web page in the
+      output document through <c>knitr::include_url()</c>. When you pass
+      a URL of a web page to this function in a code chunk, it will
+      generate an <c>&lt;iframe&gt;</c> (inline frame) if the output
+      format is HTML, and a screenshot of the web page for other output
+      formats. You can view the actual page in the inline frame.
+    </p>
+
+    <p>
+      Most chunk options related to figures also work for
+      <c>knitr::include_url()</c>, such as <c>out.width</c> and
+      <c>fig.cap</c>.
+    </p>
+
+    <p>
+      If you have published a Shiny app publicly on a server, you can use
+      <c>knitr::include_app()</c> to include it, which works in the same
+      way as <c>include_url()</c>.
+      <url href="https://bookdown.org/yihui/bookdown/web-pages-and-shiny-apps.html">Section 2.11</url>
+      of the <em>bookdown</em> book contains more details about
+      <c>include_app()</c> and <c>include_url()</c>.
+    </p>
+
+  </section>
+
+  <section xml:id="figures-side">
+    <title>Multiple figures side by side</title>
+
+    <p>
+      You can place multiple figures side by side using the
+      <c>fig.show="hold"</c> chunk option along with the <c>out.width</c>
+      option. In the example below, we have set <c>out.width="50%"</c>:
+    </p>
+
+    <program language="md">
+      <input>
+```{r, figures-side, fig.show="hold", out.width="50%"}
+par(mar = c(4, 4, .1, .1))
+plot(cars)
+plot(mpg ~ hp, data = mtcars, pch = 19)
+```
+      </input>
+    </program>
+
+    <p>
+      This simple approach works for both PDF and HTML output.
+    </p>
+
+    <p>
+      If you want to use sub-figures when there are multiple plots in a
+      figure, you may see <xref ref="latex-subfigure"/>, but please note
+      that sub-figures are only supported in LaTeX output.
+    </p>
+
+  </section>
 
   <section xml:id="raw-content">
     <title>Write raw content</title>
-    <p>This section is a placeholder to be filled in.</p>
+
+    <p>
+      The technique introduced in <xref ref="raw-latex"/> is actually a
+      general technique. You can protect any complex raw content in
+      Markdown by specifying the content as "raw." For example, if you
+      want to write raw HTML content, you can use the attribute
+      <c>=html</c>:
+    </p>
+
+    <program language="md">
+      <input>
+```{=html}
+&lt;p&gt;Any &lt;strong&gt;raw&lt;/strong&gt; HTML content works here.
+For example, here is a Youtube video:&lt;/p&gt;
+
+&lt;iframe width="100%" height="400"
+  src="https://www.youtube.com/embed/s3JldKoA0zw?rel=0"
+  frameborder="0" allow="autoplay; encrypted-media"
+  allowfullscreen&gt;&lt;/iframe&gt;
+```
+      </input>
+    </program>
+
+    <p>
+      The attribute name is the Pandoc output format name. If you want to
+      know the output format name, you may check the output of the code
+      chunk below inside an Rmd document:
+    </p>
+
+    <program language="md">
+      <input>
+```{r}
+knitr::pandoc_to()
+```
+      </input>
+    </program>
+
+    <p>
+      Please note that raw content is only visible to a specific output
+      format. For example, raw LaTeX content will be ignored when the
+      output format is HTML.
+    </p>
+
+  </section>
+
+  <section xml:id="custom-blocks">
+    <title>Custom blocks</title>
+
+    <p>
+      Custom blocks in R Markdown allow you to customize the appearance of
+      blocks of content. This can be a useful way to make some content
+      stand out from your report or book, to make sure that your readers
+      take away the key points from your work. Examples of how these blocks
+      could be used include:
+    </p>
+
+    <ul>
+      <li><p>Display a warning message to make sure users are using
+        up-to-date packages before running your analysis.</p></li>
+      <li><p>Add a link at the beginning of your document to your GitHub
+        repository containing the source.</p></li>
+      <li><p>Highlight key results and findings from your
+        analysis.</p></li>
+    </ul>
+
+    <p>
+      In this section, we will explain how to create your own custom blocks
+      for both PDF and HTML output. They can both use the same formatting
+      syntax in the R Markdown document, but require different
+      configurations.
+    </p>
+
+    <subsection xml:id="block-syntax">
+      <title>Syntax</title>
+
+      <p>
+        The syntax for custom blocks is based on Pandoc's fenced
+        <c>Div</c> blocks. <c>Div</c> blocks are very powerful, but there
+        is a problem at the moment: they mainly work for HTML output and do
+        not work for LaTeX output.
+      </p>
+
+      <p>
+        Since version 1.16 of the <em>rmarkdown</em> package, it has been
+        possible to convert <c>Div</c> blocks to both HTML and LaTeX. For
+        HTML output, all attributes of the block will become attributes of
+        the <c>&lt;div&gt;</c> tag. For example, a <c>Div</c> can have an
+        ID (after <c>#</c>), one or multiple classes (class names are
+        written after <c>.</c>), and other attributes. The following
+        <c>Div</c> block
+      </p>
+
+      <program language="md">
+        <input>
+::: {#hello .greeting .message style="color: red;"}
+Hello **world**!
+:::
+        </input>
+      </program>
+
+      <p>will be converted to the HTML code below:</p>
+
+      <program language="html">
+        <input>
+&lt;div id="hello" class="greeting message" style="color: red;"&gt;
+  Hello &lt;strong&gt;world&lt;/strong&gt;!
+&lt;/div&gt;
+        </input>
+      </program>
+
+      <p>
+        For LaTeX output, the first class name will be used as the LaTeX
+        environment name. You should also provide an attribute named
+        <c>data-latex</c> in the <c>Div</c> block, which will be the
+        arguments of the environment. This attribute can be an empty string
+        if the environment does not need arguments. We show two simple
+        examples below. The first example uses the <c>verbatim</c>
+        environment in LaTeX, which does not have any arguments:
+      </p>
+
+      <program language="md">
+        <input>
+::: {.verbatim data-latex=""}
+We show some _verbatim_ text here.
+:::
+        </input>
+      </program>
+
+      <p>Its LaTeX output will be:</p>
+
+      <program language="latex">
+        <input>
+\begin{verbatim}
+We show some \emph{verbatim} text here.
+\end{verbatim}
+        </input>
+      </program>
+
+      <p>When the block is converted to HTML, the HTML code will be:</p>
+
+      <program language="html">
+        <input>
+&lt;div class="verbatim"&gt;
+We show some &lt;em&gt;verbatim&lt;/em&gt; text here.
+&lt;/div&gt;
+        </input>
+      </program>
+
+      <p>
+        The second example uses the <c>center</c> and <c>minipage</c>
+        environments to display some text in a centered box of half of the
+        page width.
+      </p>
+
+      <program language="md">
+        <input>
+:::: {.center data-latex=""}
+
+::: {.minipage data-latex="{.5\linewidth}"}
+This paragraph will be centered on the page, and
+its width is 50% of the width of its parent element.
+:::
+
+::::
+        </input>
+      </program>
+
+      <p>
+        Note that we nested the <c>minipage</c> block in the <c>center</c>
+        block. You need more colons for a parent block to include a child
+        block. In the above example, we used four colons (you can use five
+        or more) for the <c>center</c> block. The two blocks will be
+        converted to the LaTeX code below:
+      </p>
+
+      <program language="latex">
+        <input>
+\begin{center}
+\begin{minipage}{.5\linewidth}
+This paragraph will be centered on the page, and
+its width is 50\% of the width of its parent element.
+\end{minipage}
+\end{center}
+        </input>
+      </program>
+
+      <p>
+        It is up to the user to define the appearance of their
+        <c>&lt;div&gt;</c> blocks via CSS for the HTML output. Similarly,
+        for LaTeX output, you may use the command
+        <c>\newenvironment</c> to define the environment if it has not
+        been defined, or <c>\renewenvironment</c> to redefine an existing
+        environment in LaTeX. In the LaTeX definitions, you can decide on
+        the appearance of these blocks in PDF. These customizations will
+        normally be contained in their own files such as <c>style.css</c>
+        or <c>preamble.tex</c>, and then included within the YAML options:
+      </p>
+
+      <program language="yaml">
+        <input>
+---
+output:
+  html_document:
+    css: style.css
+  pdf_document:
+    includes:
+      in_header: preamble.tex
+---
+        </input>
+      </program>
+
+    </subsection>
+
+    <subsection xml:id="block-shaded">
+      <title>Adding a shaded box</title>
+
+      <p>
+        First, we show how to include content in a shaded box. The box has
+        a black background with an orange frame with rounded corners. The
+        text in the box is in white.
+      </p>
+
+      <p>
+        For HTML output, we define these rules in a CSS file:
+      </p>
+
+      <program language="css">
+        <input>
+.blackbox {
+  padding: 1em;
+  background: black;
+  color: white;
+  border: 2px solid orange;
+  border-radius: 10px;
+}
+.center {
+  text-align: center;
+}
+        </input>
+      </program>
+
+      <p>
+        For LaTeX output, we create a new environment named
+        <c>blackbox</c> and based on the LaTeX package <em>framed</em>,
+        with a black background and white text:
+      </p>
+
+      <program language="latex">
+        <input>
+\usepackage{color}
+\usepackage{framed}
+\setlength{\fboxsep}{.8em}
+
+\newenvironment{blackbox}{
+  \definecolor{shadecolor}{rgb}{0, 0, 0}  % black
+  \color{white}
+  \begin{shaded}}
+ {\end{shaded}}
+        </input>
+      </program>
+
+      <p>
+        We used the <em>framed</em> package in this book because it is
+        fairly lightweight, but it is not possible to draw a colored frame
+        with rounded corners with this package. To achieve the latter, you
+        will need more sophisticated LaTeX packages such as
+        <em>tcolorbox</em> (<url href="https://ctan.org/pkg/tcolorbox"/>),
+        which offers a set of very flexible options for creating shaded
+        boxes. The LaTeX environment below will create a shaded box of
+        similar appearance to the above CSS example:
+      </p>
+
+      <program language="latex">
+        <input>
+\usepackage{tcolorbox}
+
+\newtcolorbox{blackbox}{
+  colback=black,
+  colframe=orange,
+  coltext=white,
+  boxsep=5pt,
+  arc=4pt}
+        </input>
+      </program>
+
+      <p>
+        Now we can use our custom box in both PDF and HTML output formats.
+        The source code of the box is:
+      </p>
+
+      <program language="md">
+        <input>
+:::: {.blackbox data-latex=""}
+::: {.center data-latex=""}
+**NOTICE!**
+:::
+
+Thank you for noticing this **new notice**! Your noticing it has
+been noted, and _will be reported to the authorities_!
+::::
+        </input>
+      </program>
+
+    </subsection>
+
+    <subsection xml:id="block-image">
+      <title>Including icons</title>
+
+      <p>
+        We can make custom blocks even more visually appealing by including
+        images in them. Images can also be an effective way to convey the
+        content of the block. For the following example, we assume that we
+        are working within a directory structure like this:
+      </p>
+
+      <program language="md">
+        <input>
+directory/
+├── your-report.Rmd
+├── style.css
+├── preamble.tex
+└── images/ 
+      └── ├── important.png
+          ├── note.png
+          └── caution.png
+        </input>
+      </program>
+
+      <p>
+        We show the source code of the example before we explain how
+        everything works:
+      </p>
+
+      <program language="md">
+        <input>
+::: {.infobox .caution data-latex="{caution}"}
+**NOTICE!**
+
+Thank you for noticing this **new notice**! Your noticing it has
+been noted, and _will be reported to the authorities_!
+:::
+        </input>
+      </program>
+
+      <p>
+        For the HTML output, we can add an image to the box through the
+        <c>background-image</c> property in CSS. We insert the image into
+        the background, and add enough padding on the left-hand side to
+        avoid the text overlapping with this image. If you are using local
+        images, the file path to the images is provided relative to the
+        CSS file. For example:
+      </p>
+
+      <program language="css">
+        <input>
+.infobox {
+  padding: 1em 1em 1em 4em;
+  margin-bottom: 10px;
+  border: 2px solid orange;
+  border-radius: 10px;
+  background: #f5f5f5 5px center/3em no-repeat;
+}
+
+.caution {
+  background-image: url("images/caution.png");
+}
+        </input>
+      </program>
+
+      <p>
+        Note that we used two class names, <c>.infobox</c> and
+        <c>.caution</c>, on the outer block. The <c>infobox</c> class will
+        be used to define the shaded box with a colored border, and the
+        <c>caution</c> class will be used to include the image. The
+        advantage of using two classes is that we can define more blocks
+        with different icons without repeating the setup of the shaded box.
+        For example, if we need a <c>warning</c> box, we only need to
+        define the following CSS rule without repeating rules in
+        <c>.infobox</c>:
+      </p>
+
+      <program language="css">
+        <input>
+.warning {
+  background-image: url("images/warning.png");
+}
+        </input>
+      </program>
+
+      <p>Then you can create a <c>warning</c> box with:</p>
+
+      <program language="md">
+        <input>
+:::: {.infobox .warning data-latex="warning"}
+
+Include the actual content here.
+
+::::
+        </input>
+      </program>
+
+      <p>
+        For the PDF output, we can create an <c>infobox</c> environment
+        based on the <c>blackbox</c> environment defined in the previous
+        example, and add the icon to the left side of the box. Here is one
+        approach using LaTeX:
+      </p>
+
+      <program language="latex">
+        <input>
+\newenvironment{infobox}[1]
+  {
+  \begin{itemize}
+  \renewcommand{\labelitemi}{
+    \raisebox{-.7\height}[0pt][0pt]{
+      {\setkeys{Gin}{width=3em,keepaspectratio}
+        \includegraphics{images/#1}}
+    }
+  }
+  \setlength{\fboxsep}{1em}
+  \begin{blackbox}
+  \item
+  }
+  {
+  \end{blackbox}
+  \end{itemize}
+  }
+        </input>
+      </program>
+
+      <p>
+        Alternatively, you may use the LaTeX package
+        <em>awesomebox</em> (<url href="https://ctan.org/pkg/awesomebox"/>)
+        to generate boxes with icons in the PDF output. This package gives
+        you a much larger number of icons to choose from. A brief example:
+      </p>
+
+      <program language="md">
+        <input>
+---
+title: Awesome Boxes
+output:
+  pdf_document:
+    extra_dependencies: awesomebox
+---
+
+A note box:
+
+::: {.noteblock data-latex=""}
+Thank you for noticing this **new notice**! Your noticing it has
+been noted, and _will be reported to the authorities_!
+:::
+
+We define an R function `box_args()` to generate the arguments
+for the box:
+
+```{r}
+box_args &lt;- function(
+  vrulecolor = 'white',
+  hrule = c('\\abLongLine', '\\abShortLine', ''),
+  title = '', vrulewidth = '0pt',
+  icon = 'Bomb', iconcolor = 'black'
+) {
+  hrule &lt;- match.arg(hrule)
+  sprintf(
+    '[%s][%s][\\textbf{%s}]{%s}{\\fa%s}{%s}',
+    vrulecolor, hrule, title, vrulewidth, icon, iconcolor
+  )
+}
+```
+
+Pass some arguments to the `awesomeblock` environment through
+an inline R expression:
+
+::: {.awesomeblock data-latex="`r box_args(title = 'NOTICE!')`"}
+Thank you for noticing this **new notice**!
+
+Your noticing it has been noted, and _will be reported to
+the authorities_!
+:::
+        </input>
+      </program>
+
+      <p>
+        Please refer to the package documentation for the possible LaTeX
+        environments and their arguments.
+      </p>
+
+    </subsection>
+
   </section>
 
 </chapter>
