@@ -703,7 +703,9 @@ output: html_document
 
     <p>
       If you want to arrange arbitrary content side by side in HTML output,
-      you can use Pandoc's fenced <c>Div</c>. The name <q>Div</q> comes
+      you can use Pandoc's
+      <url href="https://pandoc.org/MANUAL.html#divs-and-spans">fenced
+      <c>Div</c></url>. The name <q>Div</q> comes
       from the HTML tag <c>&lt;div&gt;</c>, but you can interpret it as an
       arbitrary block or container. A <c>Div</c> starts and ends with three
       or more colons (e.g., <c>:::</c>). A <c>Div</c> with more colons can
@@ -820,7 +822,8 @@ The figure on the left-hand side shows the `cars` data.
 
     <p>
       Please note that Pandoc has provided some special <c>Div</c>'s for
-      slide shows, such as <c>::: {.columns}</c>, <c>::: {.column}</c>,
+      <url href="https://pandoc.org/MANUAL.html#producing-slide-shows-with-pandoc">slide
+      shows</url>, such as <c>::: {.columns}</c>, <c>::: {.column}</c>,
       and <c>::: {.incremental}</c>. Because they already have their
       special meanings, you must be careful <em>not</em> to use these types
       of <c>Div</c>'s if you intend to convert a <c>Div</c> to a LaTeX

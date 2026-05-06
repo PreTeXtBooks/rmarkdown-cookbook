@@ -251,7 +251,7 @@ output:
       For an overview of including bibliographies in your output document,
       you may see
       <url href="https://bookdown.org/yihui/bookdown/citations.html">Section
-      2.8</url> of the <pubtitle>bookdown</pubtitle> book. The basic usage
+      2.8</url> of <cite key="bookdown2016"/>, the <pubtitle>bookdown</pubtitle> book. The basic usage
       requires us to specify a bibliography file using the
       <c>bibliography</c> metadata field in YAML. For example:
     </p>
@@ -406,7 +406,9 @@ nocite: '@*'
 
       <p>
         We can improve this further by using the <em>bookdown</em> package,
-        which allows you to insert a special header
+        which allows you to insert a
+        <url href="https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html#special-headers">special
+        header</url>
         <c># (APPENDIX) Appendix {-}</c> before you start the appendix,
         e.g.,
       </p>
@@ -706,7 +708,7 @@ author:
 
     <p>
       Certain R Markdown templates will allow you to specify additional
-      parameters directly within the YAML. For example, the Distill output
+      parameters directly within the YAML. For example, the <url href="https://rstudio.github.io/distill/">Distill</url> output
       format allows <c>url</c>, <c>affiliation</c>, and
       <c>affiliation_url</c> to be specified. After you install the
       <em>distill</em> package:
@@ -993,7 +995,7 @@ for (i in 1:2) {
 
     <p>
       Animations can work in PDF, but there are two prerequisites. First,
-      you have to load the LaTeX package <em>animate</em> (see
+      you have to load the LaTeX package <url href="https://ctan.org/pkg/animate"><em>animate</em></url> (see
       <xref ref="latex-extra"/> for how). Second, you
       can only use Acrobat Reader to view the animation. Then the chunk
       option <c>fig.show = "animate"</c> will use the <em>animate</em>
@@ -1275,7 +1277,9 @@ DiagrammeR::grViz("
     <p>
       Since <c>ref.label</c> can be a character vector of arbitrary chunk
       labels, you can certainly filter the labels to decide a subset of
-      code chunks to display in the code appendix. Below is an example of
+      code chunks to display in the code appendix. Below is an example
+      (credits to <url href="https://yihui.org/en/2018/09/code-appendix/">Ariel
+      Muldoon</url>) of
       excluding the labels <c>setup</c> and <c>get-labels</c>:
     </p>
 
