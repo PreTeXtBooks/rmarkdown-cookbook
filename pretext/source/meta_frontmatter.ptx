@@ -57,6 +57,51 @@
       recommended to new and intermediate R Markdown users who desire to enhance
       the efficiency of using R Markdown and also explore the power of R Markdown.
     </p>
+    <p>
+      You do not need to read this book in a particular order. Later chapters are
+      not necessarily more challenging than previous chapters. The chapters and
+      sections that we consider to be more advanced than others are marked with an
+      asterisk (*) in their titles. It may be most efficient to read this book when
+      you have some specific tasks in mind that you want to do with R Markdown,
+      otherwise you can thumb through the table of contents and see if you are
+      interested in any particular parts. We have tried to make each section and
+      example as self-contained as possible, so you do not have to go back and
+      forth among different parts of this book. In some cases, cross-referencing is
+      unavoidable, and we will refer you to the background knowledge required to
+      understand a certain example.
+    </p>
+  </preface>
+
+  <preface xml:id="what-to-change">
+    <title>Structure of the Book</title>
+    <p>
+      The book is broken down into small <q>recipes</q> that aim to demonstrate a
+      single concept at a time. <xref ref="ch-installation"/> provides instructions
+      on how to install the necessary software tools. <xref ref="ch-overview"/>
+      gives a conceptual overview of R Markdown. <xref ref="ch-basics"/> introduces
+      the basic components of R Markdown, and how to convert between R Markdown
+      documents and R scripts. <xref ref="ch-content"/> tells you how to generate
+      certain document elements, such as page breaks, bibliographies, numbered
+      figures, animations, diagrams, etc. <xref ref="ch-formatting"/> shows how to
+      format content, such as adjusting the figure size and alignment.
+      <xref ref="ch-latex"/> introduces tips and tricks for those who only want
+      LaTeX/PDF output. Similarly, <xref ref="ch-html"/> is for HTML users, and
+      <xref ref="ch-word"/> is for Word users. If you want to produce output
+      documents in multiple output formats (which is often tricky), you may find
+      <xref ref="ch-multiformat"/> useful. <xref ref="ch-tables"/> covers how to
+      produce tables. <xref ref="ch-chunk-options"/> shows some applications of
+      <em>knitr</em>'s chunk options that you may not know.
+      <xref ref="ch-output-hooks"/> and <xref ref="ch-chunk-hooks"/> are a little
+      advanced, but should also be very useful because they show you the great power
+      of being able to control <em>knitr</em>'s output and behavior with custom hook
+      functions. <xref ref="ch-knitr-misc"/> introduces a variety of <em>knitr</em>
+      tricks. <xref ref="ch-languages"/> shows examples of using other languages in
+      R Markdown, so you know R Markdown is not only for R. It also teaches you how
+      to make <em>knitr</em> work with a new language that has not been supported
+      yet. <xref ref="ch-projects"/> introduces tips on managing projects related to
+      R Markdown. <xref ref="ch-workflow"/> presents some tips on enhancing your
+      workflow.
+    </p>
   </preface>
 
   <preface xml:id="about-authors">

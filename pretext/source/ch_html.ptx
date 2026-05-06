@@ -212,6 +212,10 @@ mtcars[1:5, "mpg"]
       </input>
     </program>
 
+    <p>
+      The output style is shown in <xref ref="fig-chunk-border"/>.
+    </p>
+
     <figure xml:id="fig-chunk-border">
       <caption>A code chunk with a light pink background color and a thick
         red border.</caption>

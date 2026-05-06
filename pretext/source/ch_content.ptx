@@ -953,7 +953,8 @@ equatiomatic::extract_eq(fit, use_coefs = TRUE)
 
     <p>
       To display the actual math equations, you need the chunk option
-      <c>results = "asis"</c>, otherwise the equations will be displayed
+      <c>results = "asis"</c> (see <xref ref="results-asis"/> for the meaning of
+      this option), otherwise the equations will be displayed
       as normal text output.
     </p>
 
@@ -992,7 +993,8 @@ for (i in 1:2) {
 
     <p>
       Animations can work in PDF, but there are two prerequisites. First,
-      you have to load the LaTeX package <em>animate</em>. Second, you
+      you have to load the LaTeX package <em>animate</em> (see
+      <xref ref="latex-extra"/> for how). Second, you
       can only use Acrobat Reader to view the animation. Then the chunk
       option <c>fig.show = "animate"</c> will use the <em>animate</em>
       package to create the animation. The time interval between image
@@ -1255,6 +1257,11 @@ DiagrammeR::grViz("
     </program>
 
     <p>
+      Please read <xref ref="ref-label"/> if you are not familiar with the
+      chunk option <c>ref.label</c>.
+    </p>
+
+    <p>
       The function <c>knitr::all_labels()</c> returns a vector of all
       chunk labels in the document, so
       <c>ref.label = knitr::all_labels()</c> means retrieving all source
@@ -1375,7 +1382,8 @@ pandoc -t markdown --markdown-headings=atx \
       <li>
         <p>
           The <em>rmarkdown</em> package contains filters that insert page
-          breaks (see <xref ref="pagebreaks"/>) and generate custom blocks.
+          breaks (see <xref ref="pagebreaks"/>) and generate custom blocks
+          (see <xref ref="custom-blocks"/>).
         </p>
       </li>
       <li>
@@ -1391,6 +1399,11 @@ pandoc -t markdown --markdown-headings=atx \
         </p>
       </li>
     </ul>
+
+    <p>
+      You can also find an example in <xref ref="lua-color"/> in this book,
+      which shows you how to change the text color with a Lua filter.
+    </p>
 
     <p>
       For R Markdown users who do not want to create R packages to ship

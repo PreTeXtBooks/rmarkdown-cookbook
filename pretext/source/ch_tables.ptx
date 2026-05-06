@@ -435,8 +435,9 @@ knitr::kable(iris2, format = 'latex', booktabs = TRUE)
       </program>
 
       <p>
-        When you assign a caption to a table, <c>kable()</c> will use the
-        <c>table</c> environment to include the table. You can change this
+        When you assign a caption to a table (see <xref ref="kable-caption"/>),
+        <c>kable()</c> will use the <c>table</c> environment to include the
+        table. You can change this
         environment via the <c>table.envir</c> argument, e.g.,
       </p>
 

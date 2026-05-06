@@ -446,6 +446,10 @@ side of the text output via the `.numberLines` attribute:
 ```
     </input></program>
 
+    <p>
+      <xref ref="fig-hook-scroll"/> shows the output.
+    </p>
+
     <figure xml:id="fig-hook-scroll">
       <caption>An example of scrollable text output, with its height specified in the chunk option <c>max.height</c>.</caption>
       <image source="external/images/hook-scroll.png" width="100%">
@@ -621,6 +625,10 @@ figcaption {
 }
 ```
     </input></program>
+
+    <p>
+      The figure output is shown in <xref ref="fig-hook-html5"/>.
+    </p>
 
     <figure xml:id="fig-hook-html5">
       <caption>A figure in the HTML5 figure tag.</caption>

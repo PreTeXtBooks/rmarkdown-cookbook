@@ -146,8 +146,10 @@ colorize = function(x, color){
         In this example, we implicitly used a Pandoc Markdown extension
         named <c>bracketed_spans</c>, which allows us to write text with
         attributes, e.g.,
-        <c>[text]{.class attribute="value"}</c>. The Lua filter puts text
-        in <c>&lt;span style="color: ..."&gt;&lt;/span&gt;</c> if the
+        <c>[text]{.class attribute="value"}</c>. The Lua filter defined in
+        the <c>cat</c> code chunk<fn>If you are not familiar with
+        <c>cat</c> code chunks, please see <xref ref="eng-cat"/>.</fn> puts
+        text in <c>&lt;span style="color: ..."&gt;&lt;/span&gt;</c> if the
         output format is HTML, and in <c>\textcolor{...}{}</c> if the
         output format is LaTeX. The Lua filter is written to a file
         <c>color-text.lua</c>, and enabled through the command-line option
@@ -269,7 +271,8 @@ matrix(runif(100), ncol = 20)
       does not work, your only choice may be to wrap the long lines of text.
       This is actually the default behavior of the <c>html_document</c>
       output format. If the HTML output format that you are using does not
-      wrap the long lines, you may apply the CSS code below:
+      wrap the long lines, you may apply the CSS code below (see
+      <xref ref="html-css"/> for instructions):
     </p>
 
     <program language="css">
@@ -285,7 +288,7 @@ pre code {
       use the LaTeX package <em>listings</em>, which can be enabled via the
       Pandoc argument <c>--listings</c>. Then you have to set an option for
       this package, and the setup code can be included from an external
-      LaTeX file, e.g.,
+      LaTeX file (see <xref ref="latex-preamble"/> for how), e.g.,
     </p>
 
     <program language="yaml">
@@ -489,7 +492,8 @@ The content can contain inline code like
 
     <p>
       If the content you want to include verbatim is in a file, you can use
-      the <c>embed</c> engine instead. For example:
+      the <c>embed</c> engine instead. Here is an example of the CSS code
+      from <xref ref="block-shaded"/>:
     </p>
 
     <program language="md">
@@ -568,7 +572,8 @@ This will show a verbatim inline R expression
     <p>
       You can add line numbers to either source code blocks, via the chunk
       option <c>attr.source = ".numberLines"</c>, or text output blocks,
-      via <c>attr.output = ".numberLines"</c>, e.g.,
+      via <c>attr.output = ".numberLines"</c> (see <xref ref="attr-output"/>
+      for more information on these options), e.g.,
     </p>
 
     <program language="md">
@@ -625,6 +630,11 @@ pre.numberSource code > span > a:first-child::before {
 }
       </input>
     </program>
+
+    <p>
+      See <xref ref="html-css"/> if you do not know how to apply custom CSS
+      styles to HTML output.
+    </p>
 
     <p>
       You can also specify the starting number via the <c>startFrom</c>
