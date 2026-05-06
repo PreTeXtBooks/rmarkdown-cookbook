@@ -173,7 +173,7 @@ plot(cars)
       from the previous run, as if the chunk were executed again. Caching is often
       helpful when loading results is much faster than computing the results.
       However, there is no free lunch. Depending on your use case, you may need to
-      learn more about how caching (especially cache invalidation) works, so you
+      learn more about how caching (especially <url href="https://yihui.org/en/2018/06/cache-invalidation/">cache invalidation</url>) works, so you
       can take full advantage of it without confusing yourself as to why sometimes
       <em>knitr</em> invalidates your cache too often and sometimes there is not
       enough invalidation.
@@ -661,8 +661,11 @@ for (i in names(mtcars)) {
       The <c>cat()</c> function is not the only function that can generate text
       output. Another commonly used function is <c>print()</c>. Please note that
       <c>print()</c> is often <em>implicitly</em> called to print objects, which is
-      why you see output after typing out an object or value in the R console. If
-      you do not see output from a <c>for</c>-loop, you should probably print
+      why you see output after typing out an object or value in the R console. This
+      topic is quite technical, and the blog post
+      <url href="https://yihui.org/en/2017/06/top-level-r-expressions/">The Ghost Printer behind Top-level R Expressions</url>
+      explains it. If you are not interested in the technical details, just remember
+      this rule: if you do not see output from a <c>for</c>-loop, you should probably print
       objects explicitly with the <c>print()</c> function.
     </p>
   </section>
@@ -991,7 +994,7 @@ tinytex::tlmgr_install(c('pgf', 'preview', 'xcolor'))
       For R graphics, there are two types of plotting functions: high-level
       plotting functions create new plots, and low-level functions add elements to
       existing plots. You may see Chapter 12 ("Graphical procedures") of the R
-      manual <em>An Introduction to R</em> for more information.
+      manual <url href="https://cran.r-project.org/doc/manuals/r-release/R-intro.html"><em>An Introduction to R</em></url> for more information.
     </p>
 
     <p>
