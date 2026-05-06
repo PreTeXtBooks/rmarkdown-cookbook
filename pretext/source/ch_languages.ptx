@@ -3,9 +3,778 @@
   <title>Other Languages</title>
 
   <p>
-    This chapter is a skeleton to be filled in. It will show examples of using
-    languages other than R in R Markdown (such as Python, SQL, Bash, and more),
-    and explain how <em>knitr</em>'s language engine system works.
+    Besides the R language, many other languages are supported in R Markdown
+    through the <em>knitr</em> package. The language name is indicated by the
+    first word in the curly braces after the three opening backticks. For
+    example, the little <c>r</c> in <c>```{r}</c> indicates that the code chunk
+    contains R code, and <c>```{python}</c> is a Python code chunk. In this
+    chapter, we show a few languages that you may not be familiar with.
   </p>
+
+  <p>
+    In <em>knitr</em>, each language is supported through a <em>language
+    engine</em>. Language engines are essentially functions that take the source
+    code and options of a chunk as the input, and return a character string as
+    the output. They are managed through the object
+    <c>knitr::knit_engines</c>. You may check the existing engines via:
+  </p>
+
+  <program language="r"><input>
+names(knitr::knit_engines$get())
+  </input></program>
+
+  <p>
+    At the moment, most code chunks of non-R languages are executed
+    independently. For example, all <c>bash</c> code chunks in the same
+    document are executed separately in their own sessions, so a later
+    <c>bash</c> code chunk cannot use variables created in a previous
+    <c>bash</c> chunk, and the changed working directory (via <c>cd</c>) will
+    not be persistent across different <c>bash</c> chunks. Only R, Python, and
+    Julia code chunks are executed in the same session. Please note that all R
+    code chunks are executed in the same R session, and all Python code chunks
+    are executed in the same Python session, etc. The R session and the Python
+    session are two different sessions, but it is possible to access or
+    manipulate objects of one session from another session (see
+    <xref ref="eng-python"/>).
+  </p>
+
+  <p>
+    <url href="https://bookdown.org/yihui/rmarkdown/language-engines.html">Section
+    2.7</url> of the <em>R Markdown Definitive Guide</em> shows examples of
+    using Python, Shell, SQL, Rcpp, Stan, JavaScript, CSS, Julia, C, and
+    Fortran code in R Markdown. In this chapter, we will show more language
+    engines, and you may find more examples in the repository at
+    <url href="https://github.com/yihui/knitr-examples">https://github.com/yihui/knitr-examples</url>
+    (look for filenames that contain the word <q>engine</q>).
+  </p>
+
+  <p>
+    First, let's reveal how a language engine works by registering a custom
+    language engine.
+  </p>
+
+  <section xml:id="custom-engine">
+    <title>Register a custom language engine (*)</title>
+
+    <p>
+      You can register a custom language engine via the method
+      <c>knitr::knit_engines$set()</c>. It accepts a function as its input,
+      e.g.,
+    </p>
+
+    <program language="r"><input>
+knitr::knit_engines$set(foo = function(options) {
+  # the source code is in options$code;
+  # just do whatever you want with it
+})
+    </input></program>
+
+    <p>
+      This registers the <c>foo</c> engine, and you will be able to use a code
+      chunk that starts with <c>```{foo}</c>.
+    </p>
+
+    <p>
+      The engine function has one argument, <c>options</c>, which is a list of
+      chunk options of the code chunk. You can access the source code of the
+      chunk as a character vector in <c>options$code</c>. For example, for the
+      code chunk:
+    </p>
+
+    <program language="md"><input>
+```{foo}
+1 + 1
+2 + 2
+```
+    </input></program>
+
+    <p>
+      The <c>code</c> element of <c>options</c> would be a character vector
+      <c>c('1 + 1', '2 + 2')</c>.
+    </p>
+
+    <p>
+      Language engines do not really have to deal with computer languages, but
+      can process any text in a code chunk. First, we show a simple example of
+      an engine that converts the content of a code chunk to uppercase:
+    </p>
+
+    <program language="r"><input>
+knitr::knit_engines$set(upper = function(options) {
+  code &lt;- paste(options$code, collapse = '\n')
+  if (options$eval) toupper(code) else code
+})
+    </input></program>
+
+    <p>
+      The key is that we apply the function <c>toupper</c> to the
+      <q>code</q>, and return the result as a single character string (by
+      concatenating all lines of code by <c>\n</c>). Note that
+      <c>toupper()</c> is applied only when the chunk option
+      <c>eval = TRUE</c>, otherwise the original string is returned. This shows
+      you how to make use of chunk options like <c>eval</c> inside the engine
+      function. Similarly, you may consider adding
+      <c>if (options$results == 'hide') return()</c> to the function body to
+      hide the output when the chunk option <c>results = 'hide'</c>. Below is
+      an example chunk that uses the <c>upper</c> engine, with its output:
+    </p>
+
+    <program language="md"><input>
+```{upper}
+Hello, **knitr** engines!
+```
+    </input></program>
+
+    <p>
+      Next we show an example of an alternative Python engine named
+      <c>py</c>. This engine is implemented by simply calling the
+      <c>python</c> command via the R function <c>system2()</c>:
+    </p>
+
+    <program language="r"><input>
+knitr::knit_engines$set(py = function(options) {
+  code &lt;- paste(options$code, collapse = '\n')
+  out  &lt;- system2(
+    'python', c('-c', shQuote(code)), stdout = TRUE
+  )
+  knitr::engine_output(options, code, out)
+})
+    </input></program>
+
+    <p>
+      To fully understand the above engine function, you need to know the
+      following:
+    </p>
+
+    <ol>
+      <li><p>
+        Given Python code as a character string (<c>code</c> in the above
+        function), we can execute the code via a command-line call
+        <c>python -c 'code'</c>. That is what <c>system2()</c> does. We
+        collect the (text) output by specifying <c>stdout = TRUE</c> in
+        <c>system2()</c>.
+      </p></li>
+      <li><p>
+        You can pass the chunk options, source code, and text output to the
+        function <c>knitr::engine_output()</c> to generate the final output.
+        This function deals with common chunk options like <c>echo = FALSE</c>
+        and <c>results = 'hide'</c>, so you do not need to take care of these
+        cases.
+      </p></li>
+    </ol>
+
+    <p>
+      A lot of language engines in <em>knitr</em> are defined in this way
+      (i.e., using <c>system2()</c> to execute commands corresponding to
+      languages). If you are curious about the technical details, you may check
+      out the source code of most language engines in the R source code here:
+      <url href="https://github.com/yihui/knitr/blob/master/R/engine.R">https://github.com/yihui/knitr/blob/master/R/engine.R</url>.
+    </p>
+
+    <p>
+      Now we can use the new engine <c>py</c>, e.g.,
+    </p>
+
+    <program language="md"><input>
+```{py}
+print(1 + 1)
+```
+    </input></program>
+
+    <p>
+      You can even override existing language engines in <em>knitr</em> via
+      <c>knitr::knit_engines$set()</c>, if you are sure that your versions are
+      necessary or better than the existing ones. Usually we do not recommend
+      that you do this because it may surprise users who are familiar with
+      existing engines, but we want to make you aware of this possibility
+      anyway.
+    </p>
+  </section>
+
+  <section xml:id="eng-python">
+    <title>Run Python code and interact with Python</title>
+
+    <p>
+      To add a Python code chunk to an R Markdown document, you can use the
+      chunk header <c>```{python}</c>, e.g.,
+    </p>
+
+    <program language="md"><input>
+```{python}
+print("Hello Python!")
+```
+    </input></program>
+
+    <p>
+      You can add chunk options to the chunk header as usual, such as
+      <c>echo = FALSE</c> or <c>eval = FALSE</c>. Plots drawn with the
+      <em>matplotlib</em> package in Python are also supported.
+    </p>
+
+    <p>
+      The Python support in R Markdown and <em>knitr</em> is based on the
+      <em>reticulate</em> package, and one important feature of this package is
+      that it allows two-way communication between Python and R. For example,
+      you may access or create Python variables from the R session via the
+      object <c>py</c> in <em>reticulate</em>:
+    </p>
+
+    <program language="md"><input>
+```{r, setup}
+library(reticulate)
+```
+
+Create a variable `x` in the Python session:
+
+```{python}
+x = [1, 2, 3]
+```
+
+Access the Python variable `x` in an R code chunk:
+
+```{r}
+py$x
+```
+
+Create a new variable `y` in the Python session using R,
+and pass a data frame to `y`:
+
+```{r}
+py$y &lt;- head(cars)
+```
+
+Print the variable `y` in Python:
+
+```{python}
+print(y)
+```
+    </input></program>
+
+    <p>
+      For more information about the <em>reticulate</em> package, you may see
+      its documentation at
+      <url href="https://rstudio.github.io/reticulate/">https://rstudio.github.io/reticulate/</url>.
+    </p>
+  </section>
+
+  <section xml:id="eng-asis">
+    <title>Execute content conditionally via the <c>asis</c> engine</title>
+
+    <p>
+      As its name indicates, the <c>asis</c> engine writes out the chunk
+      content as is. The advantage of using this engine is that you can include
+      some content conditionally&#8212;the display of the chunk content is
+      decided by the chunk option <c>echo</c>. When <c>echo = FALSE</c>, the
+      chunk will be hidden. Below is a simple example:
+    </p>
+
+    <program language="md"><input>
+```{r}
+getRandomNumber &lt;- function() {
+  sample(1:6, 1)
+}
+```
+
+```{asis, echo = getRandomNumber() == 4}
+According to https://xkcd.com/221/, we just generated
+a **true** random number!
+```
+    </input></program>
+
+    <p>
+      The text in the <c>asis</c> chunk will be displayed only if the
+      condition <c>getRandomNumber() == 4</c> is (randomly) true.
+    </p>
+  </section>
+
+  <section xml:id="eng-bash">
+    <title>Execute Shell scripts</title>
+
+    <p>
+      You can run Shell scripts via the <c>bash</c> or <c>sh</c> or
+      <c>zsh</c> engine, depending on which shell you prefer. Below is a
+      <c>bash</c> example, with the chunk header <c>```{bash}</c>:
+    </p>
+
+    <program language="md"><input>
+```{bash}
+ls *.Rmd | head -n 5
+```
+    </input></program>
+
+    <p>
+      Please note that <c>bash</c> is invoked with the R function
+      <c>system2()</c>. It will ignore profile files like
+      <c>~/.bash_profile</c> and <c>~/.bash_login</c>, in which you may have
+      defined command aliases or modified environment variables like the
+      <c>PATH</c> variable. If you want these profile files to be executed just
+      like when you use the terminal, you may pass the argument <c>-l</c> to
+      <c>bash</c> via <c>engine.opts</c>, e.g.,
+    </p>
+
+    <program language="md"><input>
+```{bash, engine.opts='-l'}
+echo $PATH
+```
+    </input></program>
+
+    <p>
+      If you want to enable the <c>-l</c> argument globally for all
+      <c>bash</c> chunks, you may set it in the global chunk option in the
+      beginning of your document:
+    </p>
+
+    <program language="r"><input>
+knitr::opts_chunk$set(engine.opts = list(bash = '-l'))
+    </input></program>
+
+    <p>
+      You can also pass other arguments to <c>bash</c> by providing them as a
+      character vector to the chunk option <c>engine.opts</c>.
+    </p>
+  </section>
+
+  <section xml:id="d3">
+    <title>Visualization with D3</title>
+
+    <p>
+      The R package <em>r2d3</em> is an interface to D3 visualizations. This
+      package can be used in R Markdown documents as well as other applications
+      (e.g., Shiny). To use it in R Markdown, you can either call its function
+      <c>r2d3()</c> in a code chunk, or use its <c>d3</c> engine. The latter
+      requires you to understand the D3 library and JavaScript, which are
+      beyond the scope of this book, and we will leave it to readers to learn
+      them. Below is an example of using the <c>d3</c> engine to draw a bar
+      chart:
+    </p>
+
+    <program language="md"><input>
+---
+title: Generate a chart with D3
+output: html_document
+---
+
+First, load the package **r2d3** to set up the `d3` engine
+for **knitr** automatically:
+
+```{r setup}
+library(r2d3)
+```
+
+Now we can generate data in R, pass it to D3, and draw
+the chart:
+
+```{d3, data=runif(30), options=list(color='steelblue')}
+svg.selectAll('rect')
+  .data(data)
+  .enter()
+    .append('rect')
+      .attr('width', function(d) { return d * 672; })
+      .attr('height', '10px')
+      .attr('y', function(d, i) { return i * 16; })
+      .attr('fill', options.color);
+```
+    </input></program>
+  </section>
+
+  <section xml:id="eng-cat">
+    <title>Write the chunk content to a file via the <c>cat</c> engine</title>
+
+    <p>
+      Sometimes it could be useful to write the content of a code chunk to an
+      external file, and use this file later in other code chunks. Of course,
+      you may do this via the R functions like <c>writeLines()</c>, but the
+      problem is that when the content is relatively long, or contains special
+      characters, the character string that you would pass to
+      <c>writeLines()</c> may look awkward. Below is an example of writing a
+      long character string to a file <c>my-file.txt</c>:
+    </p>
+
+    <program language="r"><input>
+writeLines("This is a long character string.
+It has multiple lines. Remember to escape
+double quotes \"\", but 'single quotes' are OK.
+I hope you not to lose your sanity when thinking
+about how many backslashes you need, e.g., is it
+'\t' or '\\t' or '\\\\t'?",
+con = "my-file.txt")
+    </input></program>
+
+    <p>
+      This problem has been greatly alleviated since R 4.0.0, because R started
+      to support raw strings in <c>r"( )"</c> (see the help page
+      <c>?Quotes</c>), and you do not need to remember all the rules about
+      special characters. Even with raw strings, it can still be a little
+      distracting for readers to see a long string written to a file explicitly
+      in a code chunk.
+    </p>
+
+    <p>
+      The <c>cat</c> engine in <em>knitr</em> has provided a way for you to
+      present text content in a code chunk and/or write it to an external file,
+      without thinking about all the rules about R's character strings (e.g.,
+      you need double backslashes when you need a literal backslash).
+    </p>
+
+    <p>
+      To write the chunk content to a file, specify the file path in the chunk
+      option <c>engine.opts</c>, e.g.,
+      <c>engine.opts = list(file = 'path/to/file')</c>. Under the hood, the
+      list of values specified in <c>engine.opts</c> will be passed to the
+      function <c>base::cat()</c>, and <c>file</c> is one of the arguments of
+      <c>base::cat()</c>.
+    </p>
+
+    <p>
+      Next we will present three examples to illustrate the use of the
+      <c>cat</c> engine.
+    </p>
+
+    <subsection xml:id="eng-cat-css">
+      <title>Write to a CSS file</title>
+
+      <p>
+        As shown in <xref ref="chunk-styling"/>, you can embed a <c>css</c>
+        code chunk in an Rmd document to style elements with CSS. An
+        alternative way is to provide a custom CSS file to Pandoc via the
+        <c>css</c> option of some R Markdown output formats such as
+        <c>html_document</c>. The <c>cat</c> engine can be used to write this
+        CSS file from Rmd.
+      </p>
+
+      <p>
+        This example below shows how to generate a file <c>custom.css</c> from
+        a chunk in the document, and pass the file path to the <c>css</c>
+        option of the <c>html_document</c> format:
+      </p>
+
+      <program language="md"><input>
+---
+title: "Create a CSS file from a code chunk"
+output: 
+  html_document:
+    css: custom.css
+---
+
+The chunk below will be written to `custom.css`, which
+will be used during the Pandoc conversion.
+
+```{cat, engine.opts = list(file = "custom.css")}
+h2 {
+  color: blue;
+}
+```
+
+## And this title will be blue
+      </input></program>
+
+      <p>
+        The only difference between the <c>css</c> code chunk approach and
+        this approach is that the former approach writes the CSS code in place
+        (i.e., in the place of the code chunk), which is inside the
+        <c>&lt;body&gt;</c> tag of the output document, and the latter approach
+        writes CSS to the <c>&lt;head&gt;</c> area of the output document.
+        There will not be any practical visual differences in the output
+        document.
+      </p>
+    </subsection>
+
+    <subsection xml:id="eng-cat-latex">
+      <title>Include LaTeX code in the preamble</title>
+
+      <p>
+        In <xref ref="latex-preamble"/>, we introduced how to add LaTeX code
+        to the preamble, which requires an external <c>.tex</c> file. This
+        file can also be generated from Rmd, and here is an example:
+      </p>
+
+      <program language="md"><input>
+---
+title: "Create a .tex file from a chunk"
+author: "Jane Doe"
+classoption: twoside
+output: 
+  pdf_document:
+    includes:
+      in_header: preamble.tex
+---
+
+# How it works
+
+Write a code chunk to a file `preamble.tex` to define
+the header and footer of the PDF output document:
+
+```{cat, engine.opts=list(file = 'preamble.tex')}
+\usepackage{fancyhdr}
+\usepackage{lipsum}
+\pagestyle{fancy}
+\fancyhead[CO,CE]{This is fancy header}
+\fancyfoot[CO,CE]{And this is a fancy footer}
+\fancyfoot[LE,RO]{\thepage}
+\fancypagestyle{plain}{\pagestyle{fancy}}
+```
+      </input></program>
+
+      <p>
+        In the LaTeX code in the <c>cat</c> code chunk above, we have defined
+        the header and footer of the PDF document. If we also want to show the
+        author name in the footer, we can append the author information to
+        <c>preamble.tex</c> in another <c>cat</c> code chunk with options
+        <c>engine.opts = list(file = 'preamble.tex', append = TRUE)</c> and
+        <c>code = sprintf('\\fancyfoot[LO,RE]{%s}', rmarkdown::metadata$author)</c>.
+        To understand how this works, recall that we mentioned earlier in this
+        section that <c>engine.opts</c> is passed to <c>base::cat()</c> (so
+        <c>append = TRUE</c> is passed to <c>cat()</c>), and you may
+        understand the chunk option <c>code</c> by reading
+        <xref ref="option-code"/>.
+      </p>
+    </subsection>
+
+    <subsection xml:id="eng-cat-yaml">
+      <title>Write YAML data to a file and also display it</title>
+
+      <p>
+        By default, the content of the <c>cat</c> code chunk will not be
+        displayed in the output document. If you also want to display it after
+        writing it out, set the chunk option <c>class.source</c> to a language
+        name. The language name is used for syntax highlighting. In the example
+        below, we specify the language to be <c>yaml</c>:
+      </p>
+
+      <program language="md"><input>
+```{cat, engine.opts=list(file='demo.yml'), class.source='yaml'}
+a:
+  aa: "something"
+  bb: 1
+b:
+  aa: "something else"
+  bb: 2
+```
+      </input></program>
+
+      <p>
+        Its output is displayed below, and it also generated a file
+        <c>demo.yml</c>. To show the file <c>demo.yml</c> is really generated,
+        we can try to read it into R with the <em>yaml</em> package:
+      </p>
+
+      <program language="r"><input>
+xfun::tree(yaml::read_yaml('demo.yml'))
+      </input></program>
+    </subsection>
+  </section>
+
+  <section xml:id="eng-sas">
+    <title>Run SAS code</title>
+
+    <p>
+      You may run SAS (<url href="https://www.sas.com">https://www.sas.com</url>)
+      code using the <c>sas</c> engine. You need to either make sure the SAS
+      executable is in your environment variable <c>PATH</c>, or (if you do
+      not know what <c>PATH</c> means) provide the full path to the SAS
+      executable via the chunk option <c>engine.path</c>, e.g.,
+      <c>engine.path = "C:\\Program Files\\SASHome\\x86\\SASFoundation\\9.3\\sas.exe"</c>.
+      Below is an example to print out <q>Hello World</q>:
+    </p>
+
+    <program language="md"><input>
+```{sas}
+data _null_;
+put 'Hello, world!';
+run;
+```
+    </input></program>
+  </section>
+
+  <section xml:id="eng-stata">
+    <title>Run Stata code</title>
+
+    <p>
+      You can run Stata (<url href="https://www.stata.com">https://www.stata.com</url>)
+      code with the <c>stata</c> engine if you have installed Stata. Unless
+      the <c>stata</c> executable can be found via the environment variable
+      <c>PATH</c>, you need to specify the full path to the executable via the
+      chunk option <c>engine.path</c>, e.g.,
+      <c>engine.path = "C:/Program Files (x86)/Stata15/StataSE-64.exe"</c>.
+      The following is a quick example:
+    </p>
+
+    <program language="md"><input>
+```{stata}
+sysuse auto
+summarize
+```
+    </input></program>
+
+    <p>
+      The <c>stata</c> engine in <em>knitr</em> is quite limited. Doug Hemken
+      has substantially extended it in the <em>Statamarkdown</em> package,
+      which is available on GitHub at
+      <url href="https://github.com/Hemken/Statamarkdown">https://github.com/Hemken/Statamarkdown</url>.
+      You may find tutorials about this package by searching online for
+      <q>Stata R Markdown</q>.
+    </p>
+  </section>
+
+  <section xml:id="eng-asy">
+    <title>Create graphics with Asymptote</title>
+
+    <p>
+      Asymptote (<url href="https://asymptote.sourceforge.io">https://asymptote.sourceforge.io</url>)
+      is a powerful language for vector graphics. You may write and run
+      Asymptote code in R Markdown with the <c>asy</c> engine if you have
+      installed Asymptote (see its website for instructions on the
+      installation). Below is an example copied from the repository
+      <url href="https://github.com/vectorgraphics/asymptote">https://github.com/vectorgraphics/asymptote</url>:
+    </p>
+
+    <program language="md"><input>
+```{asy, fig.cap='A 3D graph made with Asymptote.', cache=TRUE}
+import graph3;
+import grid3;
+import palette;
+settings.prc = false;
+
+currentprojection=orthographic(0.8,1,2);
+size(500,400,IgnoreAspect);
+
+real f(pair z) {return cos(2*pi*z.x)*sin(2*pi*z.y);}
+
+surface s=surface(f,(-1/2,-1/2),(1/2,1/2),50,Spline);
+
+surface S=planeproject(unitsquare3)*s;
+S.colors(palette(s.map(zpart),Rainbow()));
+draw(S,nolight);
+draw(s,lightgray+opacity(0.7));
+
+grid3(XYZgrid);
+```
+    </input></program>
+
+    <p>
+      Note that for PDF output, you may need some additional LaTeX packages,
+      otherwise you may get an error that looks like this:
+    </p>
+
+    <program><input>
+! LaTeX Error: File `ocgbase.sty' not found.
+    </input></program>
+
+    <p>
+      If such an error occurs, please see <xref ref="install-latex-pkgs"/> for
+      how to install the missing LaTeX packages.
+    </p>
+
+    <p>
+      In the <c>asy</c> chunk above, we used the setting
+      <c>settings.prc = false</c>. Without this setting, Asymptote generates
+      an interactive 3D graph when the output format is PDF. However, the
+      interactive graph can only be viewed in Acrobat Reader. If you use
+      Acrobat Reader, you can interact with the graph. For example, you can
+      rotate the 3D surface with your mouse.
+    </p>
+
+    <subsection xml:id="eng-asy-data">
+      <title>Generate data in R and read it in Asymptote</title>
+
+      <p>
+        Now we show an example in which we first save data generated in R to a
+        CSV file (below is an R code chunk):
+      </p>
+
+      <program language="r"><input>
+x = seq(0, 5, l = 100)
+y = sin(x)
+writeLines(paste(x, y, sep = ','), 'sine.csv')
+      </input></program>
+
+      <p>
+        Then read it in Asymptote, and draw a graph based on the data (below
+        is an <c>asy</c> code chunk):
+      </p>
+
+      <program language="md"><input>
+```{asy, fig.cap='Pass data from R to Asymptote to draw a graph.', cache=TRUE}
+import graph;
+size(400,300,IgnoreAspect);
+settings.prc = false;
+
+// import data from csv file
+file in=input("sine.csv").line().csv();
+real[][] a=in.dimension(0,0);
+a=transpose(a);
+
+// generate a path
+path rpath = graph(a[0],a[1]);
+path lpath = (1,0)--(5,1);
+
+// find intersection
+pair pA=intersectionpoint(rpath,lpath);
+
+// draw all
+draw(rpath,red);
+draw(lpath,dashed + blue);
+dot("$\delta$",pA,NE);
+xaxis("$x$",BottomTop,LeftTicks);
+yaxis("$y$",LeftRight,RightTicks);
+```
+      </input></program>
+    </subsection>
+  </section>
+
+  <section xml:id="eng-sass">
+    <title>Style HTML pages with Sass/SCSS</title>
+
+    <p>
+      Sass (<url href="https://sass-lang.com">https://sass-lang.com</url>) is
+      a CSS extension language that allows you to create CSS rules in much more
+      flexible ways than you'd do with plain CSS. Please see its official
+      documentation if you are interested in learning it.
+    </p>
+
+    <p>
+      The R package <em>sass</em> can be used to compile Sass to CSS. Based on
+      the <em>sass</em> package, <em>knitr</em> includes two language engines:
+      <c>sass</c> and <c>scss</c> (corresponding to the Sass and SCSS syntax,
+      respectively) to compile code chunks to CSS. Below is a <c>scss</c> code
+      chunk, with the chunk header <c>```{scss}</c>:
+    </p>
+
+    <program language="scss"><input>
+$font-stack: "Comic Sans MS", cursive, sans-serif;
+$primary-color: #00FF00;
+
+.book.font-family-1 {
+  font: 100% $font-stack;
+  color: $primary-color;
+}
+    </input></program>
+
+    <p>
+      You can also use the <c>sass</c> engine, and the Sass syntax is slightly
+      different from the SCSS syntax, e.g.,
+    </p>
+
+    <program language="md"><input>
+```{sass}
+$font-stack: "Comic Sans MS", cursive, sans-serif
+$primary-color: #00FF00
+
+.book.font-family-1
+  font: 100% $font-stack
+  color: $primary-color
+```
+    </input></program>
+
+    <p>
+      The <c>sass</c>/<c>scss</c> code chunks are compiled through the
+      <c>sass::sass()</c> function. Currently you can customize the output
+      style for the CSS code via the chunk option <c>engine.opts</c>, e.g.,
+      <c>engine.opts = list(style = "expanded")</c>. The default style is
+      <q>compressed</q>. If you are not sure what this means, please refer to
+      the help page <c>?sass::sass_options</c> and look for the
+      <c>output_style</c> argument.
+    </p>
+  </section>
 
 </chapter>

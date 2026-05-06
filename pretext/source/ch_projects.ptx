@@ -18,4 +18,9 @@
     <p>This section is a placeholder to be filled in.</p>
   </section>
 
+  <section xml:id="option-code">
+    <title>Read external scripts into a chunk</title>
+    <p>This section is a placeholder to be filled in.</p>
+  </section>
+
 </chapter>
