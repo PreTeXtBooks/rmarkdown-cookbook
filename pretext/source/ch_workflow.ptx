@@ -7,7 +7,7 @@
     Markdown documents as well as running your R Markdown projects. You may
     also check out
     <url href="https://r4ds.had.co.nz/r-markdown-workflow.html">Chapter 30</url>
-    of the book <em>R for Data Science</em>, which briefly introduces some tips
+    of the book <em>R for Data Science</em> <cite key="wickham2016"/>, which briefly introduces some tips
     on using analysis notebooks (including R Markdown documents). Nicholas
     Tierney also discusses the workflow in the book
     <url href="https://rmd4sci.njtierney.com/workflow.html"><em>R Markdown for
@@ -349,7 +349,7 @@ rmarkdown::render('input.Rmd', params = 'ask')
     <p>
       For more information on parameterized reports, you may read
       <url href="https://bookdown.org/yihui/rmarkdown/parameterized-reports.html">Chapter 15</url>
-      of the <em>R Markdown Definitive Guide</em>.
+      of the <em>R Markdown Definitive Guide</em> <cite key="rmarkdown2018"/>.
     </p>
   </section>
 

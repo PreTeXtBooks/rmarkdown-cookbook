@@ -670,9 +670,9 @@ description: What this template does
             You may include <c>create_dir: true</c> if you want a new
             directory to be created when the template is selected. This is
             useful if your template relies upon additional resources. For
-            example, the <em>learnr</em> package template sets
-            <c>create_dir: true</c>, whereas the <em>flexdashboard</em>
-            package template uses the default <c>create_dir: false</c>. You
+            example, the <url href="https://github.com/rstudio/learnr/blob/master/inst/rmarkdown/templates/tutorial/template.yaml"><em>learnr</em> package template</url> sets
+            <c>create_dir: true</c>, whereas the <url href="https://github.com/rstudio/flexdashboard/blob/master/inst/rmarkdown/templates/flex_dashboard/template.yaml"><em>flexdashboard</em>
+            package template</url> uses the default <c>create_dir: false</c>. You
             may attempt to open both of these templates in RStudio to notice
             the different user prompts.
           </p>
@@ -698,7 +698,7 @@ description: What this template does
         <url href="https://rstudio.github.io/rstudio-extensions/rmarkdown_templates.html">RStudio
         Extensions</url> website and the
         <url href="https://bookdown.org/yihui/rmarkdown/document-templates.html">Document
-        Templates chapter</url> of the <em>R Markdown Definitive Guide</em>.
+        Templates chapter</url> of the <em>R Markdown Definitive Guide</em> <cite key="rmarkdown2018"/>.
       </p>
 
     </subsection>
@@ -805,7 +805,7 @@ This is chapter 2.
       There are a lot of settings that you can customize for a
       <em>bookdown</em> project. For a more comprehensive overview of
       <em>bookdown</em>, you may see Chapter 18 of the <em>rmarkdown</em>
-      book. For the full documentation, see the <em>bookdown</em> book.
+      book <cite key="rmarkdown2018"/>. For the full documentation, see the <em>bookdown</em> book <cite key="bookdown2016"/>.
     </p>
 
   </section>
@@ -836,7 +836,7 @@ This is chapter 2.
     <p>
       We recommend that you read
       <url href="https://bookdown.org/yihui/blogdown/get-started.html">Chapter
-      1</url> of the <em>blogdown</em> book for an overview of this package as
+      1</url> of the <em>blogdown</em> book <cite key="blogdown2017"/> for an overview of this package as
       well as the basic workflow of maintaining a website.
     </p>
 
