@@ -13,16 +13,17 @@ def main():
     # Define paths
     script_dir = Path(__file__).parent
     source_images_dir = script_dir / "images"
-    # Put generated images in pretext/assets/generated/ directory
-    # This matches the publication.ptx configuration where "external" is ../assets
-    # and source files reference images as source="generated/*.png"
-    pretext_assets = script_dir / "pretext" / "assets" / "generated"
+    # Put images in pretext/assets/images/ directory.
+    # publication.ptx sets external="../assets", so PTX source files reference
+    # images as source="external/images/filename.png" which resolves to
+    # pretext/assets/images/filename.png at build time.
+    pretext_assets = script_dir / "pretext" / "assets" / "images"
     
     print("Preparing images for PreTeXt book...")
     print(f"Source: {source_images_dir}")
     print(f"Target: {pretext_assets}")
     
-    # Create assets/generated directory
+    # Create assets/images directory
     pretext_assets.mkdir(parents=True, exist_ok=True)
     
     # Check if ImageMagick convert is available
@@ -36,16 +37,18 @@ def main():
     images_copied = 0
     images_converted = 0
     
-    # Copy existing PNG files first
-    for png_file in source_images_dir.rglob("*.png"):
-        # Skip defunct images
-        if "defunct_images" in str(png_file):
+    # Copy existing image files (PNG, JPG, JPEG)
+    for img_file in sorted(source_images_dir.rglob("*")):
+        # Skip defunct images and non-image files
+        if "defunct_images" in str(img_file):
+            continue
+        if img_file.suffix.lower() not in (".png", ".jpg", ".jpeg"):
             continue
             
-        target_file = pretext_assets / png_file.name
-        shutil.copy2(png_file, target_file)
+        target_file = pretext_assets / img_file.name
+        shutil.copy2(img_file, target_file)
         images_copied += 1
-        print(f"  Copied: {png_file.name}")
+        print(f"  Copied: {img_file.name}")
     
     # Convert EPS files to PNG if ImageMagick is available
     if convert_available:
@@ -78,11 +81,11 @@ def main():
                 continue
     
     # Summary
-    total_images = len(list(pretext_assets.glob("*.png")))
+    total_images = len(list(pretext_assets.glob("*.png"))) + len(list(pretext_assets.glob("*.jpg")))
     print(f"\nComplete!")
     print(f"  Copied: {images_copied} PNG files")
     print(f"  Converted: {images_converted} EPS files")
-    print(f"  Total images in assets/generated: {total_images}")
+    print(f"  Total images in assets/images: {total_images}")
     
     if total_images == 0:
         print("\nNote: No images were found in the source directory.")
