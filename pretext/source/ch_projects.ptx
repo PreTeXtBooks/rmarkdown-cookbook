@@ -13,4 +13,9 @@
     <p>This section is a placeholder to be filled in.</p>
   </section>
 
+  <section xml:id="keep-files">
+    <title>Keep the plot files</title>
+    <p>This section is a placeholder to be filled in.</p>
+  </section>
+
 </chapter>

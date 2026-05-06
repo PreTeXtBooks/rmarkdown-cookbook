@@ -8,4 +8,14 @@
     knitting early, display a plot in a custom place, and more.
   </p>
 
+  <section xml:id="global-device">
+    <title>Modify a plot in a previous code chunk</title>
+    <p>This section is a placeholder to be filled in.</p>
+  </section>
+
+  <section xml:id="cache-rds">
+    <title>A more transparent caching mechanism</title>
+    <p>This section is a placeholder to be filled in.</p>
+  </section>
+
 </chapter>
