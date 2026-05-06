@@ -1,21 +1,661 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xml:id="ch-output-hooks" xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Output Hooks</title>
+  <title>Output Hooks (*)</title>
 
   <p>
-    This chapter is a skeleton to be filled in. It will explain how to use
-    <em>knitr</em> output hooks to control every piece of output from code
-    chunks, such as source code, text output, messages, and plots.
+    With the <em>knitr</em> package, you have control over every piece of output
+    from your code chunks, such as source code, text output, messages, and plots.
+    The control is achieved through <q>output hooks.</q> Output hooks are a series
+    of functions that take a piece of output as the input (typically a character
+    vector), and return a character vector to be written to the output document.
+    This may not be easy to understand for now, but hopefully you can see the idea
+    more clearly with a small example below explaining how the output of a simple
+    code chunk is rendered through <em>knitr</em>'s output hooks.
+  </p>
+
+  <p>
+    Consider this code chunk with one line of code:
+  </p>
+
+  <program language="md"><input>
+```{r}
+1 + 1
+```
+  </input></program>
+
+  <p>
+    After <em>knitr</em> evaluates the code chunk, it gets two output elements,
+    and both are stored as character strings: the source code <c>"1 + 1"</c>, and
+    the text output <c>"[1] 2"</c>. These character strings will be further
+    processed by chunk hooks for the desired output format. For example, for
+    Markdown documents, <em>knitr</em> will wrap the source code in a fenced code
+    block with a language name. This is done through the <c>source</c> hook, which
+    more or less looks like this function:
+  </p>
+
+  <program language="r"><input>
+# for the above case, `x` is a character string "1 + 1"
+function(x, options) {
+  # the little "r" here indicates the language name
+  paste(c('```r', x, '```'), collapse = '\n')
+}
+  </input></program>
+
+  <p>
+    Similarly, the text output is processed by the <c>output</c> hook that looks
+    like this function:
+  </p>
+
+  <program language="r"><input>
+function(x, options) {
+  paste(c('```', x, '```'), collapse = '\n')
+}
+  </input></program>
+
+  <p>
+    So the final output of the above code chunk is:
+  </p>
+
+  <program language="md"><input>
+```r
+1 + 1
+```
+
+```
+[1] 2
+```
+  </input></program>
+
+  <p>
+    The actual hooks are more complicated than the two functions above, but the
+    idea is the same. You may obtain the actual hooks from the object
+    <c>knit_hooks</c> via the <c>get()</c> method, e.g.,
+  </p>
+
+  <program language="r"><input>
+# for meaningful output, the code below should be executed
+# *inside* a code chunk of a knitr document
+knitr::knit_hooks$get('source')
+knitr::knit_hooks$get('output')
+# or knitr::knit_hooks$get(c('source', 'output'))
+  </input></program>
+
+  <p>
+    Unless you are truly interested in making contributions to the <em>knitr</em>
+    package, we do not recommend that you read the source code of these built-in
+    hooks. If you are interested, this code can be found in the scripts named in
+    the form <c>hooks-*.R</c> at
+    <url href="https://github.com/yihui/knitr/tree/master/R"/>
+    (e.g., <c>hooks-md.R</c> contains hooks for R Markdown documents). As a
+    <em>knitr</em> user, it usually suffices if you know how to create custom
+    output hooks by taking advantage of the built-in hooks. You will learn that in
+    several examples in this chapter, and we show the basic idea below.
+  </p>
+
+  <p>
+    A custom output hook is registered through the <c>set()</c> method of
+    <c>knit_hooks</c>. Because this method will override the existing default hook,
+    we recommend that you save a copy of an existing hook, process the output
+    elements in your own way, and pass the results to the default hook. The usual
+    syntax is:
+  </p>
+
+  <program language="r"><input>
+# using local() is optional here (we just want to avoid creating
+# unnecessary global variables like `hook_old`)
+local({
+  hook_old = knitr::knit_hooks$get('NAME')  # save the old hook
+  knitr::knit_hooks$set(NAME = function(x, options) {
+    # now do whatever you want to do with x, and pass the
+    # new x to the old hook
+    hook_old(x, options)
+  })
+})
+  </input></program>
+
+  <p>
+    Here, <c>NAME</c> is the name of the hook, which can be one of the following
+    values:
+  </p>
+
+  <ul>
+    <li><p><c>source</c>: processing the source code.</p></li>
+    <li><p><c>output</c>: processing text output.</p></li>
+    <li><p><c>warning</c>: processing warnings (usually from <c>warning()</c>).</p></li>
+    <li><p><c>message</c>: processing messages (usually from <c>message()</c>).</p></li>
+    <li><p><c>error</c>: processing error messages (usually from <c>stop()</c>).</p></li>
+    <li><p><c>plot</c>: processing plot file paths.</p></li>
+    <li><p><c>inline</c>: processing output from inline R expressions.</p></li>
+    <li><p><c>chunk</c>: processing output from the whole chunk.</p></li>
+    <li><p><c>document</c>: processing the whole document.</p></li>
+  </ul>
+
+  <p>
+    The meaning of the argument <c>x</c> in the hook functions is explained in the
+    above list. For the <c>options</c> argument of a hook, it denotes the chunk
+    options (as a list) for the current code chunk. For example, if you set
+    <c>foo = TRUE</c> on a chunk, you can obtain its value via <c>options$foo</c>
+    in the hook. The <c>options</c> argument is not available to the <c>inline</c>
+    and <c>document</c> hooks.
+  </p>
+
+  <p>
+    Output hooks give you the ultimate control over every single piece of your
+    chunk and document output. Compared with chunk options, which often have
+    predefined purposes, output hooks can be much more powerful since they are
+    user-defined functions, and you can do anything you want in functions.
   </p>
 
   <section xml:id="hook-hide">
-    <title>Hide content by hook</title>
-    <p>This section is a placeholder to be filled in.</p>
+    <title>Redact source code</title>
+
+    <p>
+      Sometimes we may not want to fully display our source code in the report.
+      For example, you may have a password in a certain line of code. We mentioned
+      in <xref ref="hide-one"/> that you can use the chunk option <c>echo</c> to
+      select which expressions in the R code to display (e.g., show the second
+      expression via <c>echo = 2</c>). In this section, we provide a more flexible
+      method that does not require you to specify the indices of expressions.
+    </p>
+
+    <p>
+      The basic idea is that you add a special comment to the code (e.g.,
+      <c># SECRET!!</c>). When this comment is detected in a line of code, you
+      omit that line. Below is a full example using the <c>source</c> hook:
+    </p>
+
+    <program language="md"><input>
+---
+title: Using the `source` hook to hide certain lines of code
+---
+
+First, we set up a `source` hook to exclude the lines of code
+that contain the string `# SECRET!!` at the end.
+
+```{r, include=FALSE}
+local({
+  hook_source &lt;- knitr::knit_hooks$get('source')
+  knitr::knit_hooks$set(source = function(x, options) {
+    x &lt;- x[!grepl('# SECRET!!$', x)]
+    hook_source(x, options)
+  })
+})
+```
+
+Now we can test the new hook. When you knit this document, you
+will not see the lines with the special comment `# SECRET!!`.
+
+```{r}
+1 + 1  # normal code to be displayed
+
+# please use your real username and password
+auth &lt;- httr::authenticate("user", "passwd")
+auth &lt;- httr::authenticate("yihui", "horsebattery")  # SECRET!!
+httr::GET("http://httpbin.org/basic-auth/user/passwd", auth)
+```
+    </input></program>
+
+    <p>
+      The key part in the above <c>source</c> hook is this line, which matches the
+      trailing comment <c># SECRET!!</c> in the source code vector <c>x</c> via
+      <c>grepl()</c> and excludes the matches:
+    </p>
+
+    <program language="r"><input>
+x &lt;- x[!grepl('# SECRET!!$', x)]
+    </input></program>
+
+    <p>
+      Precisely speaking, the above hook will exclude whole <em>expressions</em>
+      containing the trailing comment <c># SECRET!!</c>, instead of individual
+      lines, because <c>x</c> is actually a vector of R expressions. For example,
+      for the code chunk below:
+    </p>
+
+    <program language="r"><input>
+1 + 1
+if (TRUE) { # SECRET!!
+  1:10
+}
+    </input></program>
+
+    <p>
+      The value of <c>x</c> in the <c>source</c> hook is:
+    </p>
+
+    <program language="r"><input>
+c("1 + 1", "if (TRUE) { # SECRET!!\n  1:10\n}")
+    </input></program>
+
+    <p>
+      If you want to hide lines instead of expressions of R code, you will have to
+      split <c>x</c> into individual lines. You may consider using the function
+      <c>xfun::split_lines()</c>. The body of the hook function will be:
+    </p>
+
+    <program language="r"><input>
+x &lt;- xfun::split_lines(x)  # split into individual lines
+x &lt;- x[!grepl('# SECRET!!$', x)]
+x &lt;- paste(x, collapse = '\n')  # combine into a single string
+hook_source(x, options)
+    </input></program>
+
+    <p>
+      This example shows you how to manipulate the source code string, and
+      <c>grepl()</c> is certainly not the only choice of string manipulation.
+      In <xref ref="hook-number"/>, we will show another example.
+    </p>
+  </section>
+
+  <section xml:id="hook-number">
+    <title>Add line numbers to source code</title>
+
+    <p>
+      In this section, we show an example of defining a <c>source</c> hook to add
+      line numbers as comments to the source code. For example, for this code chunk:
+    </p>
+
+    <program language="md"><input>
+```{r}
+if (TRUE) {
+  x &lt;- 1:10
+  x + 1
+}
+```
+    </input></program>
+
+    <p>
+      We want the output to be:
+    </p>
+
+    <program language="r"><input>
+if (TRUE) {    # 1
+  x &lt;- 1:10    # 2
+  x + 1        # 3
+}              # 4
+    </input></program>
+
+    <p>
+      The full example is below:
+    </p>
+
+    <program language="md"><input>
+---
+title: Add line numbers to source code
+---
+
+We set up a `source` hook to add line numbers to the source
+code. The numbers appear in comments at the end of each line.
+
+```{r, include=FALSE}
+local({
+  hook_source &lt;- knitr::knit_hooks$get('source')
+  knitr::knit_hooks$set(source = function(x, options) {
+    x &lt;- xfun::split_lines(x)
+    n &lt;- nchar(x, 'width')
+    i &lt;- seq_along(x)  # line numbers
+    n &lt;- n + nchar(i)
+    s &lt;- strrep(' ', max(n) - n)
+    x &lt;- paste(x, s, '  # ', i, sep = '', collapse = '\n')
+    hook_source(x, options)
+  })
+})
+```
+
+Now we can test the new hook. When you knit this document, you
+will see line numbers in trailing comments.
+
+```{r}
+if (TRUE) {
+  x &lt;- 1:10
+  x + 1
+}
+```
+    </input></program>
+
+    <p>
+      The main trick in the above example is to determine the number of spaces
+      needed before the comment on each line, so the comments can align to the
+      right. The number depends on the widths of each line of code. We leave it to
+      readers to digest the code in the hook function. Note that the function
+      <c>strrep()</c> is used to generate spaces of specified lengths, e.g.,
+    </p>
+
+    <program language="r"><input>
+strrep(' ', c(1, 3, 6, 0))
+    </input></program>
+
+    <p>
+      The method introduced in <xref ref="number-lines"/> may be the actual way in
+      which you want to add line numbers to source code. The syntax is cleaner, and
+      it works for both source code and text output blocks. The above <c>source</c>
+      hook trick mainly aims to show you one possibility of manipulating the source
+      code with a custom function.
+    </p>
   </section>
 
   <section xml:id="hook-scroll">
-    <title>Scrollable text output via a hook</title>
-    <p>This section is a placeholder to be filled in.</p>
+    <title>Scrollable text output</title>
+
+    <p>
+      In <xref ref="html-scroll"/>, we showed how to restrict the heights of code
+      blocks and text output blocks via CSS. In fact, there is a simpler method
+      with the chunk options <c>attr.source</c> and <c>attr.output</c> to add the
+      <c>style</c> attribute to the fenced code blocks in the Markdown output (see
+      <xref ref="attr-output"/> for more information on these options). For
+      example, for this code chunk with the <c>attr.output</c> option:
+    </p>
+
+    <program language="md"><input>
+```{r, attr.output='style="max-height: 100px;"'}
+1:300
+```
+    </input></program>
+
+    <p>
+      Its Markdown output will be:
+    </p>
+
+    <program language="md"><input>
+```r
+1:300
+```
+
+```{style="max-height: 100px;"}
+##   [1]   1   2   3   4   5   6   7   8   9  10
+##  [11]  11  12  13  14  15  16  17  18  19  20
+##  ... ...
+```
+    </input></program>
+
+    <p>
+      Then the text output block will be converted to HTML by Pandoc:
+    </p>
+
+    <program language="html"><input>
+&lt;pre style="max-height: 100px;"&gt;
+&lt;code&gt;##   [1]   1   2   3   4   5   6   7   8   9  10
+##  [11]  11  12  13  14  15  16  17  18  19  20
+##  ... ...&lt;/code&gt;
+&lt;/pre&gt;
+    </input></program>
+
+    <p>
+      To learn more about Pandoc's fenced code blocks, please read its manual at
+      <url href="https://pandoc.org/MANUAL.html#fenced-code-blocks"/>.
+    </p>
+
+    <p>
+      The <c>attr.source</c> and <c>attr.output</c> options have made it possible
+      for us to specify maximum heights for individual code chunks. However, the
+      syntax is a little clunky, and requires a better understanding of CSS and
+      Pandoc's Markdown syntax. Below we show an example of a custom <c>output</c>
+      hook that works with a custom chunk option <c>max.height</c>, so you will
+      only need to set the chunk option like <c>max.height = "100px"</c> instead of
+      <c>attr.output = 'style="max-height: 100px;"'</c>. In this example, we only
+      manipulate the <c>options</c> argument, but not the <c>x</c> argument.
+    </p>
+
+    <program language="md"><input>
+---
+title: Scrollable code blocks
+output: 
+  html_document: 
+    highlight: tango
+---
+
+We set up an `output` hook to add a `style` attribute to the
+text output when the chunk option `max.height` is set.
+
+```{r, include=FALSE}
+options(width = 60)
+local({
+  hook_output &lt;- knitr::knit_hooks$get('output')
+  knitr::knit_hooks$set(output = function(x, options) {
+    if (!is.null(options$max.height)) options$attr.output &lt;- c(
+      options$attr.output,
+      sprintf('style="max-height: %s;"', options$max.height)
+    )
+    hook_output(x, options)
+  })
+})
+```
+
+Without the `max.height` option, you will see the full output,
+e.g.,
+
+```{r}
+1:100
+```
+
+Now we set `max.height` to `100px`. You will see a scrollbar
+in the text output because its height is larger than 100px.
+
+```{r, max.height='100px'}
+1:100
+```
+
+Essentially the `max.height` option is converted to the
+`attr.output` option. It works even if the `attr.output`
+option is present, i.e., it will not override the
+`attr.output` option, e.g., we show line numbers on the left
+side of the text output via the `.numberLines` attribute:
+
+```{r, max.height='100px', attr.output='.numberLines'}
+1:100
+```
+    </input></program>
+
+    <figure xml:id="fig-hook-scroll">
+      <caption>An example of scrollable text output, with its height specified in the chunk option <c>max.height</c>.</caption>
+      <image source="external/images/hook-scroll.png" width="100%">
+        <description>Screenshot of scrollable text output using the max.height chunk option</description>
+      </image>
+    </figure>
+
+    <p>
+      Note that in the last code chunk with the chunk option <c>attr.output</c>,
+      the option will not be overridden by <c>max.height</c> because we respect
+      existing attributes by combining them with the <c>style</c> attribute
+      generated by <c>max.height</c>:
+    </p>
+
+    <program language="r"><input>
+options$attr.output &lt;- c(
+  options$attr.output,
+  sprintf('style="max-height: %s;"', options$max.height)
+)
+    </input></program>
+
+    <p>
+      You can use a similar trick in the <c>source</c> hook to limit the height of
+      source code blocks.
+    </p>
+  </section>
+
+  <section xml:id="hook-truncate">
+    <title>Truncate text output</title>
+
+    <p>
+      When the text output from a code chunk is lengthy, you may want to only show
+      the first few lines. For example, when printing a data frame of a few
+      thousand rows, it may not be helpful to show the full data, and the first few
+      lines may be enough. Below we redefine the <c>output</c> hook so that we can
+      control the maximum number of lines via a custom chunk option
+      <c>out.lines</c>:
+    </p>
+
+    <program language="r"><input>
+# save the built-in output hook
+hook_output = knitr::knit_hooks$get("output")
+
+# set a new output hook to truncate text output
+knitr::knit_hooks$set(output = function(x, options) {
+  if (!is.null(n &lt;- options$out.lines)) {
+    x = xfun::split_lines(x)
+    if (length(x) > n) {
+      # truncate the output
+      x = c(head(x, n), '....\n')
+    }
+    x = paste(x, collapse = '\n')
+  }
+  hook_output(x, options)
+})
+    </input></program>
+
+    <p>
+      The basic idea of the above hook function is that if the number of lines of
+      the text output is greater than the threshold set in the chunk option
+      <c>out.lines</c> (stored in the variable <c>n</c> in the function body), we
+      only keep the first <c>n</c> lines and add an ellipsis (<c>....</c>) to
+      indicate the output is truncated.
+    </p>
+
+    <p>
+      Now we can test the new <c>output</c> hook by setting the chunk option
+      <c>out.lines = 4</c> on the chunk. And you see four lines of output as
+      expected. Since we have stored the original <c>output</c> hook in
+      <c>hook_output</c>, we can restore it by calling the <c>set()</c> method
+      again:
+    </p>
+
+    <program language="r"><input>
+knitr::knit_hooks$set(output = hook_output)
+    </input></program>
+
+    <p>
+      As an exercise for readers, you may try to truncate the output in a different
+      way: given the chunk option <c>out.lines</c> to determine the maximum number
+      of lines, can you truncate the output in the middle instead of the end? For
+      example, if <c>out.lines = 10</c>, you extract the first and last five lines,
+      and add <c>....</c> in the middle like this:
+    </p>
+
+    <program language="text"><input>
+##    speed dist
+## 1      4    2
+## 2      4   10
+## 3      7    4
+## 4      7   22
+....
+## 46    24   70
+## 47    24   92
+## 48    24   93
+## 49    24  120
+## 50    25   85
+    </input></program>
+
+    <p>
+      Please note that the last line in the output (i.e., the argument <c>x</c> of
+      the hook function) might be an empty line, so you may need something like
+      <c>c(head(x, n/2), '....', tail(x, n/2 + 1))</c> (<c>+ 1</c> to take the
+      last empty line into account).
+    </p>
+  </section>
+
+  <section xml:id="hook-html5">
+    <title>Output figures in the HTML5 format</title>
+
+    <p>
+      By default, plots in R Markdown are included in the tag
+      <c>&lt;img src="..." /&gt;</c> in a <c>&lt;p&gt;</c> or
+      <c>&lt;div&gt;</c> tag in the HTML output. This example below shows how to
+      use the HTML5 <c>&lt;figure&gt;</c> tag to display plots.
+    </p>
+
+    <program language="md"><input>
+---
+title: Output figures in `&lt;figure&gt;` tags
+output: html_document
+---
+
+Given a plot file path `x` and a figure caption in the chunk
+option `options$fig.cap`, we want to write the plot in the
+HTML5 tag in this form:
+
+```html
+&lt;figure&gt;
+  &lt;img src="PATH" alt="CAPTION" /&gt;
+  &lt;figcaption&gt;CAPTION&lt;/figcaption&gt;
+&lt;/figure&gt;
+```
+
+Now we redefine the `plot` hook (only when the output format
+is HTML):
+
+```{r}
+if (knitr::is_html_output()) knitr::knit_hooks$set(
+  plot = function(x, options) {
+    cap  &lt;- options$fig.cap  # figure caption
+    tags &lt;- htmltools::tags
+    as.character(tags$figure(
+      tags$img(src = x, alt = cap),
+      tags$figcaption(cap)
+    ))
+  }
+)
+```
+
+The plot from the code chunk below will be placed in the
+`&lt;figure&gt;` tag:
+
+```{r, fig.cap='A scatterplot for the cars data.'}
+par(mar = c(4.5, 4.5, .2, .2))
+plot(cars, pch = 19, col = 'red')
+```
+
+We add some CSS styles to "see" the `&lt;figure&gt;` and
+`&lt;figcaption&gt;` tags better (the `figure` has a dashed
+border, and the caption has a light pink background):
+
+```{css, echo=FALSE}
+figure {
+  border: 2px dashed red;
+  margin: 1em 0;
+}
+figcaption {
+  padding: .5em;
+  background: lightpink;
+  font-size: 1.3em;
+  font-variant: small-caps;
+}
+```
+    </input></program>
+
+    <figure xml:id="fig-hook-html5">
+      <caption>A figure in the HTML5 figure tag.</caption>
+      <image source="external/images/hook-html5.png" width="100%">
+        <description>Screenshot showing a plot rendered inside an HTML5 figure tag with a styled caption</description>
+      </image>
+    </figure>
+
+    <p>
+      Note that we actually overrode the default <c>plot</c> hook in this example,
+      while most other examples in this chapter build custom hooks on top of the
+      default hooks. You should completely override default hooks only when you are
+      sure you want to ignore some built-in features of the default hooks. For
+      example, the <c>plot</c> hook function in this case did not consider possible
+      chunk options like <c>out.width = '100%'</c> or
+      <c>fig.show = 'animate'</c>.
+    </p>
+
+    <p>
+      This example shows you what you can possibly do with the plot file path
+      <c>x</c> in the <c>plot</c> hook. If all you need is to customize the style
+      of figures, you do not have to use the HTML5 tags. Usually the default
+      <c>plot</c> hook will output images in the HTML code like this:
+    </p>
+
+    <program language="html"><input>
+&lt;div class="figure"&gt;
+  &lt;img src="PATH" /&gt;
+  &lt;p class="caption"&gt;CAPTION&lt;/p&gt;
+&lt;/div&gt;
+    </input></program>
+
+    <p>
+      So you can just define CSS rules for <c>div.figure</c> and <c>p.caption</c>.
+    </p>
   </section>
 
 </chapter>
