@@ -26,7 +26,7 @@
       We strongly recommend that you learn some CSS and JavaScript if you wish
       to customize the appearance of HTML documents.
       <url href="https://bookdown.org/yihui/blogdown/website-basics.html">Appendix B</url>
-      of the <em>blogdown</em> book contains short tutorials on HTML, CSS, and
+      of the <em>blogdown</em> book <cite key="blogdown2017"/> contains short tutorials on HTML, CSS, and
       JavaScript.
     </p>
 
@@ -1115,7 +1115,8 @@ document.querySelectorAll('pre:not([class])');
             the YAML metadata. You will no longer be able to render your
             document to an HTML document as before; instead, you run your
             document with <c>rmarkdown::run()</c>. To learn more, please
-            refer to the R Markdown book (Chapter 19).</fn> ShinyApps.io is
+            refer to <cite key="rmarkdown2018"/> (Chapter 19:
+            <url href="https://bookdown.org/yihui/rmarkdown/shiny-documents.html"/>).</fn> ShinyApps.io is
             an analog to RPubs for Shiny applications. Apps and interactive
             R Markdown documents can be published using the push-button in
             the RStudio IDE or the <c>rsconnect::deployApp()</c> function.
@@ -1168,7 +1169,7 @@ document.querySelectorAll('pre:not([class])');
         or a sophisticated project like a website based on <em>blogdown</em>
         (which relies upon a static website generator). For more details,
         see <url href="https://bookdown.org/yihui/blogdown/static-sites.html">Section
-        2.1 on Static Sites</url> of the <em>blogdown</em> book.
+        2.1 on Static Sites</url> of the <em>blogdown</em> book <cite key="blogdown2017"/>.
       </p>
 
       <p>
@@ -1212,7 +1213,9 @@ document.querySelectorAll('pre:not([class])');
             and GitLab repositories. Additionally, Netlify offers many
             helpful features such as website previews in pull requests. See
             the Netlify documentation
-            (<url href="https://docs.netlify.com"/>) for more details.
+            (<url href="https://docs.netlify.com"/>) or the RStudio webinar
+            <url href="https://rstudio.com/resources/webinars/sharing-on-short-notice-how-to-get-your-materials-online-with-r-markdown/">"Sharing on Short Notice"</url>
+            for more details.
           </p>
         </li>
       </ul>
