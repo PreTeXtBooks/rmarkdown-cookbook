@@ -228,7 +228,7 @@ install.packages('webshot2')
       <c>knitr::include_app()</c> to include it, which works in the same
       way as <c>include_url()</c>.
       <url href="https://bookdown.org/yihui/bookdown/web-pages-and-shiny-apps.html">Section 2.11</url>
-      of the <em>bookdown</em> book contains more details about
+      of the <em>bookdown</em> book <cite key="bookdown2016"/> contains more details about
       <c>include_app()</c> and <c>include_url()</c>.
     </p>
 
@@ -343,8 +343,9 @@ knitr::pandoc_to()
       <title>Syntax</title>
 
       <p>
-        The syntax for custom blocks is based on Pandoc's fenced
-        <c>Div</c> blocks. <c>Div</c> blocks are very powerful, but there
+        The syntax for custom blocks is based on Pandoc's
+        <url href="https://pandoc.org/MANUAL.html#divs-and-spans">fenced
+        <c>Div</c> blocks</url>. <c>Div</c> blocks are very powerful, but there
         is a problem at the moment: they mainly work for HTML output and do
         not work for LaTeX output.
       </p>
@@ -497,7 +498,9 @@ output:
       </p>
 
       <p>
-        For HTML output, we define these rules in a CSS file:
+        For HTML output, we define these rules in a CSS file. If you are
+        unfamiliar with CSS, there are plenty of free online tutorials, e.g.,
+        <url href="https://www.w3schools.com/css/"/>.
       </p>
 
       <program language="css">

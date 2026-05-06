@@ -365,7 +365,10 @@ knitr::kables(
       <p>
         One common confusion about <c>kable()</c> is that it does not work
         inside <c>for</c>-loops. The reason is that in the loop, the
-        <c>kable()</c> results are not printed at the top level. You may
+        <c>kable()</c> results are not printed at the top level (for more
+        details, see the blog post
+        <url href="https://yihui.org/en/2017/06/top-level-r-expressions/">The
+        Ghost Printer behind Top-level R Expressions</url>). You may
         expect the following code chunk to generate three tables, but it will
         not:
       </p>
@@ -477,7 +480,8 @@ knitr::kable(iris2, caption = 'A long long long caption!', caption.short = 'A sh
       </p>
 
       <p>
-        If you are familiar with the LaTeX package <em>booktabs</em> for
+        If you are familiar with the LaTeX package
+        <url href="https://ctan.org/pkg/booktabs"><em>booktabs</em></url> for
         publication-quality tables, you can set <c>booktabs = TRUE</c>, e.g.,
       </p>
 
@@ -540,7 +544,7 @@ knitr::kable(iris3, format = 'latex', linesep = c('', '', '\\addlinespace'), boo
       <p>
         Sometimes your table may be longer than a page. In this case, you can
         use the argument <c>longtable = TRUE</c>, which uses the LaTeX package
-        <em>longtable</em> to span your table to multiple pages.
+        <url href="https://ctan.org/pkg/longtable"><em>longtable</em></url> to span your table to multiple pages.
       </p>
 
       <p>
@@ -633,7 +637,7 @@ thead, tfoot, tr:nth-child(even) { background: #eee; }
     <p>
       This package can be installed from CRAN as usual, or you may try the
       development version on GitHub
-      (https://github.com/haozhu233/kableExtra):
+      (<url href="https://github.com/haozhu233/kableExtra"/>):
     </p>
 
     <program language="r">
@@ -648,7 +652,7 @@ remotes::install_github("haozhu233/kableExtra")
 
     <p>
       It has extensive documentation at
-      https://haozhu233.github.io/kableExtra/, which provides a lot of
+      <url href="https://haozhu233.github.io/kableExtra/"/>, which provides a lot of
       examples on how the <c>kable()</c> output can be customized for either
       HTML or LaTeX output. The <em>kableExtra</em> package features the pipe
       operator, <c>%&gt;%</c>. You can pipe the <c>kable()</c> output to the
@@ -800,9 +804,9 @@ tab %>%
         choices. They all support HTML, LaTeX, and Office formats, and contain
         most common table features (e.g., conditional formatting). More
         information about <em>flextable</em> can be found at
-        https://davidgohel.github.io/flextable/, and the documentation of
+        <url href="https://davidgohel.github.io/flextable/"/>, and the documentation of
         <em>huxtable</em> is at
-        https://hughjonesd.github.io/huxtable/.</p></li>
+        <url href="https://hughjonesd.github.io/huxtable/"/>.</p></li>
 
       <li><p><em>gt</em>: Allows you to compose a table by putting together
         different parts of the table, such as the table header (title and
@@ -810,7 +814,7 @@ tab %>%
         the table footer. Some parts are optional. You can also format numbers
         and add background shading to cells. Currently <em>gt</em> mainly
         supports HTML output. You can find more information about it at
-        https://gt.rstudio.com.</p></li>
+        <url href="https://gt.rstudio.com"/>.</p></li>
 
       <li><p><em>formattable</em>: Provides some utility functions to format
         numbers (e.g., <c>percent()</c> and <c>accounting()</c>), and also
@@ -818,7 +822,7 @@ tab %>%
         numbers with background shading or color bars, or add icons in cells).
         Like <em>gt</em>, this package also primarily supports the HTML
         format. You can find more information about it from its GitHub project
-        at https://github.com/renkun-ken/formattable.</p></li>
+        at <url href="https://github.com/renkun-ken/formattable"/>.</p></li>
 
       <li><p><em>DT</em>: Built on top of the JavaScript library
         <em>DataTables</em>, which can turn a static table into an interactive
@@ -827,32 +831,32 @@ tab %>%
         build interactive applications, and has included a large number of
         <em>DataTables</em> extensions (e.g., you may export the table to
         Excel, or interactively reorder columns). See the package repository
-        for more information: https://github.com/rstudio/DT.</p></li>
+        for more information: <url href="https://github.com/rstudio/DT"/>.</p></li>
 
       <li><p><em>reactable</em>: Similar to <em>DT</em>, this package also
         creates interactive tables based on a JavaScript library with features
         like row grouping and aggregation, and embedding HTML widgets.
         Documentation is available at
-        https://glin.github.io/reactable/.</p></li>
+        <url href="https://glin.github.io/reactable/"/>.</p></li>
 
       <li><p><em>rhandsontable</em>: Also similar to <em>DT</em>, and has an
         Excel feel (e.g., you can edit data directly in the table). Visit
-        https://jrowen.github.io/rhandsontable/ to learn more about
+        <url href="https://jrowen.github.io/rhandsontable/"/> to learn more about
         it.</p></li>
 
       <li><p><em>pixiedust</em>: Features creating tables for models (such as
         linear models) converted through the <em>broom</em> package. It
         supports Markdown, HTML, and LaTeX output formats. Its repository is
-        at https://github.com/nutterb/pixiedust.</p></li>
+        at <url href="https://github.com/nutterb/pixiedust"/>.</p></li>
 
       <li><p><em>stargazer</em>: Features formatting regression models and
         summary statistics tables. The package is available on CRAN at
-        https://cran.r-project.org/package=stargazer.</p></li>
+        <url href="https://cran.r-project.org/package=stargazer"/>.</p></li>
 
       <li><p><em>xtable</em>: Perhaps the oldest package for creating
         tables—the first release was made in 2000. It supports both LaTeX and
         HTML formats. The package is available on CRAN at
-        https://cran.r-project.org/package=xtable.</p></li>
+        <url href="https://cran.r-project.org/package=xtable"/>.</p></li>
     </ul>
 
     <p>
