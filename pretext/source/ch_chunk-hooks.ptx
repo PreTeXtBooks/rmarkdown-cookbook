@@ -381,6 +381,35 @@ is indented, e.g.,
       which is stored in the chunk option <c>options$indent</c>.
     </p>
 
+    <p>
+      The output of the bullet list at the end of the above example will be
+      like this:
+    </p>
+
+    <program language="text"><input>
+- One bullet.
+
+  ````
+  ```{r, eval=TRUE}
+  ````
+  ```r
+  2 + 2
+  ```
+  ```
+  ## [1] 4
+  ```
+  ````
+  ```
+  ````
+
+- Another bullet.
+    </input></program>
+
+    <p>
+      You can see that the code chunk was evaluated, and the chunk header was
+      also added.
+    </p>
+
   </section>
 
   <section xml:id="rgl-3d">

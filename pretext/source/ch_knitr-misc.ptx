@@ -797,10 +797,23 @@ res &lt;- xfun::cache_rds({
     </input></program>
 
     <p>
-      When the value of the <c>hash</c> argument is changed, the cache filename
-      hash will change accordingly, therefore the cache will be invalidated. For
-      example, if you want the cache to depend on when a data file was last
-      modified:
+      When the value of the <c>hash</c> argument is changed, the 32-digit hash
+      in the cache filename (as mentioned earlier) will change accordingly,
+      therefore the cache will be invalidated. This provides a way to specify
+      the cache's dependency on other R objects. For example, if you want the
+      cache to be dependent on the version of R, you may specify the dependency
+      like this:
+    </p>
+
+    <program language="r"><input>
+res &lt;- xfun::cache_rds({
+  x &lt;- 1:10
+  x + y
+}, hash = list(y, getRversion()))
+    </input></program>
+
+    <p>
+      Or if you want the cache to depend on when a data file was last modified:
     </p>
 
     <program language="r"><input>
@@ -825,15 +838,31 @@ res &lt;- xfun::cache_rds({
     </input></program>
 
     <p>
+      This is equivalent to:
+    </p>
+
+    <program language="r"><input>
+res &lt;- xfun::cache_rds({
+  x &lt;- 1:10
+  x + y + z  # y and z are global variables
+}, hash = list(y = y, z = z))
+    </input></program>
+
+    <p>
       The global variables are identified by <c>codetools::findGlobals()</c>
-      when <c>hash = "auto"</c>, which may not be completely reliable. We
-      recommend that you specify the list of values explicitly in the
-      <c>hash</c> argument if you want to be completely sure which variables
-      can invalidate the cache.
+      when <c>hash = "auto"</c>, which may not be completely reliable. You know
+      your own code the best, so we recommend that you specify the list of
+      values explicitly in the <c>hash</c> argument if you want to be
+      completely sure which variables can invalidate the cache.
     </p>
 
     <p>
       <em>Keep multiple copies of the cache.</em>
+      Since the cache is typically used for time-consuming code, perhaps you
+      should invalidate it conservatively. You might regret invalidating the
+      cache too soon or aggressively, because if you should need an older
+      version of the cache again, you would have to wait for a long time for
+      the computing to be redone.
       The <c>clean</c> argument of <c>cache_rds()</c> allows you to keep older
       copies of the cache if you set it to <c>FALSE</c>. You can also set the
       global R option <c>options(xfun.cache_rds.clean = FALSE)</c> if you want
