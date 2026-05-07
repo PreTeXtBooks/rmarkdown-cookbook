@@ -58,7 +58,7 @@
     </p>
 
     <p>
-      First, the <c>knit()</c> function in <em>knitr</em> is used to execute
+      First, the <c>knit()</c> function in <em>knitr</em> <cite key="R-knitr"/> is used to execute
       all code embedded within the <c>.Rmd</c> file, and prepare the code
       output to be displayed within the output document. All these results are
       converted into the correct markup language to be contained within the
@@ -80,7 +80,7 @@
       intermediate <c>.tex</c> file. This file is then processed by LaTeX to
       form the final PDF document. As we mentioned in
       <xref ref="install-latex"/>, the <em>rmarkdown</em> package calls the
-      <c>latexmk()</c> function in the <em>tinytex</em> package, which in
+      <c>latexmk()</c> function in the <em>tinytex</em> package <cite key="R-tinytex"/>, which in
       turn calls LaTeX to compile <c>.tex</c> to <c>.pdf</c>.
     </p>
 
@@ -105,14 +105,14 @@
     <ul>
       <li>
         <p>
-          The <em>xaringan</em> package passes the <c>.md</c> output to a
+          The <em>xaringan</em> package <cite key="R-xaringan"/> passes the <c>.md</c> output to a
           JavaScript library, which renders the Markdown content in the web
           browser.
         </p>
       </li>
       <li>
         <p>
-          The <em>blogdown</em> package supports the <c>.Rmarkdown</c>
+          The <em>blogdown</em> package <cite key="R-blogdown"/> supports the <c>.Rmarkdown</c>
           document format, which is knitted to <c>.markdown</c>, and this
           Markdown document is usually rendered to HTML by an external site
           generator.

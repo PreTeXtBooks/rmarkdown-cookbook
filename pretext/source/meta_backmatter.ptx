@@ -58,6 +58,497 @@
       <url href="https://tug.org/TUGboat/Contents/contents40-1.html">https://tug.org/TUGboat/Contents/contents40-1.html</url>.
     </biblio>
 
+
+    <biblio type="raw" xml:id="R-Cairo">
+      Urbanek, S. and Horner, J. (2025).
+      <pubtitle>Cairo: R Graphics Device using Cairo Graphics Library for Creating High-Quality Bitmap (PNG, JPEG, TIFF), Vector (PDF, SVG, PostScript) and Display (X11 and Win32) Output</pubtitle>.
+      URL:
+      <url href="http://www.rforge.net/Cairo/">http://www.rforge.net/Cairo/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-DT">
+      Xie, Y., Cheng, J., and Tan, X. (2025).
+      <pubtitle>DT: A Wrapper of the JavaScript Library DataTables</pubtitle>.
+      URL:
+      <url href="https://github.com/rstudio/DT">https://github.com/rstudio/DT</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-animation">
+      Xie, Y. (2025).
+      <pubtitle>animation: A Gallery of Animations in Statistics and Utilities to Create Animations</pubtitle>.
+      URL:
+      <url href="https://yihui.org/animation/">https://yihui.org/animation/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-base">
+      R Core Team (2024).
+      <pubtitle>R: A Language and Environment for Statistical Computing</pubtitle>.
+      URL:
+      <url href="https://www.R-project.org/">https://www.R-project.org/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-blastula">
+      Iannone, R. and Cheng, J. (2025).
+      <pubtitle>blastula: Easily Send HTML Email Messages</pubtitle>.
+      URL:
+      <url href="https://github.com/rstudio/blastula">https://github.com/rstudio/blastula</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-blogdown">
+      Xie, Y., Dervieux, C., and Hill, A. P. (2026).
+      <pubtitle>blogdown: Create Blogs and Websites with R Markdown</pubtitle>.
+      URL:
+      <url href="https://github.com/rstudio/blogdown">https://github.com/rstudio/blogdown</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-bookdown">
+      Xie, Y. (2025).
+      <pubtitle>bookdown: Authoring Books and Technical Documents with R Markdown</pubtitle>.
+      URL:
+      <url href="https://github.com/rstudio/bookdown">https://github.com/rstudio/bookdown</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-broom">
+      Robinson, D., Hayes, A., and Couch, S. (2026).
+      <pubtitle>broom: Convert Statistical Objects into Tidy Tibbles</pubtitle>.
+      URL:
+      <url href="https://broom.tidymodels.org/">https://broom.tidymodels.org/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-condformat">
+      Moreno, S. O. (2023).
+      <pubtitle>condformat: Conditional Formatting in Data Frames</pubtitle>.
+      URL:
+      <url href="https://zeehio.github.io/condformat/">https://zeehio.github.io/condformat/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-dagitty">
+      dagitty (2023).
+      <pubtitle>dagitty: Graphical Analysis of Structural Causal Models</pubtitle>.
+      URL:
+      <url href="https://www.dagitty.net">https://www.dagitty.net</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-diagram">
+      diagram (2020).
+      <pubtitle>diagram: Functions for Visualising Simple Graphs (Networks), Plotting Flow Diagrams</pubtitle>.
+      URL:
+      <url href="https://github.com/cran/diagram">https://github.com/cran/diagram</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-downloadthis">
+      Maturana, F. M. (2025).
+      <pubtitle>downloadthis: Implement Download Buttons in rmarkdown</pubtitle>.
+      URL:
+      <url href="https://github.com/fmmattioni/downloadthis">https://github.com/fmmattioni/downloadthis</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-equatiomatic">
+      Anderson, D., Heiss, A., and Sumners, J. (n.d.).
+      <pubtitle>equatiomatic: Transform Models into LaTeX Equations</pubtitle>.
+      URL:
+      <url href="https://datalorax.github.io/equatiomatic/">https://datalorax.github.io/equatiomatic/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-ezknitr">
+      Attali, D. (2023).
+      <pubtitle>ezknitr: Avoid the Typical Working Directory Pain When Using knitr</pubtitle>.
+      URL:
+      <url href="https://docs.ropensci.org/ezknitr/">https://docs.ropensci.org/ezknitr/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-flair">
+      Bodwin, K. and Glanz, H. (n.d.).
+      <pubtitle>flair: Highlight, Annotate, and Format Your R Source Code</pubtitle>.
+      URL:
+      <url href="https://r-for-educators.github.io/flair/index.html">https://r-for-educators.github.io/flair/index.html</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-flexdashboard">
+      Aden-Buie, G., Sievert, C., and Iannone, R. (2026).
+      <pubtitle>flexdashboard: R Markdown Format for Flexible Dashboards</pubtitle>.
+      URL:
+      <url href="https://pkgs.rstudio.com/flexdashboard/">https://pkgs.rstudio.com/flexdashboard/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-flextable">
+      Gohel, D. and Skintzos, P. (2026).
+      <pubtitle>flextable: Functions for Tabular Reporting</pubtitle>.
+      URL:
+      <url href="https://ardata-fr.github.io/flextable-book/">https://ardata-fr.github.io/flextable-book/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-formatR">
+      Xie, Y. (2023).
+      <pubtitle>formatR: Format R Code Automatically</pubtitle>.
+      URL:
+      <url href="https://github.com/yihui/formatR">https://github.com/yihui/formatR</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-formattable">
+      Ren, K. and Russell, K. (2021).
+      <pubtitle>formattable: Create Formattable Data Structures</pubtitle>.
+      URL:
+      <url href="https://renkun-ken.github.io/formattable/">https://renkun-ken.github.io/formattable/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-gganimate">
+      Pedersen, T. L. and Robinson, D. (2025).
+      <pubtitle>gganimate: A Grammar of Animated Graphics</pubtitle>.
+      URL:
+      <url href="https://gganimate.com">https://gganimate.com</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-ggdag">
+      Barrett, M. (2024).
+      <pubtitle>ggdag: Analyze and Create Elegant Directed Acyclic Graphs</pubtitle>.
+      URL:
+      <url href="https://github.com/r-causal/ggdag">https://github.com/r-causal/ggdag</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-ggplot2">
+      Wickham, H., Chang, W., and Henry, L. (2026).
+      <pubtitle>ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</pubtitle>.
+      URL:
+      <url href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-gifski">
+      Ooms, J. and Lesiński, K. (2025).
+      <pubtitle>gifski: Highest Quality GIF Encoder</pubtitle>.
+      URL:
+      <url href="https://r-rust.r-universe.dev/gifski">https://r-rust.r-universe.dev/gifski</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-googledrive">
+      McGowan, L. D. and Bryan, J. (2025).
+      <pubtitle>googledrive: An Interface to Google Drive</pubtitle>.
+      URL:
+      <url href="https://googledrive.tidyverse.org">https://googledrive.tidyverse.org</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-govdown">
+      Garmonsway, D. (2021).
+      <pubtitle>govdown: GOV.UK Style Templates for R Markdown</pubtitle>.
+      URL:
+      <url href="https://ukgovdatascience.github.io/govdown/">https://ukgovdatascience.github.io/govdown/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-gt">
+      Iannone, R., Cheng, J., and Schloerke, B. (2026).
+      <pubtitle>gt: Easily Create Presentation-Ready Display Tables</pubtitle>.
+      URL:
+      <url href="https://gt.rstudio.com">https://gt.rstudio.com</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-here">
+      Müller, K. (2025).
+      <pubtitle>here: A Simpler Way to Find Your Files</pubtitle>.
+      URL:
+      <url href="https://here.r-lib.org/">https://here.r-lib.org/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-huxtable">
+      Hugh-Jones, D. (2025).
+      <pubtitle>huxtable: Easily Create and Style Tables for LaTeX, HTML and Other Formats</pubtitle>.
+      URL:
+      <url href="https://hughjonesd.github.io/huxtable/">https://hughjonesd.github.io/huxtable/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-kableExtra">
+      Zhu, H. (2024).
+      <pubtitle>kableExtra: Construct Complex Table with kable and Pipe Syntax</pubtitle>.
+      URL:
+      <url href="http://haozhu233.github.io/kableExtra/">http://haozhu233.github.io/kableExtra/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-knitcitations">
+      Boettiger, C. (2021).
+      <pubtitle>knitcitations: Citations for Knitr Markdown Files</pubtitle>.
+      URL:
+      <url href="https://github.com/cboettig/knitcitations">https://github.com/cboettig/knitcitations</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-knitr">
+      Xie, Y. (2025).
+      <pubtitle>knitr: A General-Purpose Package for Dynamic Report Generation in R</pubtitle>.
+      URL:
+      <url href="https://yihui.org/knitr/">https://yihui.org/knitr/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-learnr">
+      Aden-Buie, G., Schloerke, B., and Allaire, J. J. (2025).
+      <pubtitle>learnr: Interactive Tutorials for R</pubtitle>.
+      URL:
+      <url href="https://rstudio.github.io/learnr/">https://rstudio.github.io/learnr/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-magick">
+      Ooms, J. (2026).
+      <pubtitle>magick: Advanced Graphics and Image-Processing in R</pubtitle>.
+      URL:
+      <url href="https://docs.ropensci.org/magick/">https://docs.ropensci.org/magick/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-nomnoml">
+      Vries, A. d. and Luraschi, J. (2023).
+      <pubtitle>nomnoml: Sassy UML Diagrams</pubtitle>.
+      URL:
+      <url href="https://rstudio.github.io/nomnoml/">https://rstudio.github.io/nomnoml/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-officedown">
+      Gohel, D. and Ross, N. (2025).
+      <pubtitle>officedown: Enhanced R Markdown Format for Word and PowerPoint</pubtitle>.
+      URL:
+      <url href="https://ardata-fr.github.io/officeverse/">https://ardata-fr.github.io/officeverse/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-officer">
+      Gohel, D., Moog, S., and Heckmann, M. (2026).
+      <pubtitle>officer: Manipulation of Microsoft Word and PowerPoint Documents</pubtitle>.
+      URL:
+      <url href="https://ardata-fr.github.io/officeverse/">https://ardata-fr.github.io/officeverse/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-pagedown">
+      Xie, Y., Lesur, R., and Thorne, B. (2026).
+      <pubtitle>pagedown: Paginate the HTML Output of R Markdown with CSS for Print</pubtitle>.
+      URL:
+      <url href="https://github.com/rstudio/pagedown">https://github.com/rstudio/pagedown</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-pander">
+      Daróczi, G. and Tsegelskyi, R. (2025).
+      <pubtitle>pander: An R Pandoc Writer</pubtitle>.
+      URL:
+      <url href="https://rapporter.github.io/pander/">https://rapporter.github.io/pander/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-pixiedust">
+      Nutter, B. (2023).
+      <pubtitle>pixiedust: Tables so Beautifully Fine-Tuned You Will Believe Its Magic</pubtitle>.
+      URL:
+      <url href="https://github.com/nutterb/pixiedust">https://github.com/nutterb/pixiedust</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-pkgdown">
+      Wickham, H., Hesselberth, J., and Salmon, M. (2025).
+      <pubtitle>pkgdown: Make Static HTML Documentation for a Package</pubtitle>.
+      URL:
+      <url href="https://pkgdown.r-lib.org/">https://pkgdown.r-lib.org/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-printr">
+      Xie, Y. (2023).
+      <pubtitle>printr: Automatically Print R Objects to Appropriate Formats According to the knitr Output Format</pubtitle>.
+      URL:
+      <url href="https://yihui.org/printr/">https://yihui.org/printr/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-r2d3">
+      Strayer, N., Luraschi, J., and Allaire, J. J. (2022).
+      <pubtitle>r2d3: Interface to D3 Visualizations</pubtitle>.
+      URL:
+      <url href="https://rstudio.github.io/r2d3/">https://rstudio.github.io/r2d3/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-reactable">
+      Lin, G. (2025).
+      <pubtitle>reactable: Interactive Data Tables for R</pubtitle>.
+      URL:
+      <url href="https://glin.github.io/reactable/">https://glin.github.io/reactable/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-reticulate">
+      Kalinowski, T., Ushey, K., and Allaire, J. J. (2026).
+      <pubtitle>reticulate: Interface to Python</pubtitle>.
+      URL:
+      <url href="https://rstudio.github.io/reticulate/">https://rstudio.github.io/reticulate/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-revealjs">
+      Dervieux, C., Allaire, J. J., and Hattab, H. E. (2025).
+      <pubtitle>revealjs: R Markdown Format for reveal.js Presentations</pubtitle>.
+      URL:
+      <url href="https://github.com/rstudio/revealjs">https://github.com/rstudio/revealjs</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-rgl">
+      Murdoch, D. and Adler, D. (2026).
+      <pubtitle>rgl: 3D Visualization Using OpenGL</pubtitle>.
+      URL:
+      <url href="https://github.com/dmurdoch/rgl">https://github.com/dmurdoch/rgl</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-rhandsontable">
+      Owen, J. (2021).
+      <pubtitle>rhandsontable: Interface to the Handsontable.js Library</pubtitle>.
+      URL:
+      <url href="http://jrowen.github.io/rhandsontable/">http://jrowen.github.io/rhandsontable/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-rmarkdown">
+      Allaire, J. J., Xie, Y., and Dervieux, C. (2026).
+      <pubtitle>rmarkdown: Dynamic Documents for R</pubtitle>.
+      URL:
+      <url href="https://github.com/rstudio/rmarkdown">https://github.com/rstudio/rmarkdown</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-rmdformats">
+      Barnier, J. (2022).
+      <pubtitle>rmdformats: HTML Output Formats and Templates for rmarkdown Documents</pubtitle>.
+      URL:
+      <url href="https://github.com/juba/rmdformats">https://github.com/juba/rmdformats</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-roxygen2">
+      Wickham, H., Danenberg, P., and Csárdi, G. (2026).
+      <pubtitle>roxygen2: In-Line Documentation for R</pubtitle>.
+      URL:
+      <url href="https://roxygen2.r-lib.org/">https://roxygen2.r-lib.org/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-rsconnect">
+      Atkins, A., Allen, T., and Wickham, H. (2026).
+      <pubtitle>rsconnect: Deploy Docs, Apps, and APIs to Posit Connect, shinyapps.io, and RPubs</pubtitle>.
+      URL:
+      <url href="https://rstudio.github.io/rsconnect/">https://rstudio.github.io/rsconnect/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-rticles">
+      Allaire, J. J., Xie, Y., and Dervieux, C. (2024).
+      <pubtitle>rticles: Article Formats for R Markdown</pubtitle>.
+      URL:
+      <url href="https://github.com/rstudio/rticles">https://github.com/rstudio/rticles</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-sass">
+      Cheng, J., Mastny, T., and Iannone, R. (2025).
+      <pubtitle>sass: Syntactically Awesome Style Sheets (Sass)</pubtitle>.
+      URL:
+      <url href="https://rstudio.github.io/sass/">https://rstudio.github.io/sass/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-spelling">
+      Ooms, J. and Hester, J. (2025).
+      <pubtitle>spelling: Tools for Spell Checking in R</pubtitle>.
+      URL:
+      <url href="https://docs.ropensci.org/spelling/">https://docs.ropensci.org/spelling/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-stargazer">
+      stargazer (2022).
+      <pubtitle>stargazer: Well-Formatted Regression and Summary Statistics Tables</pubtitle>.
+      URL:
+      <url href="https://github.com/cran/stargazer">https://github.com/cran/stargazer</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-styler">
+      Müller, K., Walthert, L., and Patil, I. (2025).
+      <pubtitle>styler: Non-Invasive Pretty Printing of R Code</pubtitle>.
+      URL:
+      <url href="https://github.com/r-lib/styler">https://github.com/r-lib/styler</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-svglite">
+      Wickham, H., Henry, L., and Pedersen, T. L. (2025).
+      <pubtitle>svglite: An SVG Graphics Device</pubtitle>.
+      URL:
+      <url href="https://svglite.r-lib.org">https://svglite.r-lib.org</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-tables">
+      Murdoch, D. (2025).
+      <pubtitle>tables: Formula-Driven Table Generation</pubtitle>.
+      URL:
+      <url href="https://dmurdoch.github.io/tables/">https://dmurdoch.github.io/tables/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-tangram">
+      Garbett, S. (2025).
+      <pubtitle>tangram: The Grammar of Tables</pubtitle>.
+      URL:
+      <url href="https://github.com/spgarbet/tangram">https://github.com/spgarbet/tangram</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-tikzDevice">
+      Sharpsteen, C., Bracken, C., and Stubner, R. (2023).
+      <pubtitle>tikzDevice: R Graphics Output in LaTeX Format</pubtitle>.
+      URL:
+      <url href="https://github.com/daqana/tikzDevice">https://github.com/daqana/tikzDevice</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-trackdown">
+      Kothe, E., Callegher, C. Z., and Gambarota, F. (2021).
+      <pubtitle>trackdown: Collaborative Editing of Rmd (or Rnw) Documents in Google Drive</pubtitle>.
+      URL:
+      <url href="https://github.com/claudiozandonella/trackdown/">https://github.com/claudiozandonella/trackdown/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-usethis">
+      Wickham, H., Bryan, J., and Barrett, M. (2025).
+      <pubtitle>usethis: Automate Package and Project Setup</pubtitle>.
+      URL:
+      <url href="https://usethis.r-lib.org">https://usethis.r-lib.org</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-webshot2">
+      Chang, W. (2025).
+      <pubtitle>webshot2: Take Screenshots of Web Pages</pubtitle>.
+      URL:
+      <url href="https://rstudio.github.io/webshot2/">https://rstudio.github.io/webshot2/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-workflowr">
+      Blischak, J., Carbonetto, P., and Stephens, M. (2025).
+      <pubtitle>workflowr: A Framework for Reproducible and Collaborative Data Science</pubtitle>.
+      URL:
+      <url href="https://workflowr.github.io/workflowr/">https://workflowr.github.io/workflowr/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-xaringan">
+      Xie, Y. (2025).
+      <pubtitle>xaringan: Presentation Ninja</pubtitle>.
+      URL:
+      <url href="https://github.com/yihui/xaringan">https://github.com/yihui/xaringan</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-xfun">
+      Xie, Y. (2026).
+      <pubtitle>xfun: Supporting Functions for Packages Maintained by Yihui Xie</pubtitle>.
+      URL:
+      <url href="https://github.com/yihui/xfun">https://github.com/yihui/xfun</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-xtable">
+      Dahl, D. B., Scott, D., and Roosen, C. (2026).
+      <pubtitle>xtable: Export Tables to LaTeX or HTML</pubtitle>.
+      URL:
+      <url href="http://xtable.r-forge.r-project.org/">http://xtable.r-forge.r-project.org/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-yaml">
+      Wickham, H., Stephens, J., and Simonov, K. (2025).
+      <pubtitle>yaml: Methods to Convert R Data to YAML and Back</pubtitle>.
+      URL:
+      <url href="https://yaml.r-lib.org">https://yaml.r-lib.org</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-ztable">
+      Moon, K. (2021).
+      <pubtitle>ztable: Zebra-Striped Tables in LaTeX and HTML Formats</pubtitle>.
+      URL:
+      <url href="https://github.com/cardiomoon/ztable">https://github.com/cardiomoon/ztable</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="workflowr2019">
+      Blischak, J. D., Carbonetto, P., and Stephens, M. (2019).
+      <pubtitle>Creating and sharing reproducible research code the workflowr way [version 1; peer review: 3 approved]</pubtitle>.
+      <em>F1000Research</em>. URL:
+      <url href="https://f1000research.com/articles/8-1749">https://f1000research.com/articles/8-1749</url>.
+    </biblio>
+
   </references>
 
   <index>

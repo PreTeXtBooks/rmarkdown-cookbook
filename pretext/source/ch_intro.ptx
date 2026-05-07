@@ -3,8 +3,8 @@
   <title>Installation</title>
 <introduction>
   <p>
-    To use R Markdown, you have to install R and the R package
-    <em>rmarkdown</em>.
+    To use R Markdown, you have to install R <cite key="R-base"/> and the R package
+    <em>rmarkdown</em> <cite key="R-rmarkdown"/>.
   </p>
 
   <program language="r">

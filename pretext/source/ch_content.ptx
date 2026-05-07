@@ -148,8 +148,7 @@ params:
       <c>rmarkdown::metadata$title</c> gives you the title of the
       document. You can use this <c>metadata</c> object in your R code, so
       that you do not need to hard-code information that has been provided
-      in the YAML metadata. For example, when you send an email with the
-      <em>blastula</em> package within an Rmd document, you may use the
+      in the YAML metadata. For example, when you send an email with the <em>blastula</em> package <cite key="R-blastula"/> within an Rmd document, you may use the
       title of the document as the email subject, and get the sender
       information from the author field:
     </p>
@@ -405,7 +404,7 @@ nocite: '@*'
       </p>
 
       <p>
-        We can improve this further by using the <em>bookdown</em> package,
+        We can improve this further by using the <em>bookdown</em> package <cite key="R-bookdown"/>,
         which allows you to insert a
         <url href="https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html#special-headers">special
         header</url>
@@ -537,7 +536,7 @@ knitr::write_bib(file = 'packages.bib')
     <p>
       We only introduced one way to generate R package citations above. To
       dynamically generate citations for other types of literature, you may
-      check out the <em>knitcitations</em> package.
+      check out the <em>knitcitations</em> package <cite key="R-knitcitations"/>.
     </p>
 
   </section>
@@ -1025,7 +1024,7 @@ Change my sorrow
     <title>Convert models to equations</title>
 
     <p>
-      The <em>equatiomatic</em> package
+      The <em>equatiomatic</em> package <cite key="R-equatiomatic"/>
       (<url href="https://github.com/datalorax/equatiomatic"/>) developed
       by Daniel Anderson et al. provides a convenient and automatic way to
       show the equations corresponding to models fitted in R. We show a
@@ -1062,7 +1061,7 @@ equatiomatic::extract_eq(fit, use_coefs = TRUE)
     <p>
       When you generate a series of plots in a code chunk, you can combine
       them into an animation. It is easy to do so if the output format is
-      HTML — you only need to install the <em>gifski</em> package and set
+      HTML — you only need to install the <em>gifski</em> package <cite key="R-gifski"/> and set
       the chunk option <c>animation.hook = "gifski"</c>. Below is a simple
       <q>Pac-man</q> animation created from the code chunk below:
     </p>
@@ -1094,10 +1093,9 @@ for (i in 1:2) {
     </p>
 
     <p>
-      The R package <em>animation</em> contains several animation examples
-      to illustrate methods and ideas in statistical computing. The
-      <em>gganimate</em> package allows us to create smooth animations
-      based on <em>ggplot2</em>. Both packages work with R Markdown.
+      The R package <em>animation</em> <cite key="R-animation"/> contains several animation examples
+      to illustrate methods and ideas in statistical computing. The <em>gganimate</em> package <cite key="R-gganimate"/> allows us to create smooth animations
+      based on <em>ggplot2</em> <cite key="R-ggplot2"/>. Both packages work with R Markdown.
     </p>
 
   </section>
@@ -1232,8 +1230,8 @@ DiagrammeR::grViz("
 
       <p>
         You may also check out these packages for creating diagrams:
-        <em>nomnoml</em>, <em>diagram</em>, <em>dagitty</em>,
-        <em>ggdag</em>, and <em>plantuml</em>
+        <em>nomnoml</em> <cite key="R-nomnoml"/>, <em>diagram</em> <cite key="R-diagram"/>, <em>dagitty</em> <cite key="R-dagitty"/>,
+        <em>ggdag</em> <cite key="R-ggdag"/>, and <em>plantuml</em>
         (<url href="https://github.com/rkrug/plantuml"/>).
       </p>
 
@@ -1537,13 +1535,13 @@ gsub('^##', '#', readLines('ast.md'))
       </li>
       <li>
         <p>
-          The <em>pagedown</em> package contains filters that help
+          The <em>pagedown</em> package <cite key="R-pagedown"/> contains filters that help
           implement footnotes and the list of figures on HTML pages.
         </p>
       </li>
       <li>
         <p>
-          The <em>govdown</em> package contains filters to convert
+          The <em>govdown</em> package <cite key="R-govdown"/> contains filters to convert
           Pandoc's fenced <c>Div</c>s to appropriate HTML tags.
         </p>
       </li>

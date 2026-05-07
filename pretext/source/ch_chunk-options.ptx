@@ -516,8 +516,7 @@ for (i in 1:5) warning('Here is the warning ', i)
 
     <p>
       When you set the chunk option <c>tidy = TRUE</c>, the R source code will be
-      reformatted by the <c>tidy_source()</c> function in the <em>formatR</em>
-      package. The <c>tidy_source()</c> can reformat the code in several aspects,
+      reformatted by the <c>tidy_source()</c> function in the <em>formatR</em> package <cite key="R-formatR"/>. The <c>tidy_source()</c> can reformat the code in several aspects,
       such as adding spaces around most operators, indenting the code properly, and
       replacing the assignment operator <c>=</c> with <c>&lt;-</c>. The chunk
       option <c>tidy.opts</c> can be a list of arguments to be passed to
@@ -560,7 +559,7 @@ print('Hello world!') # indent by 2 spaces
     </p>
 
     <p>
-      Alternatively, you may use the <em>styler</em> package to reformat your R
+      Alternatively, you may use the <em>styler</em> package <cite key="R-styler"/> to reformat your R
       code if you set the chunk option <c>tidy = 'styler'</c>. The R code will be
       formatted with the function <c>styler::style_text()</c>. The <em>styler</em>
       package has richer features than <em>formatR</em>. For example, it can
@@ -967,8 +966,7 @@ lines of output
     </p>
 
     <p>
-      Below we show an example of adding an R logo to a plot using the
-      <em>magick</em> package. First, we define a function <c>add_logo()</c>:
+      Below we show an example of adding an R logo to a plot using the <em>magick</em> package <cite key="R-magick"/>. First, we define a function <c>add_logo()</c>:
     </p>
 
     <program language="r">
@@ -1052,8 +1050,7 @@ pdf2png = function(path) {
       device, which is included in base R. Note that the <c>quartz_XXX</c> devices
       are based on the <c>quartz()</c> function, and they are only available on
       macOS. The <c>CairoXXX</c> devices are from the add-on R package
-      <em>Cairo</em>, the <c>svglite</c> device is from the <em>svglite</em>
-      package, and <c>tikz</c> is a device in the <em>tikzDevice</em> package. If
+      <em>Cairo</em> <cite key="R-Cairo"/>, the <c>svglite</c> device is from the <em>svglite</em> package <cite key="R-svglite"/>, and <c>tikz</c> is a device in the <em>tikzDevice</em> package <cite key="R-tikzDevice"/>. If
       you want to use devices from an add-on package, you have to install the
       package first.
     </p>
@@ -1225,7 +1222,7 @@ vignette('knit_print', package = 'knitr')
     </program>
 
     <p>
-      The <em>printr</em> package has provided a few S3 methods to automatically
+      The <em>printr</em> package <cite key="R-printr"/> has provided a few S3 methods to automatically
       print R objects as tables if possible. All you need is
       <c>library(printr)</c> in an R code chunk, and all methods will be
       automatically registered.

@@ -245,7 +245,7 @@ knitr::opts_chunk$set(class.source='watch-out')
 
     <p>
       If you want to decorate individual elements in code blocks instead of
-      the whole blocks, you may consider using the <em>flair</em> package.
+      the whole blocks, you may consider using the <em>flair</em> package <cite key="R-flair"/>.
       With this package, you can highlight different parts of your code
       (such as fixed strings, function names, and arguments) with custom
       styles (e.g., color, font size, and/or font weight).
@@ -634,7 +634,7 @@ output:
       Rmd source document in the HTML output file. Sometimes the Rmd source
       file alone may not be enough to reproduce the report. For example, the
       report may need an external data file. There is a series of functions
-      in the <em>xfun</em> package that enable you to embed arbitrary files
+      in the <em>xfun</em> package <cite key="R-xfun"/> that enable you to embed arbitrary files
       in the HTML output file. To use these functions, make sure you have
       the following R packages available:
     </p>
@@ -688,7 +688,7 @@ xfun::embed_files(list.files('.', '[.](Rmd|csv)$'))
       You can learn more technical details behind these functions from the
       help page <c>?xfun::embed_file</c> or the blog post at
       <url href="https://yihui.org/en/2018/07/embed-file/"/>. Based on the
-      same idea, the <em>downloadthis</em> package has implemented download
+      same idea, the <em>downloadthis</em> package <cite key="R-downloadthis"/> has implemented download
       buttons, so that users can click buttons to download files instead of
       links. If you prefer using buttons, you may consider using this
       package.
@@ -972,7 +972,7 @@ output:
       for its specific layout, you may use a service such as
       <url href="https://realfavicongenerator.net"/> to generate a set of
       favicons and a slightly more complex version of the header HTML code.
-      This service is currently used by the <em>pkgdown</em> package's
+      This service is currently used by the <em>pkgdown</em> package's <cite key="R-pkgdown"/>
       <c>pkgdown::build_favicon()</c> function to make a set of favicons
       out of R package logos.
     </p>
@@ -1089,7 +1089,7 @@ document.querySelectorAll('pre:not([class])');
         RStudio offers a number of services for publishing various types of
         content created in R Markdown to the Internet. These services make
         it particularly easy to publish content by using the RStudio IDE or
-        the <em>rsconnect</em> package.
+        the <em>rsconnect</em> package <cite key="R-rsconnect"/>.
       </p>
 
       <ul>
