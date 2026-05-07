@@ -102,35 +102,35 @@ def split_rmd(text: str) -> tuple[str, list[str]]:
     lines = text.splitlines()
     prose_lines: list[str] = []
     code_blocks: list[str] = []
-    i = 0
+    line_index = 0
 
     if lines and lines[0].strip() == "---":
-        i = 1
-        while i < len(lines) and lines[i].strip() != "---":
-            i += 1
-        if i < len(lines):
-            i += 1
+        line_index = 1
+        while line_index < len(lines) and lines[line_index].strip() != "---":
+            line_index += 1
+        if line_index < len(lines):
+            line_index += 1
 
-    while i < len(lines):
-        line = lines[i]
+    while line_index < len(lines):
+        line = lines[line_index]
 
         match = re.match(r"^\s*([`~]{3,})(.*)$", line)
         if match:
             fence = match.group(1)
             fence_char = fence[0]
             fence_length = len(fence)
-            code_lines: list[str] = []
-            i += 1
-            while i < len(lines):
-                stripped = lines[i].strip()
+            block_lines: list[str] = []
+            line_index += 1
+            while line_index < len(lines):
+                stripped = lines[line_index].strip()
                 if stripped and set(stripped) == {fence_char} and len(stripped) >= fence_length:
                     break
-                code_lines.append(lines[i])
-                i += 1
-            code_blocks.append("\n".join(code_lines))
+                block_lines.append(lines[line_index])
+                line_index += 1
+            code_blocks.append("\n".join(block_lines))
         else:
             prose_lines.append(line)
-        i += 1
+        line_index += 1
 
     return "\n".join(prose_lines), code_blocks
 
@@ -202,7 +202,7 @@ def check_chapter(repo_root: Path, rmd_path: str, ptx_path: str) -> list[str]:
     root = parse_xml(ptx_full_path)
 
     prose_recall = calculate_token_recall(tokenize(prose), tokenize(ptx_text))
-    titles = extract_ptx_titles(root)
+    titles = set(extract_ptx_titles(root))
     headings = extract_rmd_headings(prose)
     matched_headings = sum(1 for heading in headings if heading in titles)
     heading_recall = 1.0 if not headings else matched_headings / len(headings)
