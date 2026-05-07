@@ -35,6 +35,10 @@ jobs:
       - name: Install PreTeXt CLI
         run: |
           pip install pretext
+
+      - name: Check PTX consistency against the R Markdown source
+        run: |
+          python3 check_ptx_consistency.py
           
       - name: Install ImageMagick for image conversion
         run: |

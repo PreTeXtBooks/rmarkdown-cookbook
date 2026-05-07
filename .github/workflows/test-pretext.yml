@@ -28,6 +28,10 @@ jobs:
         run: |
           pip install -r pretext/requirements.txt
 
+      - name: Check PTX consistency against the R Markdown source
+        run: |
+          python3 check_ptx_consistency.py
+
       - name: Build PreTeXt book (HTML)
         run: |
           cd pretext
