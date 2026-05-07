@@ -215,6 +215,11 @@ print(1 + 1)
     <title>Run Python code and interact with Python</title>
 
     <p>
+      We know you love Python, so let's make it super clear: R Markdown and
+      <em>knitr</em> do support Python.
+    </p>
+
+    <p>
       To add a Python code chunk to an R Markdown document, you can use the
       chunk header <c>```{python}</c>, e.g.,
     </p>
