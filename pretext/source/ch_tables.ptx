@@ -485,8 +485,51 @@ for (i in 1:3) {
       <p>
         Without the separators, Pandoc may fail to detect the individual
         elements. For example, when a plot is followed immediately by a
-        table, the table will not be recognized.
+        table, the table will not be recognized:
       </p>
+
+      <program language="md">
+        <input>
+![](logo.png)
+                      mpg   cyl   disp    hp
+------------------  -----  ----  -----  ----
+Mazda RX4            21.0     6    160   110
+Mazda RX4 Wag        21.0     6    160   110
+        </input>
+      </program>
+
+      <p>
+        But it will be if there is a clear separation like this (note that we
+        added an empty line below the image):
+      </p>
+
+      <program language="md">
+        <input>
+![](logo.png)
+
+                      mpg   cyl   disp    hp
+------------------  -----  ----  -----  ----
+Mazda RX4            21.0     6    160   110
+Mazda RX4 Wag        21.0     6    160   110
+        </input>
+      </program>
+
+      <p>
+        or
+      </p>
+
+      <program language="md">
+        <input>
+![](logo.png)
+
+&lt;!-- --&gt;
+
+                      mpg   cyl   disp    hp
+------------------  -----  ----  -----  ----
+Mazda RX4            21.0     6    160   110
+Mazda RX4 Wag        21.0     6    160   110
+        </input>
+      </program>
     </subsection>
 
     <subsection xml:id="kable-latex">
