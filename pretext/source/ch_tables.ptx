@@ -947,10 +947,13 @@ tab %>%
         for more information: <url href="https://github.com/rstudio/DT"/>.</p></li>
 
       <li><p><em>reactable</em>: Similar to <em>DT</em>, this package also
-        creates interactive tables based on a JavaScript library with features
-        like row grouping and aggregation, and embedding HTML widgets.
-        Documentation is available at
-        <url href="https://glin.github.io/reactable/"/>.</p></li>
+        creates interactive tables based on a JavaScript library. Frankly
+        speaking, it looks better than <em>DT</em> in several aspects in my eyes
+        (such as row grouping and aggregation, and embedding HTML widgets). Had
+        <em>reactable</em> existed in 2015, I would not have developed <em>DT</em>.
+        That said, <em>reactable</em> does not contain all the features of
+        <em>DT</em>, so you may read its documentation and see which one fits your
+        purpose better: <url href="https://glin.github.io/reactable/"/>.</p></li>
 
       <li><p><em>rhandsontable</em>: Also similar to <em>DT</em>, and has an
         Excel feel (e.g., you can edit data directly in the table). Visit
@@ -973,9 +976,9 @@ tab %>%
     </ul>
 
     <p>
-      Other packages worth mentioning include <em>tables</em>,
-      <em>pander</em>, <em>tangram</em>, <em>ztable</em>, and
-      <em>condformat</em>.
+      I'm not going to introduce the rest of packages, but will just list them
+      here: <em>tables</em>, <em>pander</em>, <em>tangram</em>, <em>ztable</em>,
+      and <em>condformat</em>.
     </p>
   </section>
 

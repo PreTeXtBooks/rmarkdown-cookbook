@@ -941,6 +941,14 @@ mean(x)
     </input></program>
 
     <p>
+      Actually, <em>knitr</em> caching is quite powerful and flexible, and its
+      behavior can be tweaked in many ways. As its author, I often doubt if it is
+      worth introducing these lesser-known features, because you may end up spending
+      much more time on learning and understanding how the cache works than the time
+      the actual computing takes.
+    </p>
+
+    <p>
       In case it is not clear, <c>xfun::cache_rds()</c> is a general way for
       caching the computing, and it works anywhere, whereas <em>knitr</em>'s
       caching only works in <em>knitr</em> documents.
