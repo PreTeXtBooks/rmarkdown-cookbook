@@ -90,9 +90,12 @@ STOP_WORDS = {
     "your",
 }
 
+# These thresholds are set from the current converted book so the check catches
+# substantial drift without failing on expected markup differences between Rmd and PTX.
 PROSE_RECALL_THRESHOLD = 0.85
 HEADING_RECALL_THRESHOLD = 0.75
 MIN_REFERENCE_ENTRIES = 5
+MIN_TOKEN_LENGTH = 3
 
 
 def split_rmd(text: str) -> tuple[str, list[str]]:
@@ -154,10 +157,10 @@ def normalize_inline(text: str) -> str:
 
 def tokenize(text: str) -> Counter[str]:
     words = normalize_inline(text).split()
-    return Counter(word for word in words if len(word) > 2 and word not in STOP_WORDS)
+    return Counter(word for word in words if len(word) >= MIN_TOKEN_LENGTH and word not in STOP_WORDS)
 
 
-def recall(expected: Counter[str], actual: Counter[str]) -> float:
+def calculate_token_recall(expected: Counter[str], actual: Counter[str]) -> float:
     total = sum(expected.values())
     if total == 0:
         return 1.0
@@ -198,7 +201,7 @@ def check_chapter(repo_root: Path, rmd_path: str, ptx_path: str) -> list[str]:
     ptx_text = ptx_full_path.read_text(encoding="utf-8")
     root = parse_xml(ptx_full_path)
 
-    prose_recall = recall(tokenize(prose), tokenize(ptx_text))
+    prose_recall = calculate_token_recall(tokenize(prose), tokenize(ptx_text))
     titles = extract_ptx_titles(root)
     headings = extract_rmd_headings(prose)
     matched_headings = sum(1 for heading in headings if heading in titles)
