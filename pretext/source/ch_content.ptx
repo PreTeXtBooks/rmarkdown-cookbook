@@ -534,6 +534,12 @@ knitr::write_bib(file = 'packages.bib')
       be manually written to <c>references.bib</c>.
     </p>
 
+    <p>
+      We only introduced one way to generate R package citations above. To
+      dynamically generate citations for other types of literature, you may
+      check out the <em>knitcitations</em> package.
+    </p>
+
   </section>
 
   <section xml:id="cross-ref">
@@ -643,6 +649,65 @@ date: "`r format(Sys.time(), '%d %B, %Y')`"
       <li><p><c>%d/%m/%y</c>: day/month/two-digit year</p></li>
       <li><p><c>%a/%d/%b</c>: abbreviated weekday/day/abbreviated month</p></li>
     </ul>
+
+    <p>
+      A full table of POSIXct formats is shown in
+      <xref ref="tab-date-format"/>.
+    </p>
+
+    <table xml:id="tab-date-format">
+      <title>Date and time formats in R.</title>
+      <tabular>
+        <row header="yes">
+          <cell>Code</cell><cell>Meaning</cell>
+          <cell>Code</cell><cell>Meaning</cell>
+        </row>
+        <row>
+          <cell><c>%a</c></cell><cell>Abbreviated weekday</cell>
+          <cell><c>%A</c></cell><cell>Full weekday</cell>
+        </row>
+        <row>
+          <cell><c>%b</c></cell><cell>Abbreviated month</cell>
+          <cell><c>%B</c></cell><cell>Full month</cell>
+        </row>
+        <row>
+          <cell><c>%c</c></cell><cell>Locale-specific date and time</cell>
+          <cell><c>%d</c></cell><cell>Decimal date</cell>
+        </row>
+        <row>
+          <cell><c>%H</c></cell><cell>Decimal hours (24 hour)</cell>
+          <cell><c>%I</c></cell><cell>Decimal hours (12 hour)</cell>
+        </row>
+        <row>
+          <cell><c>%j</c></cell><cell>Decimal day of the year</cell>
+          <cell><c>%m</c></cell><cell>Decimal month</cell>
+        </row>
+        <row>
+          <cell><c>%M</c></cell><cell>Decimal minute</cell>
+          <cell><c>%p</c></cell><cell>Locale-specific AM/PM</cell>
+        </row>
+        <row>
+          <cell><c>%S</c></cell><cell>Decimal second</cell>
+          <cell><c>%U</c></cell><cell>Decimal week of the year (starting on Sunday)</cell>
+        </row>
+        <row>
+          <cell><c>%w</c></cell><cell>Decimal Weekday (0=Sunday)</cell>
+          <cell><c>%W</c></cell><cell>Decimal week of the year (starting on Monday)</cell>
+        </row>
+        <row>
+          <cell><c>%x</c></cell><cell>Locale-specific Date</cell>
+          <cell><c>%X</c></cell><cell>Locale-specific Time</cell>
+        </row>
+        <row>
+          <cell><c>%y</c></cell><cell>2-digit year</cell>
+          <cell><c>%Y</c></cell><cell>4-digit year</cell>
+        </row>
+        <row>
+          <cell><c>%z</c></cell><cell>Offset from GMT</cell>
+          <cell><c>%Z</c></cell><cell>Time zone (character)</cell>
+        </row>
+      </tabular>
+    </table>
 
     <p>
       As a final note, you may also want to include some explanatory text
