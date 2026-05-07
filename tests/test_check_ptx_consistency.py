@@ -78,7 +78,10 @@ class ChapterCheckTests(unittest.TestCase):
 
             errors = check_ptx_consistency.check_chapter(root, "chapter.Rmd", "chapter.ptx")
 
-            self.assertTrue(any("heading recall" in error for error in errors))
+            self.assertTrue(
+                any("heading recall" in error for error in errors),
+                "Expected a heading recall error but none was found",
+            )
 
 
 if __name__ == "__main__":

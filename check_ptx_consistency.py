@@ -134,7 +134,10 @@ def split_rmd(text: str) -> tuple[str, list[str]]:
 
 def normalize_inline(text: str) -> str:
     text = html.unescape(text)
-    text = text.lower().replace(LEFT_DOUBLE_QUOTE, '"').replace(RIGHT_DOUBLE_QUOTE, '"').replace(RIGHT_SINGLE_QUOTE, "'")
+    text = text.lower()
+    text = text.replace(LEFT_DOUBLE_QUOTE, '"')
+    text = text.replace(RIGHT_DOUBLE_QUOTE, '"')
+    text = text.replace(RIGHT_SINGLE_QUOTE, "'")
     text = re.sub(r"`([^`]*)`", lambda m: m.group(1), text)
     text = re.sub(r"!\[[^\]]*\]\([^)]+\)", " IMG ", text)
     text = re.sub(r"\[([^\]]+)\]\([^)]+\)", lambda m: f" {m.group(1)} ", text)
@@ -171,7 +174,10 @@ def extract_rmd_headings(prose: str) -> list[str]:
 
 
 def parse_xml(path: Path) -> ET.Element:
-    return ET.fromstring(path.read_text(encoding="utf-8"))
+    try:
+        return ET.fromstring(path.read_text(encoding="utf-8"))
+    except ET.ParseError as exc:
+        raise ValueError(f"Failed to parse XML in {path}") from exc
 
 
 def extract_ptx_titles(root: ET.Element) -> list[str]:
