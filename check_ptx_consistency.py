@@ -119,8 +119,8 @@ def split_rmd(text: str) -> tuple[str, list[str]]:
             code_lines: list[str] = []
             i += 1
             while i < len(lines):
-                closing = re.match(rf"^\s*{re.escape(fence_char)}{{{fence_length},}}\s*$", lines[i])
-                if closing:
+                stripped = lines[i].strip()
+                if stripped and set(stripped) == {fence_char} and len(stripped) >= fence_length:
                     break
                 code_lines.append(lines[i])
                 i += 1
@@ -195,7 +195,8 @@ def check_chapter(repo_root: Path, rmd_path: str, ptx_path: str) -> list[str]:
     prose_recall = recall(tokenize(prose), tokenize(ptx_text))
     titles = extract_ptx_titles(root)
     headings = extract_rmd_headings(prose)
-    heading_recall = 1.0 if not headings else sum(heading in titles for heading in headings) / len(headings)
+    matched_headings = sum(1 for heading in headings if heading in titles)
+    heading_recall = 1.0 if not headings else matched_headings / len(headings)
 
     errors = []
     if prose_recall < PROSE_RECALL_THRESHOLD:
