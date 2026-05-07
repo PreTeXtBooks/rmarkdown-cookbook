@@ -165,9 +165,7 @@ Sys.which('pdfcrop')
     <p>
       For non-PDF plot files such as PNG or JPEG files, this hook function calls
       the R package <em>magick</em> for cropping. You need to make sure this R
-      package has been installed. <xref ref="fig-crop-no"/> shows a plot that is
-      not cropped, and <xref ref="fig-crop-yes"/> shows the same plot but has been
-      cropped.
+      package has been installed.
     </p>
 
   </section>
