@@ -745,11 +745,22 @@ plot(iris[, -5])
     </program>
 
     <p>
+      In the above example, the outside <c>Div</c> (<c>::::</c>) contains
+      two <c>Div</c>s (<c>:::</c>). You can certainly add more
+      <c>Div</c>s inside.
+    </p>
+
+    <p>
       To learn more about the very powerful CSS attribute
       <c>display: flex;</c> (CSS Flexbox), you may read the guide at
       <url href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/"/>.
       The CSS Grid (<c>display: grid;</c>) is also very powerful and can
-      be used in the above example, too.
+      be used in the above example, too. If you want to try it, you may
+      change <c>display: flex;</c> to
+      <c>display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 10px;</c>.
+      See the guide at
+      <url href="https://css-tricks.com/snippets/css/complete-guide-grid/"/>
+      if you want to learn more about the grid layout.
     </p>
 
     <p>
@@ -821,6 +832,15 @@ The figure on the left-hand side shows the `cars` data.
     </p>
 
     <p>
+      The <c>col</c> environment is particularly complicated mainly because
+      Pandoc starts a new paragraph for each <c>Div</c> in LaTeX output,
+      and we have to remove these new paragraphs. Otherwise, the
+      <c>Div</c>s cannot be placed side by side. The hacks were borrowed
+      from <url href="https://tex.stackexchange.com/q/179016/9128"/>.
+    </p>
+
+    <p>
+      For Beamer output, we apply the same hacks in <c>columns.tex</c>.
       Please note that Pandoc has provided some special <c>Div</c>'s for
       <url href="https://pandoc.org/MANUAL.html#producing-slide-shows-with-pandoc">slide
       shows</url>, such as <c>::: {.columns}</c>, <c>::: {.column}</c>,

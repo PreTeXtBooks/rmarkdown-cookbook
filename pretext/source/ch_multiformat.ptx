@@ -322,11 +322,12 @@ knitr::pandoc_to()
     <title>Custom blocks</title>
 
     <p>
-      Custom blocks in R Markdown allow you to customize the appearance of
-      blocks of content. This can be a useful way to make some content
-      stand out from your report or book, to make sure that your readers
-      take away the key points from your work. Examples of how these blocks
-      could be used include:
+      <url href="https://bookdown.org/yihui/bookdown/custom-blocks.html">Section 2.7</url>
+      of the <em>bookdown</em> book mentioned how we can use custom blocks
+      in R Markdown to customize the appearance of blocks of content. This
+      can be a useful way to make some content stand out from your report or
+      book, to make sure that your readers take away the key points from your
+      work. Examples of how these blocks could be used include:
     </p>
 
     <ul>
@@ -551,8 +552,9 @@ output:
         will need more sophisticated LaTeX packages such as
         <em>tcolorbox</em> (<url href="https://ctan.org/pkg/tcolorbox"/>),
         which offers a set of very flexible options for creating shaded
-        boxes. The LaTeX environment below will create a shaded box of
-        similar appearance to the above CSS example:
+        boxes. You can find many examples in its documentation. The LaTeX
+        environment below will create a shaded box of similar appearance to
+        the above CSS example:
       </p>
 
       <program language="latex">
@@ -586,6 +588,16 @@ been noted, and _will be reported to the authorities_!
         </input>
       </program>
 
+      <p>The output is:</p>
+
+      <note>
+        <p><em>NOTICE!</em></p>
+        <p>
+          Thank you for noticing this <em>new notice</em>! Your noticing it has
+          been noted, and <em>will be reported to the authorities</em>!
+        </p>
+      </note>
+
     </subsection>
 
     <subsection xml:id="block-image">
@@ -612,8 +624,8 @@ directory/
       </program>
 
       <p>
-        We show the source code of the example before we explain how
-        everything works:
+        We show the source code and output of the example before we explain
+        how everything works:
       </p>
 
       <program language="md">
@@ -626,6 +638,16 @@ been noted, and _will be reported to the authorities_!
 :::
         </input>
       </program>
+
+      <p>The output is:</p>
+
+      <note>
+        <p><em>NOTICE!</em></p>
+        <p>
+          Thank you for noticing this <em>new notice</em>! Your noticing it has
+          been noted, and <em>will be reported to the authorities</em>!
+        </p>
+      </note>
 
       <p>
         For the HTML output, we can add an image to the box through the
@@ -712,6 +734,10 @@ Include the actual content here.
   }
         </input>
       </program>
+
+      <p>
+        Below we show more example blocks with different icons:
+      </p>
 
       <p>
         Alternatively, you may use the LaTeX package
