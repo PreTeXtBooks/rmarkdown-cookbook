@@ -3,9 +3,551 @@
   <title>Conceptual Overview</title>
 
   <p>
-    This chapter is a skeleton to be filled in. It will provide a conceptual
-    overview of R Markdown, explaining how documents are transformed from plain
-    text and the key levers available to customize output.
+    The goal of this text is to showcase many tips and tricks for getting the
+    most value from R Markdown. The following chapters demonstrate techniques
+    to write more efficient and succinct code and to customize your output.
+    Before we begin, it may be helpful to learn just a bit more about how
+    R Markdown works, to help you to understand, remember, apply, and
+    <q>remix</q> these tricks. In this section, we provide a brief overview
+    of the process of knitting a document and the <q>key levers to pull</q>
+    to change the output. This material is not necessary to understand the
+    subsequent chapters (so feel free to skip ahead!), but it may help you
+    to build a richer mental model for how all the pieces fit together.
   </p>
+
+  <section xml:id="rmarkdown-process">
+    <title>What happens when we render?</title>
+
+    <p>
+      R Markdown combines several different processes together to create
+      documents, and one of the main sources of confusion from R Markdown is
+      how all the components work together.<fn>Allison Horst has created an
+      amusing artwork that describes the R Markdown process as wizardry:
+      <url href="https://github.com/allisonhorst/stats-illustrations/raw/master/rstats-artwork/rmarkdown_wizards.png"/>. As a matter of fact,
+      the cover image of this book was adapted from this artwork.</fn>
+      Fortunately, as a user, it is not essential to understand all the inner
+      workings of these processes to be able to create documents. However, as
+      a user who may be seeking to alter the behavior of a document, it is
+      important to understand which component is responsible for what. This
+      makes it a lot easier to seek help as you can target your searches on
+      the correct area.
+    </p>
+
+    <p>
+      The basic workflow structure for an R Markdown document is shown in
+      <xref ref="fig-rmdworkflow"/>, highlighting the steps (arrows) and the
+      intermediate files that are created before producing the output. The
+      whole process is implemented via the function
+      <c>rmarkdown::render()</c>. Each stage is explained in further detail
+      below.
+    </p>
+
+    <figure xml:id="fig-rmdworkflow">
+      <caption>A diagram illustrating how an R Markdown document is
+      converted to the final output document.</caption>
+      <image source="external/images/workflow.png" width="100%">
+        <description>A diagram illustrating how an R Markdown document is
+        converted to the final output document.</description>
+      </image>
+    </figure>
+
+    <p>
+      The <c>.Rmd</c> document is the original format of the document. It
+      contains a combination of YAML (metadata), text (narratives), and code
+      chunks.
+    </p>
+
+    <p>
+      First, the <c>knit()</c> function in <em>knitr</em> is used to execute
+      all code embedded within the <c>.Rmd</c> file, and prepare the code
+      output to be displayed within the output document. All these results are
+      converted into the correct markup language to be contained within the
+      temporary <c>.md</c> file.
+    </p>
+
+    <p>
+      Then the <c>.md</c> file is processed by Pandoc, a multipurpose tool
+      designed to convert files from one markup language to another. It takes
+      any parameters specified within the YAML frontmatter of the document
+      (e.g., <c>title</c>, <c>author</c>, and <c>date</c>) to convert the
+      document to the output format specified in the <c>output</c> parameter
+      (such as <c>html_document</c> for HTML output).
+    </p>
+
+    <p>
+      If the output format is PDF, there is an additional layer of processing,
+      as Pandoc will convert the intermediate <c>.md</c> file into an
+      intermediate <c>.tex</c> file. This file is then processed by LaTeX to
+      form the final PDF document. As we mentioned in
+      <xref ref="install-latex"/>, the <em>rmarkdown</em> package calls the
+      <c>latexmk()</c> function in the <em>tinytex</em> package, which in
+      turn calls LaTeX to compile <c>.tex</c> to <c>.pdf</c>.
+    </p>
+
+    <p>
+      In short, <c>rmarkdown::render()</c> = <c>knitr::knit()</c> + Pandoc
+      (+ LaTeX for PDF output only).
+    </p>
+
+    <p>
+      Robin Linacre has written a nice summary of the relationship between
+      R Markdown, <em>knitr</em>, and Pandoc at
+      <url href="https://stackoverflow.com/q/40563479/559676"/>, which
+      contains more technical details than the above overview.
+    </p>
+
+    <p>
+      Note that not all R Markdown documents are eventually compiled through
+      Pandoc. The intermediate <c>.md</c> file could be compiled by other
+      Markdown renderers. Below are two examples:
+    </p>
+
+    <ul>
+      <li>
+        <p>
+          The <em>xaringan</em> package passes the <c>.md</c> output to a
+          JavaScript library, which renders the Markdown content in the web
+          browser.
+        </p>
+      </li>
+      <li>
+        <p>
+          The <em>blogdown</em> package supports the <c>.Rmarkdown</c>
+          document format, which is knitted to <c>.markdown</c>, and this
+          Markdown document is usually rendered to HTML by an external site
+          generator.
+        </p>
+      </li>
+    </ul>
+  </section>
+
+  <section xml:id="rmarkdown-anatomy">
+    <title>R Markdown anatomy</title>
+
+    <p>
+      We can dig one level deeper by considering the different components of
+      an R Markdown. Specifically, let's look at when and how these are
+      altered during the rendering workflow.
+    </p>
+
+    <subsection xml:id="yaml-metadata">
+      <title>YAML metadata</title>
+
+      <p>
+        The YAML metadata (also called the YAML header) is processed in many
+        stages of the rendering process and can influence the final document
+        in many different ways. It is placed at the very beginning of the
+        document and is read by each of Pandoc, <em>rmarkdown</em>, and
+        <em>knitr</em>. Along the way, the information that it contains can
+        affect the code, content, and the rendering process.
+      </p>
+
+      <p>
+        A typical YAML header looks like this, and contains basic metadata
+        about the document and rendering instructions:
+      </p>
+
+      <program language="yaml">
+        <input>
+---
+title: My R Markdown Report
+author: Yihui Xie
+output: html_document
+---
+        </input>
+      </program>
+
+      <p>
+        In this case, the <c>title</c> and <c>author</c> fields are processed
+        by Pandoc to set the values of template variables. With the default
+        template, the title and author information will appear at the
+        beginning of the resulting document. More details on how Pandoc uses
+        information from the YAML header are included in the Pandoc manual's
+        section on the
+        <url href="https://pandoc.org/MANUAL.html#extension-yaml_metadata_block">YAML
+        metadata block.</url>
+      </p>
+
+      <p>
+        In contrast, the <c>output</c> field is used by <em>rmarkdown</em> to
+        apply the output format function <c>rmarkdown::html_document()</c> in
+        the rendering process. We can further influence the rendering process
+        by passing arguments to the output format that we are specifying in
+        <c>output</c>. For example, writing:
+      </p>
+
+      <program language="yaml">
+        <input>
+output:
+  html_document:
+    toc: true
+    toc_float: true
+        </input>
+      </program>
+
+      <p>
+        is the equivalent of telling <c>rmarkdown::render()</c> to apply the
+        output format
+        <c>rmarkdown::html_document(toc = TRUE, toc_float = TRUE)</c>. To
+        find out what these options do, and to learn about other possible
+        options, you may run <c>?rmarkdown::html_document</c> in your R
+        console and read the help page. Note that <c>output: html_document</c>
+        is equivalent to <c>output: rmarkdown::html_document</c>. When an
+        output format does not have a qualifier like <c>rmarkdown::</c>, it is
+        assumed that it is from the <em>rmarkdown</em> package, otherwise it
+        must be prefixed with the R package name, e.g.,
+        <c>bookdown::html_document2</c>.
+      </p>
+
+      <p>
+        The YAML header can also influence our content and code if we choose
+        to use parameters in YAML, as described in
+        <xref ref="parameterized-reports"/>. In short, we can include
+        variables and R expressions in this header that can be referenced
+        throughout our R Markdown document. For example, the following header
+        defines <c>start_date</c> and <c>end_date</c> parameters, which will
+        be reflected in a list called <c>params</c> later in the R Markdown
+        document. Thus, if we want to use these values in our R code, we can
+        access them via <c>params$start_date</c> and <c>params$end_date</c>.
+      </p>
+
+      <program language="yaml">
+        <input>
+---
+title: My R Markdown
+author: Yihui Xie
+output: html_document
+params:
+  start_date: '2020-01-01'
+  end_date: '2020-06-01'
+---
+        </input>
+      </program>
+    </subsection>
+
+    <subsection xml:id="narrative">
+      <title>Narrative</title>
+
+      <p>
+        The narrative textual elements of R Markdown may be simpler to
+        understand than the YAML metadata and code chunks. Typically, this
+        will feel quite a bit like writing in a text editor. However, this
+        Markdown content can be more powerful and interesting than simple
+        text<mdash/>both in how its content is made, and how the document
+        structure is made from it.
+      </p>
+
+      <p>
+        While much of our narrative is human-written, many R Markdown
+        documents will likely wish to reference the code and analysis being
+        used. For this reason, <xref ref="ch-content"/> demonstrates the many
+        ways that code can help generate parts of the text, such as combining
+        words into a list (<xref ref="combine-words"/>) or writing a
+        bibliography (<xref ref="bibliography"/>). This conversion is handled
+        by <em>knitr</em> as we convert from <c>.Rmd</c> to <c>.md</c>.
+      </p>
+
+      <p>
+        Our Markdown text can also provide structure to the document. While we
+        do not have enough space here to review the Markdown syntax,<fn>Instead,
+        for a review of the Markdown syntax, please see
+        <url href="https://bookdown.org/yihui/bookdown/markdown-syntax.html"/>.</fn>
+        one particularly relevant concept is section headers, which are
+        denoted by one or more hashes (<c>#</c>) corresponding to different
+        levels, e.g.,
+      </p>
+
+      <program language="md">
+        <input>
+# First-level header
+
+## Second-level header
+
+### Third-level header
+        </input>
+      </program>
+
+      <p>
+        These headers give structure to our entire document as
+        <em>rmarkdown</em> converts the <c>.md</c> to our final output
+        format. This structure is useful for referencing and formatting these
+        sections by appending certain attributes to them. To create such
+        references, Pandoc syntax allows us to provide a unique identifier by
+        following the header notation with <c>{#id}</c>, or attach one or
+        more classes to a section with <c>{.class-name}</c>, e.g.,
+      </p>
+
+      <program language="md">
+        <input>
+## Second-level header {#introduction .important .large}
+        </input>
+      </program>
+
+      <p>
+        We can then access this section with many of the tools that you will
+        learn, e.g., by referencing it with its ID or class. As examples,
+        <xref ref="cross-ref"/> demonstrates how to use the section ID to
+        make cross-references throughout your document, and
+        <xref ref="html-tabs"/> introduces the <c>.tabset</c> class to help
+        reorganize subsections.
+      </p>
+
+      <p>
+        The final interesting type of content that we might find in the
+        textual part of our R Markdown is raw content written specifically for
+        our desired output format, e.g., raw LaTeX code for LaTeX output
+        (<xref ref="raw-latex"/>), raw HTML code for HTML output, and so on
+        (<xref ref="raw-content"/>). Raw content may help you achieve things
+        that cannot be done with plain Markdown, but please keep in mind that
+        it is usually ignored when the output format is a different format,
+        e.g., raw LaTeX commands in Markdown will be ignored when the output
+        format is HTML.
+      </p>
+    </subsection>
+
+    <subsection xml:id="code-chunks">
+      <title>Code chunks</title>
+
+      <p>
+        Code chunks are the beating heart of our R Markdown. The code in
+        these chunks is run by <em>knitr</em>, and its output is translated to
+        Markdown to dynamically keep our reports in sync with our current
+        scripts and data. Each code chunk consists of a language engine
+        (<xref ref="ch-languages"/>), an optional label, chunk options
+        (<xref ref="ch-chunk-options"/>), and code.
+      </p>
+
+      <p>
+        To understand some of the modifications that we can make to code
+        chunks, it is worth understanding the <em>knitr</em> process in
+        slightly more detail. For each chunk, a <em>knitr</em> language engine
+        gets three pieces of input: the knitting environment
+        (<c>knitr::knit_global()</c>), the code input, and a list of chunk
+        options. It returns the formatted representations of the code as well
+        as its output. As a side effect, the knitting environment may also be
+        modified, e.g., new variables may have been created in this
+        environment via the source code in the code chunk. This process is
+        illustrated in <xref ref="fig-knitr-workflow"/>.
+      </p>
+
+      <figure xml:id="fig-knitr-workflow">
+        <caption>A flowchart of inputs and outputs to a language
+        engine.</caption>
+        <image source="external/images/knitr-workflow.jpg">
+          <description>A flowchart of inputs and outputs to a language
+          engine.</description>
+        </image>
+      </figure>
+
+      <p>
+        We can modify this process by:
+      </p>
+
+      <ul>
+        <li>
+          <p>changing our language engine;</p>
+        </li>
+        <li>
+          <p>modifying chunk options, which can be global, local, or
+          engine-specific;</p>
+        </li>
+        <li>
+          <p>and by using hooks (<xref ref="ch-output-hooks"/> and
+          <xref ref="ch-chunk-hooks"/>) to further process these inputs and
+          outputs.</p>
+        </li>
+      </ul>
+
+      <p>
+        For example, in <xref ref="hook-hide"/>, you will learn how to add a
+        hook to post-process the code output to redact certain lines in the
+        source code.
+      </p>
+
+      <p>
+        Code chunks also have analogous concepts to the classes and unique
+        identifiers that we explored for narratives in
+        <xref ref="narrative"/>. A code chunk can specify an optional
+        identifier (often called the <q>chunk label</q>) immediately after
+        its language engine. It can set classes for code and text output
+        blocks in the output document via the chunk options
+        <c>class.source</c> and <c>class.output</c>, respectively (see
+        <xref ref="chunk-styling"/>). For example, the chunk header
+        <c>```{r summary-stats, class.output = 'large-text'}</c> gives this
+        chunk a label <c>summary-stats</c>, and the class <c>large-text</c>
+        for the text output blocks. A chunk can have only one label, but can
+        have multiple classes.
+      </p>
+    </subsection>
+
+    <subsection xml:id="document-body">
+      <title>Document body</title>
+
+      <p>
+        One important thing to understand when authoring and modifying a
+        document is how code and narrative pieces create different sections,
+        or containers within the document. For example, suppose we have a
+        document that looks like this:
+      </p>
+
+      <program language="md">
+        <input>
+# Title
+
+## Section X
+
+This is my introduction.
+
+```{r chunk-x}
+x &lt;- 1
+print(x)
+```
+
+### Subsection 1
+
+Here are some details.
+
+### Subsection 2
+
+These are more details.
+
+## Section Y
+
+This is another section.
+
+```{r chunk-y}
+y &lt;- 2
+print(y)
+```
+        </input>
+      </program>
+
+      <p>
+        When writing this document, we might think of each piece as linear
+        with independent sections of text and code following in a sequence one
+        after the other. However, what we are actually doing is creating a set
+        of nested containers that conceptually<fn>In reality, there are many
+        more containers than shown. For example, for a knitted code chunk, the
+        code and output exist in separate containers that share a common
+        parent.</fn> looks more like <xref ref="fig-rmd-containers"/>.
+      </p>
+
+      <figure xml:id="fig-rmd-containers">
+        <caption>A simple R Markdown document illustrated as a set of nested
+        containers.</caption>
+        <image source="external/images/rmd-containers.jpg" width="50%">
+          <description>A simple R Markdown document illustrated as a set of
+          nested containers.</description>
+        </image>
+      </figure>
+
+      <p>
+        Two key features of this diagram are (1) every section of text or
+        code is its own discrete container, and (2) containers can be nested
+        within one another. This nesting is particularly apparent if you are
+        authoring your R Markdown document in the RStudio IDE and expand the
+        document outline.
+      </p>
+
+      <p>
+        Note that in <xref ref="fig-rmd-containers"/>, headers of the same
+        level represent containers at the same level of nesting. Lower-level
+        headers exist inside of the container of higher-level headers. In
+        this case, it is common to call the higher-level sections the
+        <q>parent</q> and the minor sections the <q>child.</q> For example,
+        a subsection is the child of a section. Besides headers, you can also
+        create divisions in your text using <c>:::</c>, as demonstrated in
+        <xref ref="multi-column"/>.
+      </p>
+
+      <p>
+        This structure has important implications as we attempt to apply some
+        of the formatting and styling options that are described in this text.
+        For example, we will see this nested structure when we learn about how
+        Pandoc represents our document as an abstract syntax tree
+        (<xref ref="lua-filters"/>), or when we use CSS selectors
+        (<xref ref="html-css"/>, among others) to style our HTML output.
+      </p>
+
+      <p>
+        Formatting and styling can be applied to either containers of similar
+        types (e.g., all code blocks), or all containers that exist inside of
+        another container (e.g., everything under <q>Section Y</q>).
+        Additionally, as explained in <xref ref="narrative"/>, we can apply
+        the same classes to certain sections to designate them as being
+        similar, and in this case, the common class names denote the common
+        properties or intent of these sections.
+      </p>
+
+      <p>
+        As you read through this cookbook, it may be useful to quiz yourself
+        and think about what sort of container the specific <q>recipe</q> is
+        acting upon.
+      </p>
+    </subsection>
+  </section>
+
+  <section xml:id="what-to-change">
+    <title>What can we change to change the results?</title>
+
+    <p>
+      Let's summarize what we have seen so far and preview what is to come.
+    </p>
+
+    <p>
+      Rendering R Markdown documents with <em>rmarkdown</em> consists of
+      converting <c>.Rmd</c> to <c>.md</c> with <em>knitr</em>, and then
+      <c>.md</c> to our desired output with Pandoc (typically).
+    </p>
+
+    <p>
+      The <c>.Rmd</c>-to-<c>.md</c> step handles the execution and
+      <q>translation</q> of all code within our report, so most changes to
+      <em>content</em> involve editing the <c>.Rmd</c> with code for
+      <em>knitr</em> to translate. Tools that we have control over these
+      steps include <em>knitr</em> chunk options and hooks.
+    </p>
+
+    <p>
+      Our <c>.md</c> is a plain text file with no formatting. This is where
+      Pandoc comes in to convert to the final output format such as HTML,
+      PDF, or Word. Along the way, we add structure and style. A wide range
+      of tools to help us in this process include style sheets (CSS), raw
+      LaTeX or HTML code, Pandoc templates, and Lua filters. By understanding
+      the nested structure of an R Markdown document, and by thoughtfully
+      using identifiers and classes, we can apply some of these tools
+      selectively to targeted parts of our output.
+    </p>
+
+    <p>
+      Finally, our YAML metadata may help us toggle any of these steps.
+      Changing parameters can change how our code runs, changing metadata
+      alters the text content, and changing output options provides the
+      <c>render()</c> function with a different set of instructions.
+    </p>
+
+    <p>
+      Of course, these are all rough heuristics and should not be taken as
+      absolute facts. Ultimately, there is not a completely clear division of
+      labor. Throughout this book, you will see that there are often multiple
+      valid paths to achieving many of the outcomes described in this book,
+      and these may enter different stages of the pipeline. For example, for
+      the simple task of inserting an image in your document, you may either
+      use the R code <c>knitr::include_graphics()</c>, which would execute in
+      the <c>.Rmd</c> to <c>.md</c> stage, or directly use Markdown syntax
+      (<c>![]()</c>). This may seem confusing, and sometimes different
+      approaches will have different advantages. However, do not be
+      concerned<mdash/>if anything, this often means there are many valid
+      ways to solve your problem, and you can follow whichever approach makes
+      the most sense to you.
+    </p>
+
+    <p>
+      And that's that! In the rest of the book, you can now color in this
+      rough sketch with many more concrete examples of ways to modify all of
+      the components that we have discussed to get the most value out of
+      R Markdown.
+    </p>
+  </section>
 
 </chapter>

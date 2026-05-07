@@ -3,10 +3,1015 @@
   <title>LaTeX Output</title>
 
   <p>
-    This chapter is a skeleton to be filled in. It will discuss approaches for
-    customizing PDF reports, such as including LaTeX code or packages in the
-    preamble, using custom LaTeX templates, adding headers and footers,
-    generating sub-figures, and writing raw LaTeX code in the document body.
+    For many authors, the main output of their work will be the PDF report,
+    in which case they can utilize the powerful styling of LaTeX. In this
+    chapter, we discuss approaches that can be used to customize PDF reports,
+    such as including LaTeX code or packages in the preamble, using custom
+    LaTeX templates, adding headers and footers, generating sub-figures, and
+    writing raw LaTeX code in the document body.
   </p>
+
+  <p>
+    We want to offer a note of caution before we start, however. One benefit
+    of R Markdown is the fact that a single source document can create
+    documents with multiple formats. By tailoring your work to a single
+    output format, you may improve the appearance and performance of a single
+    output format, but at the expense of this transferability. This problem
+    is not unique to LaTeX, but all other output formats as well.
+  </p>
+
+  <section xml:id="latex-preamble">
+    <title>Add LaTeX code to the preamble</title>
+
+    <p>
+      The general structure of a LaTeX document is like this:
+    </p>
+
+    <program language="latex">
+      <input>
+\documentclass{article}
+% preamble
+\begin{document}
+% body
+\end{document}
+      </input>
+    </program>
+
+    <p>
+      That is, you declare the document class in <c>\documentclass{}</c>,
+      load certain LaTeX packages and set certain options if necessary in the
+      preamble, and start writing the body of your document after
+      <c>\begin{document}</c>. A Markdown document is mostly the body of
+      the document.
+    </p>
+
+    <p>
+      If you want to add anything to the preamble, you have to use the
+      <c>includes</c> option of <c>pdf_document</c>. This option has three
+      sub-options: <c>in_header</c>, <c>before_body</c>, and
+      <c>after_body</c>. Each of them takes one or multiple file paths. The
+      file(s) specified in <c>in_header</c> will be added to the preamble.
+      The files specified in <c>before_body</c> and <c>after_body</c> are
+      added before and after the document body, respectively.
+    </p>
+
+    <p>
+      For example, below is a trick that turns hyperlinks in text into
+      footnotes. This trick is useful when the PDF output document is printed
+      on paper, because readers will not be able to click the links on paper
+      but can see the URLs in footnotes. This trick displays both the text
+      and URL.
+    </p>
+
+    <program language="latex">
+      <input>
+% you may want to save a copy of \href before redefining it
+% \let\oldhref\href
+\renewcommand{\href}[2]{#2\footnote{\url{#1}}}
+      </input>
+    </program>
+
+    <p>
+      You can save the above code in a file with an arbitrary filename, e.g.,
+      <c>preamble.tex</c>. Then include it in the preamble through:
+    </p>
+
+    <program language="yaml">
+      <input>
+output:
+  pdf_document:
+    includes:
+      in_header: "preamble.tex"
+      </input>
+    </program>
+
+    <p>
+      For this particular trick, you do not really have to implement it by
+      yourself, but can simply set the YAML option <c>links-as-notes</c> to
+      <c>true</c> because it is a built-in feature of Pandoc's default LaTeX
+      template (see <xref ref="latex-variables"/>).
+    </p>
+
+    <p>
+      Another way to add code to the preamble is to pass it directly to the
+      <c>header-includes</c> field in the YAML frontmatter. We will show an
+      example in <xref ref="latex-logo"/>. The advantage of using
+      <c>header-includes</c> is that you can keep everything in one R
+      Markdown document. However, if your report is to be generated in
+      multiple output formats, we still recommend that you use the
+      <c>includes</c> method, because the <c>header-includes</c> field is
+      unconditional, and will be included in non-LaTeX output documents, too.
+      By comparison, the <c>includes</c> option is only applied to the
+      <c>pdf_document</c> format.
+    </p>
+
+  </section>
+
+  <section xml:id="latex-variables">
+    <title>Pandoc options for LaTeX output</title>
+
+    <p>
+      If you are using the default Pandoc template for LaTeX output, there
+      are several options that you may set to adjust the appearance of the
+      PDF output document. We list a few example options below, and you may
+      see <url href="https://pandoc.org/MANUAL.html#variables-for-latex"/>
+      for a full list.
+    </p>
+
+    <program language="yaml">
+      <input>
+documentclass: book
+classoption:
+  - twocolumn
+  - landscape
+papersize: a5
+linestretch: 1.5
+fontsize: 12pt
+links-as-notes: true
+      </input>
+    </program>
+
+    <p>
+      The meanings of these options should be clear if you have some
+      knowledge about LaTeX. The <c>documentclass</c> option sets the
+      document class, e.g., <c>article</c>, <c>book</c>, and <c>report</c>,
+      etc. The <c>classoption</c> is a list of options to be passed to the
+      document class, e.g., you can create a two-column document with the
+      <c>twocolumn</c> option,<fn>This option changes the layout of the
+      whole document, but if you want to switch back to the one-column mode
+      from a certain point, you may insert a command <c>\onecolumn</c> at
+      that point. If you want to continue the two-column mode, insert
+      <c>\twocolumn</c>.</fn> or the landscape layout with the
+      <c>landscape</c> option (the default is the portrait layout). The
+      <c>papersize</c> option sets the paper size, e.g., <c>a4</c>,
+      <c>paper</c>, or <c>a5</c>. The <c>linestretch</c> option sets the
+      line spacing. The <c>fontsize</c> option sets the font size, e.g.,
+      <c>10pt</c>, <c>11pt</c>, or <c>12pt</c>. The <c>links-as-notes</c>
+      option turns links in text to footnotes, which is useful when the PDF
+      is printed on paper, because readers will not be able to click the
+      links on paper but can see the URLs in footnotes.
+    </p>
+
+    <p>
+      Changing fonts can be a little trickier. It depends on which LaTeX
+      engine you are using. If you are using <c>pdflatex</c>, which is
+      usually the default engine for most LaTeX-based output formats, you may
+      use the <c>fontfamily</c> option to select a LaTeX font package to be
+      loaded in your document to change the font, e.g.,
+    </p>
+
+    <program language="yaml">
+      <input>
+fontfamily: accanthis
+output:
+  pdf_document: 
+    latex_engine: pdflatex
+      </input>
+    </program>
+
+    <p>
+      Then the document will use the font
+      <url href="https://tug.org/FontCatalogue/accanthis/">Accanthis</url>.
+      You may see <url href="https://tug.org/FontCatalogue/"/> for a list of
+      many other LaTeX font packages. If your LaTeX distribution is TinyTeX
+      and the required font packages have not been installed, they should be
+      automatically installed when the document is compiled (see
+      <xref ref="install-latex"/>).
+    </p>
+
+    <p>
+      If you use the LaTeX engine <c>xelatex</c> or <c>lualatex</c>, you
+      will be able to select fonts that are available on your local computer,
+      and do not have to install additional LaTeX packages. YAML options like
+      <c>mainfont</c>, <c>sansfont</c>, and <c>monofont</c> can be used to
+      specify the main font, sans serif font, and typewriter font,
+      respectively, e.g.,
+    </p>
+
+    <program language="yaml">
+      <input>
+mainfont: Arial
+output:
+  pdf_document: 
+    latex_engine: xelatex
+      </input>
+    </program>
+
+    <p>
+      You can also use some of those LaTeX options when you generate Beamer
+      slides, because a Beamer document is a LaTeX document, too. In
+      addition, Pandoc has provided a few more options for Beamer slides,
+      which can be found at
+      <url href="https://pandoc.org/MANUAL.html#variables-for-beamer-slides"/>.
+      For example, you can specify the author affiliation via the
+      <c>institute</c> option:
+    </p>
+
+    <program language="yaml">
+      <input>
+---
+output: beamer_presentation
+institute: "University of Hackers"
+---
+      </input>
+    </program>
+
+  </section>
+
+  <section xml:id="latex-logo">
+    <title>Add logo to title page</title>
+
+    <p>
+      We can use the <em>titling</em> LaTeX package to alter our title block
+      to include an image. Below is a full example that shows how to add the
+      R logo (<c>logo.jpg</c>) to the title page. The image can be of any
+      format that LaTeX supports (e.g., <c>jpg</c>, <c>png</c>, or
+      <c>pdf</c>).
+    </p>
+
+    <program language="yaml">
+      <input>
+---
+title: Adding a Logo to LaTeX Title
+author: Michael Harper
+date: December 7th, 2018
+output: pdf_document
+header-includes:
+  - \usepackage{titling}
+  - \pretitle{\begin{center}
+    \includegraphics[width=2in,height=2in]{logo.jpg}\LARGE\\}
+  - \posttitle{\end{center}}
+---
+
+\newpage
+
+This is your report.
+      </input>
+    </program>
+
+    <p>
+      An example output is shown in <xref ref="fig-latex-logo"/>.
+    </p>
+
+    <figure xml:id="fig-latex-logo">
+      <caption>A logo on a LaTeX title page.</caption>
+      <image source="external/images/latex-logo.png" width="100%">
+        <description>A logo on a LaTeX title page.</description>
+      </image>
+    </figure>
+
+    <p>
+      An alternative method that does not require a special LaTeX package
+      (<em>titling</em>) is to just insert the image in the <c>title</c>
+      field using the Markdown syntax. For example:
+    </p>
+
+    <program language="yaml">
+      <input>
+title: |
+  ![](logo.jpg){width=1in}  
+  Adding a Logo to LaTeX Title
+      </input>
+    </program>
+
+    <p>
+      In this case, you will not need the <c>header-includes</c> field in
+      the YAML frontmatter in the first example. Please note that although
+      you cannot see them, there are two trailing spaces after
+      <c>![](logo.jpg){width=1in}</c>, which means a line break in Markdown
+      (see <xref ref="linebreaks"/>). Without the line break, the image and
+      the title would be on the same line, which may not be what you desire.
+    </p>
+
+  </section>
+
+  <section xml:id="latex-extra">
+    <title>Include additional LaTeX packages</title>
+
+    <p>
+      The use of additional LaTeX packages can allow for extensive
+      customization of document styling. In addition, several packages such
+      as <em>kableExtra</em> may have LaTeX dependencies for the R package
+      to function. Much like R, we need to load packages within the R
+      Markdown document before we are able to use their functions.
+    </p>
+
+    <subsection xml:id="latex-extra-loading">
+      <title>Loading LaTeX packages</title>
+
+      <p>
+        We can load additional LaTeX packages using the
+        <c>extra_dependencies</c> option within the <c>pdf_document</c>
+        YAML settings. This allows us to provide a list of LaTeX packages to
+        be loaded in the intermediate LaTeX output document, e.g.,
+      </p>
+
+      <program language="yaml">
+        <input>
+---
+title: "Using more LaTeX packages"
+output: 
+  pdf_document:
+    extra_dependencies: ["bbm", "threeparttable"]
+---
+        </input>
+      </program>
+
+      <p>
+        If you need to specify options when loading the package, you can add
+        a second level to the list and provide the options as a list, e.g.,
+      </p>
+
+      <program language="yaml">
+        <input>
+output: 
+  pdf_document:
+    extra_dependencies:
+      caption: ["labelfont={bf}"]
+      hyperref: ["unicode=true", "breaklinks=true"]
+      lmodern: null
+        </input>
+      </program>
+
+      <p>
+        For those familiar with LaTeX, this is equivalent to the following
+        LaTeX code:
+      </p>
+
+      <program language="latex">
+        <input>
+\usepackage[labelfont={bf}]{caption} 
+\usepackage[unicode=true, breaklinks=true]{hyperref}
+\usepackage{lmodern}
+        </input>
+      </program>
+
+      <p>
+        The advantage of using the <c>extra_dependencies</c> argument over
+        the <c>includes</c> argument introduced in
+        <xref ref="latex-preamble"/> is that you do not need to include an
+        external file, so your Rmd document can be self-contained.
+      </p>
+
+    </subsection>
+
+    <subsection xml:id="latex-extra-examples">
+      <title>Example packages</title>
+
+      <p>
+        There is an extensive community for LaTeX, and there are over 4,000
+        packages available through the
+        <url href="https://ctan.org">Comprehensive TeX Archive Network</url>
+        (CTAN). Here are some examples of LaTeX packages you could consider
+        using within your report:
+      </p>
+
+      <ul>
+        <li>
+          <p>
+            <url href="https://ctan.org/pkg/pdfpages">pdfpages</url>:
+            Include full PDF pages from an external PDF document within your
+            document.
+          </p>
+        </li>
+        <li>
+          <p>
+            <url href="https://ctan.org/pkg/caption">caption</url>:
+            Change the appearance of caption subtitles. For example, you can
+            make the figure title italic or bold.
+          </p>
+        </li>
+        <li>
+          <p>
+            <url href="https://ctan.org/pkg/fancyhdr">fancyhdr</url>:
+            Change the style of running headers of all pages.
+          </p>
+        </li>
+      </ul>
+
+    </subsection>
+
+  </section>
+
+  <section xml:id="figure-placement">
+    <title>Control the placement of figures</title>
+
+    <p>
+      One common frustration with LaTeX is the placement of figures and
+      tables. Unlike in a word processor like Microsoft Word, in which
+      figures are placed directly where the user specifies, LaTeX will
+      attempt to place a figure in a position that does not violate certain
+      typographic rules. In doing so, figures may float away from where they
+      are referenced in the text. This section will explain some background
+      information on how floating environments (such as figures) work and
+      provide several options for customizing their behavior.
+    </p>
+
+    <subsection xml:id="figure-placement-floating">
+      <title>Floating environments</title>
+
+      <p>
+        By default, figures with captions are generated with the
+        <c>figure</c> environment in LaTeX. For example, Pandoc will convert
+        the following Markdown code that contains an image
+      </p>
+
+      <program language="md">
+        <input>
+![This is a figure.](images/cool.jpg)
+        </input>
+      </program>
+
+      <p>
+        to the LaTeX code:
+      </p>
+
+      <program language="latex">
+        <input>
+\begin{figure}
+  \includegraphics{images/cool.jpg}
+  \caption{This is a figure.}
+\end{figure}
+        </input>
+      </program>
+
+      <p>
+        The <c>figure</c> environment is a floating environment. In summary,
+        floats are used as containers for things that cannot be broken over
+        a page, such as tables and figures. If the figure or table cannot be
+        contained in the space left on the current page, LaTeX will try to
+        place it at the top of the next page. The behavior can be controlled
+        by different placement specifiers in square brackets after
+        <c>\begin{figure}</c>, e.g., <c>\begin{figure}[b]</c>. Below is a
+        list of possible specifiers:
+      </p>
+
+      <ul>
+        <li><p><c>h</c>: Place the float <em>here</em>, i.e., approximately at the same point it occurs in the source text.</p></li>
+        <li><p><c>t</c>: Position at the <em>top</em> of the page.</p></li>
+        <li><p><c>b</c>: Position at the <em>bottom</em> of the page.</p></li>
+        <li><p><c>p</c>: Put on a special <em>page</em> for floats only.</p></li>
+        <li><p><c>!</c>: Override internal parameters LaTeX uses for determining <q>good</q> float positions.</p></li>
+        <li><p><c>H</c>: Place the float at precisely the location in the LaTeX code. This requires the <em>float</em> package (<c>\usepackage{float}</c>).</p></li>
+      </ul>
+
+      <p>
+        These specifiers can be used in conjunction, e.g., <c>!b</c> forces
+        LaTeX to place the figure at the bottom of a page. The default
+        behavior is <c>tbp</c>. That is, LaTeX will try to position the
+        figure at the top of the page, then at the bottom, and then on a
+        separate page.
+      </p>
+
+    </subsection>
+
+    <subsection xml:id="figure-placement-prevent">
+      <title>Prevent figures from floating</title>
+
+      <p>
+        Many users will initially want to prevent figures from floating in
+        their document, replicating the behavior of a traditional word
+        processor. To do this, we must firstly load the LaTeX package
+        <em>float</em>. This can be done by including the following line in
+        the YAML:
+      </p>
+
+      <program language="yaml">
+        <input>
+output: 
+  pdf_document:
+    extra_dependencies: ["float"]
+        </input>
+      </program>
+
+      <p>
+        We can use the chunk option <c>fig.pos</c> to control the float
+        behavior. The option value <c>H</c> from <em>float</em> will prevent
+        any floating within the document. We can set the default behavior for
+        the document so that all chunks have this setting by including the
+        following line in the first code chunk in your R Markdown document:
+      </p>
+
+      <program language="r">
+        <input>
+knitr::opts_chunk$set(fig.pos = "H", out.extra = "")
+        </input>
+      </program>
+
+      <p>
+        In general, we do not recommend that users force LaTeX to stop
+        floating figures. This solution was included in this book by popular
+        demand,<fn>The related Stack Overflow question has been viewed for
+        over 45,000 times:
+        <url href="https://stackoverflow.com/q/16626462/559676"/>.</fn> but
+        there could be some serious side effects when LaTeX is unable to
+        float figures.
+      </p>
+
+    </subsection>
+
+    <subsection xml:id="figure-placement-forward">
+      <title>Force floats forward</title>
+
+      <p>
+        An alternative to forcing all floats to be held is to force floating
+        forward in the text. This can remove a common issue, where a figure
+        is shown at the top of the page before the relevant text comes. This
+        can break the reading flow of a report. We can force the figure to
+        always appear after the text by using the <em>flafter</em> LaTeX
+        package as follows:
+      </p>
+
+      <program language="yaml">
+        <input>
+output: 
+  pdf_document:
+    extra_dependencies: ["flafter"]
+        </input>
+      </program>
+
+    </subsection>
+
+    <subsection xml:id="figure-placement-rules">
+      <title>Adjust LaTeX placement rules</title>
+
+      <p>
+        LaTeX's own float placement parameters could prevent placements that
+        seem entirely <q>reasonable</q> to you — they are notoriously rather
+        conservative. The defaults include settings such as:
+        <c>topfraction = 0.7</c> (max fraction of page for floats at top),
+        <c>bottomfraction = 0.3</c> (max fraction of page for floats at
+        bottom), <c>textfraction = 0.2</c> (min fraction of page for text).
+      </p>
+
+      <p>
+        To encourage LaTeX not to move your figures, we can alter these
+        default settings. We could include the following in our LaTeX
+        preamble file, reducing the minimum amount of text required on a
+        page and allow more room for floats:
+      </p>
+
+      <program language="latex">
+        <input>
+\renewcommand{\topfraction}{.85}
+\renewcommand{\bottomfraction}{.7}
+\renewcommand{\textfraction}{.15}
+\renewcommand{\floatpagefraction}{.66}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{3}
+\setcounter{totalnumber}{4}
+        </input>
+      </program>
+
+      <p>
+        If we have added these lines to a <c>.tex</c> file, we could include
+        this file in the preamble of the LaTeX document using the method
+        introduced in <xref ref="latex-preamble"/>.
+      </p>
+
+    </subsection>
+
+  </section>
+
+  <section xml:id="latex-subfigure">
+    <title>LaTeX sub-figures</title>
+
+    <p>
+      Sometimes you may want to include multiple images in a single figure
+      environment. Sub-figures allow us to achieve this by arranging multiple
+      images within a single environment and providing each with its own
+      sub-caption.
+    </p>
+
+    <p>
+      Sub-figures require the LaTeX package <em>subfig</em>. We can load it
+      via the <c>extra_dependencies</c> YAML option within the
+      <c>pdf_document</c> output. For example:
+    </p>
+
+    <program language="yaml">
+      <input>
+---
+output:
+  pdf_document:
+    extra_dependencies: "subfig"
+---
+      </input>
+    </program>
+
+    <p>
+      To arrange all plots from a code chunk in sub-figures, you have to use
+      the chunk options <c>fig.cap</c> (the caption for the whole figure
+      environment) and <c>fig.subcap</c> (a character vector of the captions
+      for sub-figures). For best output, you can also use the following
+      options:
+    </p>
+
+    <ul>
+      <li>
+        <p>
+          <c>fig.ncol</c>: The number of columns of sub-figures. By default,
+          all plots are arranged in a single row. You can break them into
+          multiple rows.
+        </p>
+      </li>
+      <li>
+        <p>
+          <c>out.width</c>: The output width of individual plots. You will
+          normally set this to <c>100%</c> divided by the number of columns.
+          For example, if you have two plots, the <c>out.width</c> option
+          should be equal to or less than <c>50%</c>, otherwise the plots may
+          exceed the page margin.
+        </p>
+      </li>
+    </ul>
+
+    <p>
+      Below is an illustrative example:
+    </p>
+
+    <program language="md">
+      <input>
+---
+output:
+  pdf_document:
+    extra_dependencies: "subfig"
+---
+
+```{r, fig.cap='Figure 1', fig.subcap=c('(a)', '(b)', '(c)')}
+plot(1:10)
+plot(cars, pch = 19)
+boxplot(Sepal.Width ~ Species, data = iris)
+```
+      </input>
+    </program>
+
+    <p>
+      The output is shown in <xref ref="fig-latex-subfig"/>. For the sake of
+      simplicity, we omitted a few chunk options in the chunk header of the
+      above example, including <c>fig.ncol = 2</c>,
+      <c>out.width = "50%"</c>, <c>fig.align = "center"</c>, and the actual
+      long captions.
+    </p>
+
+    <figure xml:id="fig-latex-subfig">
+      <caption>An example of one figure environment containing multiple
+      sub-figures.</caption>
+      <image source="external/images/latex-subfig.png" width="100%">
+        <description>An example of one figure environment containing multiple
+        sub-figures.</description>
+      </image>
+    </figure>
+
+  </section>
+
+  <section xml:id="latex-unicode">
+    <title>Render documents containing Unicode characters</title>
+
+    <p>
+      If you run into an error like this:
+    </p>
+
+    <program language="latex">
+      <input>
+! Package inputenc Error:
+  Unicode char \u8: not set up for use with LaTeX.
+      </input>
+    </program>
+
+    <p>
+      it probably means that you are using the default LaTeX engine,
+      <c>pdflatex</c>, to render the (intermediate <c>.tex</c>) document to
+      PDF, which was unable to process certain Unicode characters in your
+      document. If that is the case, you may switch to <c>xelatex</c> or
+      <c>lualatex</c>, e.g.,
+    </p>
+
+    <program language="yaml">
+      <input>
+output:
+  pdf_document:
+    latex_engine: xelatex
+      </input>
+    </program>
+
+    <p>
+      You may also change the LaTeX engine for other document output formats,
+      especially those based on <c>pdf_document</c>, such as
+      <c>bookdown::pdf_document2</c> and <c>tufte::tufte_handout</c>, e.g.,
+    </p>
+
+    <program language="yaml">
+      <input>
+output:
+  bookdown::pdf_document2:
+    latex_engine: lualatex
+  tufte::tufte_handout:
+    latex_engine: xelatex
+      </input>
+    </program>
+
+  </section>
+
+  <section xml:id="latex-fragment">
+    <title>Generate a LaTeX fragment</title>
+
+    <p>
+      If you work primarily with pure LaTeX documents, you may still find R
+      Markdown useful. Sometimes it may be more convenient to write in R
+      Markdown and convert the document to a LaTeX fragment, which can be
+      included in other LaTeX documents.
+    </p>
+
+    <p>
+      When you render an Rmd document to LaTeX, it generates a full LaTeX
+      document that includes the <c>\documentclass{}</c>,
+      <c>\begin{body}</c>, and <c>\end{body}</c>. A LaTeX fragment is
+      basically the body of a full LaTeX document. To render a LaTeX
+      fragment, you may use the <c>latex_fragment</c> output format, e.g.,
+    </p>
+
+    <program language="yaml">
+      <input>
+---
+output: latex_fragment
+---
+      </input>
+    </program>
+
+    <p>
+      This will render a <c>.tex</c> file, e.g., <c>foo.Rmd</c> will render
+      <c>foo.tex</c>, and you can use <c>\input{foo.tex}</c> to include this
+      fragment in another LaTeX document.
+    </p>
+
+  </section>
+
+  <section xml:id="latex-header">
+    <title>Add custom headers and footers</title>
+
+    <p>
+      The LaTeX package <em>fancyhdr</em> has provided several commands to
+      customize the header and footer lines of your document. For a more
+      complete guide, please refer to the full documentation at
+      <url href="https://ctan.org/pkg/fancyhdr"/>. To begin with, we must
+      load the package. Then we can change the header style, e.g.,
+    </p>
+
+    <program language="latex">
+      <input>
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+      </input>
+    </program>
+
+    <p>
+      The package offers three different interfaces, but we will use the
+      commands <c>\fancyhead</c> and <c>\fancyfoot</c>. The syntax for the
+      formatting is <c>\fancyhead[selectors]{output text}</c>, whereby the
+      selectors state the part of the header that we wish to customize. We
+      can use the following selectors for the page locators:
+    </p>
+
+    <ul>
+      <li><p><em>E</em> for even pages</p></li>
+      <li><p><em>O</em> for odd pages</p></li>
+      <li><p><em>L</em> for the left side</p></li>
+      <li><p><em>C</em> for the center</p></li>
+      <li><p><em>R</em> for the right side</p></li>
+    </ul>
+
+    <p>
+      For example, <c>\fancyhead[LE,RO]{Your Name}</c> will print the text
+      <q>Your Name</q> on the left side of the header for even pages, and
+      the right side for odd pages. We can combine this with additional LaTeX
+      commands to extract details from our document for each page:
+    </p>
+
+    <ul>
+      <li><p><c>\thepage</c>: the number of the current page.</p></li>
+      <li><p><c>\thechapter</c>: the number of the current chapter.</p></li>
+      <li><p><c>\thesection</c>: the number of the current section.</p></li>
+      <li><p><c>\chaptername</c>: the word <q>Chapter</q> in English, or its equivalent in the current language.</p></li>
+      <li><p><c>\leftmark</c>: the name and number of the current top-level structure in uppercase letters.</p></li>
+      <li><p><c>\rightmark</c>: the name and number of the current next to top-level structure in uppercase letters.</p></li>
+    </ul>
+
+    <p>
+      Below is some example LaTeX code that you can add to the preamble
+      using the methods introduced in <xref ref="latex-preamble"/>:
+    </p>
+
+    <program language="latex">
+      <input>
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+% center of header
+\fancyhead[CO,CE]{Your Document Header}
+% center of footer
+\fancyfoot[CO,CE]{And this is a fancy footer}
+% page number on the left of even pages and right of odd pages
+\fancyfoot[LE,RO]{\thepage}
+      </input>
+    </program>
+
+    <p>
+      By default, headers and footers will not be displayed on the first
+      page of your PDF document. If we wish to show our footer on the front
+      page, we must include an additional line
+      <c>\fancypagestyle{plain}{\pagestyle{fancy}}</c>.
+    </p>
+
+  </section>
+
+  <section xml:id="latex-template">
+    <title>Use a custom Pandoc LaTeX template</title>
+
+    <p>
+      Pandoc converts Markdown to LaTeX through a template. The template is
+      a LaTeX file containing Pandoc variables, and Pandoc will replace these
+      variables with their values. Below is a simple template that only
+      contains a single variable <c>$body$</c>:
+    </p>
+
+    <program language="latex">
+      <input>
+\documentclass{article}
+\begin{document}
+$body$
+\end{document}
+      </input>
+    </program>
+
+    <p>
+      The value of <c>$body$</c> is the LaTeX code generated from the body
+      of the Markdown document. For example, if the body text is
+      <c>Hello **world**!</c> in Markdown, the value of <c>$body$</c> will
+      be <c>Hello \textbf{world}!</c>.
+    </p>
+
+    <p>
+      If the LaTeX customization methods in <xref ref="latex-preamble"/>,
+      <xref ref="latex-variables"/>, and <xref ref="latex-extra"/> are not
+      enough for you, you may try to use a custom template instead. A
+      template allows you to use arbitrary LaTeX code in it, and hence is
+      much more flexible. To use a template, include the path of the template
+      in the <c>template</c> option of <c>pdf_document</c>, e.g.,
+    </p>
+
+    <program language="yaml">
+      <input>
+output:
+  pdf_document:
+    template: my-template.tex
+      </input>
+    </program>
+
+    <p>
+      The default LaTeX template of Pandoc can be found at
+      <url href="https://github.com/jgm/pandoc/tree/master/data/templates"/>
+      (named <c>default.latex</c>). If you want to create your own template,
+      you may want to start with this template.
+    </p>
+
+    <p>
+      For the full list of Pandoc variables and their meanings (such as
+      <c>$body$</c> and <c>$title$</c>), see Pandoc's manual at
+      <url href="https://pandoc.org/MANUAL.html#templates"/>. You can also
+      use arbitrary custom variables, which are typically passed to the
+      template from the YAML metadata.
+    </p>
+
+    <p>
+      If you want to learn by examples, you may take a look at the
+      <em>MonashEBSTemplates</em> package
+      (<url href="https://github.com/robjhyndman/MonashEBSTemplates"/>),
+      which has provided several custom LaTeX templates. For example, the
+      template for the output format <c>MonashEBSTemplates::memo</c> allows
+      you to use a variable <c>branding</c> in the YAML metadata to control
+      whether to include the brand logo of Monash University. This is
+      achieved by an <c>if</c> statement in the template:
+    </p>
+
+    <program language="latex">
+      <input>
+$if(branding)$%
+\includegraphics[height=1.5cm]{monash2}
+\vspace*{-0.6cm}
+$else$
+\vspace*{-1cm}
+$endif$
+      </input>
+    </program>
+
+  </section>
+
+  <section xml:id="raw-latex">
+    <title>Write raw LaTeX code</title>
+
+    <p>
+      By default, Pandoc will preserve raw LaTeX code in Markdown documents
+      when converting the document to LaTeX, so you can use LaTeX commands
+      or environments in Markdown. However, sometimes your LaTeX code might
+      be too complex for Pandoc to parse, in which case Pandoc will treat the
+      content as normal Markdown. The consequence is that special LaTeX
+      characters may be escaped, e.g., Pandoc may convert a backslash
+      <c>\</c> to <c>\textbackslash{}</c>.
+    </p>
+
+    <p>
+      To make sure that Pandoc does not touch the raw LaTeX code in your
+      Markdown document, you may wrap the code in a fenced code block with
+      the attribute <c>=latex</c>, e.g.,
+    </p>
+
+    <program language="md">
+      <input>
+```{=latex}
+\begin{tabular}{ll}
+A &amp; B \\
+A &amp; B \\
+\end{tabular}
+```
+      </input>
+    </program>
+
+    <p>
+      Do not forget the equal sign before <c>latex</c>, i.e., it is
+      <c>=latex</c> instead of <c>latex</c>. This feature requires a Pandoc
+      version higher than 2.0 (check <c>rmarkdown::pandoc_version()</c>).
+    </p>
+
+  </section>
+
+  <section xml:id="latex-hardcore">
+    <title>For hardcore LaTeX users</title>
+
+    <p>
+      R Markdown is certainly not the best possible document format for
+      authoring or typesetting documents. Simplicity is both its advantage
+      and disadvantage. LaTeX is much more powerful than Markdown in terms of
+      typesetting at the price of more commands to be typed. If typesetting
+      is of much higher priority to you and you are comfortable with using
+      all kinds of LaTeX commands and environments, you can just use pure
+      LaTeX code instead of Markdown to write the whole document.
+    </p>
+
+    <p>
+      The <em>knitr</em> package supports a variety of source document
+      formats, including but not limited to R Markdown. Below is an example
+      of intermingling R code with pure LaTeX code:
+    </p>
+
+    <program language="latex">
+      <input>
+\documentclass{article}
+\usepackage[T1]{fontenc}
+
+\begin{document}
+
+Here is a code chunk.
+
+&lt;&lt;foo, fig.height=4&gt;&gt;=
+1 + 1
+par(mar = c(4, 4, .2, .2))
+plot(rnorm(100))
+@
+
+You can also write inline expressions, e.g. $\pi=\Sexpr{pi}$,
+and \Sexpr{1.9910214e28} is a big number.
+
+\end{document}
+      </input>
+    </program>
+
+    <p>
+      The filename usually has the extension <c>.Rnw</c>, e.g., the above
+      file is <c>knitr.Rnw</c>. The idea is the same but the syntax for
+      writing R code chunks and inline R expressions is different. An R code
+      chunk starts with <c>&lt;&lt;&gt;&gt;=</c> (with optional chunk
+      options inside the angle brackets) and ends with <c>@</c>. An inline R
+      expression is written in <c>\Sexpr{}</c>.
+    </p>
+
+    <p>
+      The function <c>knitr::knit()</c> can compile an <c>Rnw</c> document
+      to a LaTeX (<c>.tex</c>) output file, which can be further compiled to
+      PDF through your LaTeX tools such as <c>pdflatex</c>. You can also use
+      <c>knitr::knit2pdf()</c> to compile <c>Rnw</c> to PDF in one step. If
+      you use RStudio, you can hit the <c>Compile PDF</c> button on the
+      toolbar. Please note that the default method to compile Rnw documents
+      is through Sweave, and you may want to change it to <em>knitr</em>.
+    </p>
+
+    <p>
+      An <c>Rnw</c> document gives you the full power of LaTeX. This could
+      be your last resort if there are typesetting problems that are really
+      difficult to solve in Markdown. However, before you drop Markdown, we
+      would like to remind you of the fact that a custom Pandoc LaTeX
+      template may also be helpful (see <xref ref="latex-template"/>).
+    </p>
+
+  </section>
 
 </chapter>

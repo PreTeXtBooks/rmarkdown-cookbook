@@ -3,9 +3,716 @@
   <title>Workflow</title>
 
   <p>
-    This chapter is a skeleton to be filled in. It will present tips on working
-    with individual R Markdown documents as well as running R Markdown projects,
-    including keyboard shortcuts, R Markdown notebooks, and rendering scripts.
+    In this chapter, we introduce some tips on working with individual R
+    Markdown documents as well as running your R Markdown projects. You may
+    also check out
+    <url href="https://r4ds.had.co.nz/r-markdown-workflow.html">Chapter 30</url>
+    of the book <em>R for Data Science</em> <cite key="wickham2016"/>, which briefly introduces some tips
+    on using analysis notebooks (including R Markdown documents). Nicholas
+    Tierney also discusses the workflow in the book
+    <url href="https://rmd4sci.njtierney.com/workflow.html"><em>R Markdown for
+    Scientists</em></url>.
   </p>
+
+  <section xml:id="rstudio-shortcuts">
+    <title>Use RStudio keyboard shortcuts</title>
+
+    <p>
+      The R Markdown format can be used with any editor of your choice, as long
+      as R, the <pkg>rmarkdown</pkg> package, and Pandoc are installed. However,
+      RStudio is deeply integrated with R Markdown, so you can work with R
+      Markdown smoothly.
+    </p>
+
+    <p>
+      Like any IDE (Integrated Development Environment), RStudio has keyboard
+      shortcuts. A full list can be found under the menu
+      <c>Tools -&gt; Keyboard Shortcuts Help</c>. Some of the most useful
+      shortcuts related to R Markdown are summarized in
+      <xref ref="table-rstudio-shortcuts"/>.
+    </p>
+
+    <table xml:id="table-rstudio-shortcuts">
+      <title>RStudio keyboard shortcuts related to R Markdown.</title>
+      <tabular halign="left">
+        <row header="yes">
+          <cell>Task</cell>
+          <cell>Windows &amp; Linux</cell>
+          <cell>macOS</cell>
+        </row>
+        <row>
+          <cell>Insert R chunk</cell>
+          <cell>Ctrl+Alt+I</cell>
+          <cell>Command+Option+I</cell>
+        </row>
+        <row>
+          <cell>Preview HTML / Knit document</cell>
+          <cell>Ctrl+Shift+K</cell>
+          <cell>Command+Shift+K</cell>
+        </row>
+        <row>
+          <cell>Run all chunks above</cell>
+          <cell>Ctrl+Alt+P</cell>
+          <cell>Command+Option+P</cell>
+        </row>
+        <row>
+          <cell>Run current chunk</cell>
+          <cell>Ctrl+Alt+C</cell>
+          <cell>Command+Option+C</cell>
+        </row>
+        <row>
+          <cell>Run current chunk</cell>
+          <cell>Ctrl+Shift+Enter</cell>
+          <cell>Command+Shift+Enter</cell>
+        </row>
+        <row>
+          <cell>Run next chunk</cell>
+          <cell>Ctrl+Alt+N</cell>
+          <cell>Command+Option+N</cell>
+        </row>
+        <row>
+          <cell>Run all chunks</cell>
+          <cell>Ctrl+Alt+R</cell>
+          <cell>Command+Option+R</cell>
+        </row>
+        <row>
+          <cell>Go to next chunk/title</cell>
+          <cell>Ctrl+PgDown</cell>
+          <cell>Command+PgDown</cell>
+        </row>
+        <row>
+          <cell>Go to previous chunk/title</cell>
+          <cell>Ctrl+PgUp</cell>
+          <cell>Command+PgUp</cell>
+        </row>
+        <row>
+          <cell>Show/hide document outline</cell>
+          <cell>Ctrl+Shift+O</cell>
+          <cell>Command+Shift+O</cell>
+        </row>
+        <row>
+          <cell>Build book, website, ...</cell>
+          <cell>Ctrl+Shift+B</cell>
+          <cell>Command+Shift+B</cell>
+        </row>
+      </tabular>
+    </table>
+
+    <p>
+      Additionally, you can press <c>F7</c> to spell-check your document. You
+      can also restart the R session by <c>Ctrl + Alt + F10</c> (or
+      <c>Command + Option + F10</c> on macOS). Restarting regularly is helpful
+      for reproducibility, because results are more likely to be reproducible if
+      they are computed from a new R session. This can also be done through the
+      drop-down menu <em>Restart R and Run All Chunks</em> behind the
+      <em>Run</em> button on the toolbar.
+    </p>
+  </section>
+
+  <section xml:id="spell-check">
+    <title>Spell-check R Markdown</title>
+
+    <p>
+      If you use the RStudio IDE, you can press the <c>F7</c> key or click the
+      menu <c>Edit -&gt; Check Spelling</c> to spell-check an Rmd document.
+      Real-time spell checking has become available in RStudio v1.3, so you no
+      longer need to manually trigger spell checking with this version or a
+      later version of RStudio.
+    </p>
+
+    <p>
+      If you do not use RStudio, the <pkg>spelling</pkg> package has a function
+      <c>spell_check_files()</c>, which can check the spelling of common
+      document formats, including R Markdown. When spell checking Rmd documents,
+      it will skip code chunks and only check ordinary text.
+    </p>
+  </section>
+
+  <section xml:id="rmarkdown-render">
+    <title>Render R Markdown with <c>rmarkdown::render()</c></title>
+
+    <p>
+      If you do not use RStudio or any other IDE, you need to know this fact:
+      R Markdown documents are rendered through the function
+      <c>rmarkdown::render()</c>. This means you can programmatically render an
+      R Markdown document in any R script. For example, you could render a
+      series of reports in a <c>for</c>-loop for each state of a country:
+    </p>
+
+    <program language="r"><input>
+for (state in state.name) {
+  rmarkdown::render(
+    'input.Rmd', output_file = paste0(state, '.html')
+  )
+}
+    </input></program>
+
+    <p>
+      The output filename will be different for each state. You can also make
+      use of the <c>state</c> variable in the document <c>input.Rmd</c>, e.g.,
+    </p>
+
+    <program language="md"><input>
+---
+title: "A report for `r state`"
+output: html_document
+---
+
+The area of `r state` is `r state.area[state.name == state]`
+square miles.
+    </input></program>
+
+    <p>
+      You may read the help page <c>?rmarkdown::render</c> to know other
+      possible arguments. Here we just want to mention two of them, i.e., the
+      <c>clean</c> and <c>envir</c> arguments.
+    </p>
+
+    <p>
+      The former (<c>clean</c>) is particularly helpful for debugging when
+      anything goes wrong with the Pandoc conversion. If you call
+      <c>rmarkdown::render(..., clean = FALSE)</c>, all intermediate files will
+      be preserved, including the intermediate <c>.md</c> file knitted from the
+      <c>.Rmd</c> file. If Pandoc signals an error, you may start debugging
+      from this <c>.md</c> file.
+    </p>
+
+    <p>
+      The latter (<c>envir</c>) offers a way to render a document with the
+      guarantee of an empty new environment when you call
+      <c>rmarkdown::render(..., envir = new.env())</c>, so objects created in
+      your code chunks will stay inside this environment, without polluting your
+      current global environment. On the other hand, if you prefer rendering
+      the Rmd document in a new R session so that objects in your current R
+      session will not pollute your Rmd document, you may call
+      <c>rmarkdown::render</c> in <c>xfun::Rscript_call()</c>, e.g.,
+    </p>
+
+    <program language="r"><input>
+xfun::Rscript_call(
+  rmarkdown::render,
+  list(input = 'my-file.Rmd', output_format = 'pdf_document')
+)
+    </input></program>
+
+    <p>
+      This method is similar to clicking the <em>Knit</em> button in RStudio,
+      which also renders the Rmd document in a new R session. In case you need
+      to render an Rmd document inside another Rmd document, we strongly
+      recommend that you use this method instead of directly calling
+      <c>rmarkdown::render()</c> in a code chunk, because
+      <c>rmarkdown::render()</c> creates and relies on a lot of side effects
+      internally, which may affect rendering other Rmd documents in the same
+      R session.
+    </p>
+
+    <p>
+      The second argument of <c>xfun::Rscript_call()</c> takes a list of
+      arguments to be passed to <c>rmarkdown::render()</c>. In fact,
+      <c>xfun::Rscript_call</c> is a general-purpose function to call any R
+      function (with arguments optionally) in a new R session. Please see its
+      help page if you are interested.
+    </p>
+  </section>
+
+  <section xml:id="parameterized-reports">
+    <title>Parameterized reports</title>
+
+    <p>
+      In <xref ref="rmarkdown-render"/>, we mentioned one way to render a
+      series of reports in a <c>for</c>-loop. In fact,
+      <c>rmarkdown::render()</c> has an argument named <c>params</c>
+      specifically designed for this task. You can parameterize your report
+      through this argument. When you specify parameters for a report, you can
+      use the variable <c>params</c> in your report. For example, if you call:
+    </p>
+
+    <program language="r"><input>
+for (state in state.name) {
+  rmarkdown::render('input.Rmd', params = list(state = state))
+}
+    </input></program>
+
+    <p>
+      then in <c>input.Rmd</c>, the object <c>params</c> will be a list that
+      contains the <c>state</c> variable:
+    </p>
+
+    <program language="md"><input>
+---
+title: "A report for `r params$state`"
+output: html_document
+---
+
+The area of `r params$state` is
+`r state.area[state.name == params$state]`
+square miles.
+    </input></program>
+
+    <p>
+      Another way to specify parameters for a report is to use the YAML field
+      <c>params</c>, e.g.,
+    </p>
+
+    <program language="yaml"><input>
+---
+title: Parameterized reports
+output: html_document
+params:
+  state: Nebraska
+  year: 2019
+  midwest: true
+---
+    </input></program>
+
+    <p>
+      Note that you can include as many parameters in the <c>params</c> YAML
+      field or the <c>params</c> argument of <c>rmarkdown::render()</c>. If
+      both the YAML field and the argument are present, the parameter values in
+      the argument will override the corresponding parameters in YAML. For
+      example, when we call
+      <c>rmarkdown::render(..., params = list(state = 'Iowa', year = 2018))</c>
+      on the previous example that has the <c>params</c> field,
+      <c>params$state</c> will become <c>Iowa</c> (instead of <c>Nebraska</c>)
+      and <c>params$year</c> will become <c>2018</c> (instead of <c>2019</c>)
+      in the R Markdown document.
+    </p>
+
+    <p>
+      When rendering the same R Markdown document to a series of reports, you
+      need to adjust the <c>output_file</c> argument of
+      <c>rmarkdown::render()</c>, to make sure each report has its unique
+      filename. Otherwise, you will accidentally override certain report files.
+      For example, you can write a function to generate a report for each state
+      and each year:
+    </p>
+
+    <program language="r"><input>
+render_one &lt;- function(state, year) {
+  # assuming the output format of input.Rmd is PDF
+  rmarkdown::render(
+    'input.Rmd',
+    output_file = paste0(state, '-', year, '.pdf'),
+    params = list(state = state, year = year),
+    envir = parent.frame()
+  )
+}
+    </input></program>
+
+    <p>
+      Then you can use nested <c>for</c>-loops to generate all reports:
+    </p>
+
+    <program language="r"><input>
+for (state in state.name) {
+  for (year in 2000:2020) {
+    render_one(state, year)
+  }
+}
+    </input></program>
+
+    <p>
+      At the end, you will get a series of report files like
+      <c>Alabama-2000.pdf</c>, <c>Alabama-2001.pdf</c>, ...,
+      <c>Wyoming-2019.pdf</c>, and <c>Wyoming-2020.pdf</c>.
+    </p>
+
+    <p>
+      For parameterized reports, you can also input parameters interactively
+      through a graphical user interface (GUI) created from Shiny. This
+      requires you to provide a <c>params</c> field in YAML, and
+      <pkg>rmarkdown</pkg> will automatically create the GUI using the
+      appropriate input widgets for each parameter (e.g., a checkbox will be
+      provided for a Boolean parameter).
+    </p>
+
+    <p>
+      To start the GUI, you can call <c>rmarkdown::render()</c> with
+      <c>params = 'ask'</c> if you do not use RStudio:
+    </p>
+
+    <program language="r"><input>
+rmarkdown::render('input.Rmd', params = 'ask')
+    </input></program>
+
+    <p>
+      If you use RStudio, you can click the menu <em>Knit with Parameters</em>
+      behind the <em>Knit</em> button. <xref ref="fig-params-shiny"/> shows an
+      example GUI for parameters.
+    </p>
+
+    <figure xml:id="fig-params-shiny">
+      <caption>Knit an R Markdown document with parameters that you can input from a GUI.</caption>
+      <image source="external/images/params-shiny.png" width="90%"/>
+    </figure>
+
+    <p>
+      For more information on parameterized reports, you may read
+      <url href="https://bookdown.org/yihui/rmarkdown/parameterized-reports.html">Chapter 15</url>
+      of the <em>R Markdown Definitive Guide</em> <cite key="rmarkdown2018"/>.
+    </p>
+  </section>
+
+  <section xml:id="custom-knit">
+    <title>Customize the <c>Knit</c> button</title>
+
+    <p>
+      When you click the <em>Knit</em> button in RStudio, it will call the
+      <c>rmarkdown::render()</c> function in a new R session and output a file
+      of the same base name as the input file in the same directory. For
+      example, knitting <c>example.Rmd</c> with the output format
+      <c>html_document</c> will create an output file <c>example.html</c>.
+    </p>
+
+    <p>
+      There may be situations in which we want to customize how the document is
+      rendered. For example, perhaps we would like the rendered document to
+      contain the current date, or would like to output the compiled report into
+      a different directory. Although we can achieve these goals by calling
+      <c>rmarkdown::render()</c> (see <xref ref="rmarkdown-render"/>) with the
+      appropriate <c>output_file</c> argument, it can be inconvenient to have
+      to rely on a custom call to <c>rmarkdown::render()</c> to compile your
+      report.
+    </p>
+
+    <p>
+      It is possible to control the behavior of the <em>Knit</em> button by
+      providing the <c>knit</c> field within the YAML frontmatter of your
+      document. The field takes a function with the main argument <c>input</c>
+      (the path to the input Rmd document) and other arguments that are
+      currently ignored. You can either write the source code of the function
+      directly in the <c>knit</c> field, or put the function elsewhere (e.g.,
+      in an R package) and call the function in the <c>knit</c> field. If you
+      routinely need the custom <c>knit</c> function, we would recommend that
+      you put it in a package, instead of repeating its source code in every
+      single R Markdown document.
+    </p>
+
+    <p>
+      If you store the code directly within YAML, you must wrap the entire
+      function in parentheses. If the source code has multiple lines, you have
+      to indent the first line by exactly two spaces and all other lines by at
+      least two spaces. For example, if we want the output filename to include
+      the date on which it is rendered, we could use the following YAML code in
+      the Rmd document header:
+    </p>
+
+    <program language="yaml"><input>
+---
+knit: |
+  (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_file = paste0(
+        xfun::sans_ext(input), '-', Sys.Date(), '.html'
+      ),
+      envir = globalenv()
+    )
+  })
+---
+    </input></program>
+
+    <p>
+      For example, if we knit <c>example.Rmd</c> on 2019-07-29, the output
+      filename will be <c>example-2019-07-29.html</c>.
+    </p>
+
+    <p>
+      While the above approach looks simple and straightforward enough,
+      embedding a function directly in your YAML may make it difficult for you
+      to maintain it, unless the function is only to be used once with a single
+      R Markdown document. In general, we would recommend using an R package to
+      maintain such a function, e.g., you may create a function
+      <c>knit_with_date()</c> in a package:
+    </p>
+
+    <program language="r"><input>
+#' Custom Knit function for RStudio
+#'
+#' @export
+knit_with_date &lt;- function(input, ...) {
+  rmarkdown::render(
+    input,
+    output_file = paste0(
+        xfun::sans_ext(input), '-', Sys.Date(), '.'
+    ),
+    envir = globalenv()
+  )
+}
+    </input></program>
+
+    <p>
+      If you add the above code to a package named <pkg>myPackage</pkg>, you
+      will be able to refer to your custom <c>knit</c> function using the
+      following YAML setting:
+    </p>
+
+    <program language="yaml"><input>
+---
+knit: myPackage::knit_with_date
+---
+    </input></program>
+
+    <p>
+      You may refer to the help page <c>?rmarkdown::render</c> to find out
+      more ideas on how you could customize your <c>knit</c> function behind
+      the <em>Knit</em> button in RStudio.
+    </p>
+  </section>
+
+  <section xml:id="google-drive">
+    <title>Collaborate on Rmd documents through Google Drive with trackdown</title>
+
+    <p>
+      The <pkg>trackdown</pkg> package offers a simple solution for
+      collaborative writing and editing of R Markdown (or Sweave) documents.
+      Based on the <pkg>googledrive</pkg> package, <pkg>trackdown</pkg> allows
+      uploading the local <c>.Rmd</c> (or <c>.Rnw</c>) file as a plain-text
+      file to Google Drive. By taking advantage of the easily readable Markdown
+      (or LaTeX) syntax and the well-known online interface offered by Google
+      Docs, collaborators can easily contribute to the writing and editing
+      process. After integrating all authors' contributions, the final document
+      can be downloaded and rendered locally.
+    </p>
+
+    <p>
+      You can install <pkg>trackdown</pkg> from CRAN, or try the development
+      version on GitHub
+      (<url href="https://github.com/claudiozandonella/trackdown"/>):
+    </p>
+
+    <program language="r"><input>
+# install from CRAN
+install.packages("trackdown")
+
+# install the development version
+remotes::install_github("claudiozandonella/trackdown",
+                        build_vignettes = TRUE)
+    </input></program>
+
+    <p>
+      The package documentation is available at
+      <url href="https://claudiozandonella.github.io/trackdown/"/>.
+    </p>
+
+    <subsection xml:id="trackdown-workflow">
+      <title>The trackdown Workflow</title>
+
+      <p>
+        During the collaborative writing/editing of an <c>.Rmd</c> (or
+        <c>.Rnw</c>) document, it is important to employ different workflows
+        for computer code and narrative text:
+      </p>
+
+      <p><ul>
+        <li><p>
+          <em>Code</em> — Collaborative code writing is done most efficiently
+          by following a traditional Git-based workflow using an online
+          repository (e.g., GitHub or GitLab).
+        </p></li>
+        <li><p>
+          <em>Narrative Text</em> — Collaborative writing of narrative text is
+          done most efficiently using Google Docs, which provides a familiar
+          and simple online interface that allows multiple users to
+          simultaneously write/edit the same document.
+        </p></li>
+      </ul></p>
+
+      <p>
+        Thus, the workflow's main idea is simple: Upload the <c>.Rmd</c> (or
+        <c>.Rnw</c>) document to Google Drive to collaboratively write/edit the
+        narrative text in Google Docs; download the document locally to
+        continue working on the code while harnessing the power of Git for
+        version control and collaboration. This iterative process of uploading
+        to and downloading from Google Drive continues until the desired results
+        are obtained (see <xref ref="fig-trackdown1"/>). The workflow can be
+        summarized as:
+      </p>
+
+      <blockquote>
+        <p>
+          Collaborative <em>code</em> writing using <em>Git</em> &amp;
+          collaborative writing of <em>narrative text</em> using
+          <em>Google Docs</em>
+        </p>
+      </blockquote>
+
+      <p>
+        For a detailed example of the workflow see
+        <url href="https://claudiozandonella.github.io/trackdown/articles/trackdown-workflow.html"/>.
+      </p>
+
+      <figure xml:id="fig-trackdown1">
+        <caption>trackdown workflow: collaborative code writing is done locally
+        using Git whereas collaborative writing of the narrative text is done
+        online using Google Docs.</caption>
+        <image source="external/images/trackdown1.png" width="100%"/>
+      </figure>
+    </subsection>
+
+    <subsection xml:id="trackdown-features">
+      <title>Functions and Special Features</title>
+
+      <p>
+        <pkg>trackdown</pkg> offers different functions to manage the workflow:
+      </p>
+
+      <p><ul>
+        <li><p>
+          <c>upload_file()</c> uploads a file for the first time to Google
+          Drive.
+        </p></li>
+        <li><p>
+          <c>update_file()</c> updates the content of an existing file in
+          Google Drive with the contents of a local file.
+        </p></li>
+        <li><p>
+          <c>download_file()</c> downloads the edited version of a file from
+          Google Drive and updates the local version.
+        </p></li>
+        <li><p>
+          <c>render_file()</c> downloads a file from Google Drive and renders
+          it locally.
+        </p></li>
+      </ul></p>
+
+      <p>
+        Moreover, <pkg>trackdown</pkg> offers additional features to facilitate
+        the collaborative writing and editing of documents in Google Docs. In
+        particular, it is possible to:
+      </p>
+
+      <p><ul>
+        <li><p>
+          <em>Hide Code:</em> Code in the header of the document (YAML header
+          or LaTeX preamble) and code chunks are removed from the document when
+          uploading to Google Drive and are automatically restored during
+          download. This prevents collaborators from inadvertently making
+          changes to the code which might corrupt the file and allows them to
+          focus on the narrative text.
+        </p></li>
+        <li><p>
+          <em>Upload Output:</em> The actual output document (i.e., the
+          rendered file) can be uploaded to Google Drive in conjunction with
+          the <c>.Rmd</c> (or <c>.Rnw</c>) document. This helps collaborators
+          to evaluate the overall layout including figures and tables and allows
+          them to add comments to suggest and discuss changes.
+        </p></li>
+        <li><p>
+          <em>Use Google Drive shared drives:</em> The documents can be
+          uploaded to either a personal Google Drive or to a shared drive to
+          facilitate collaboration.
+        </p></li>
+      </ul></p>
+    </subsection>
+
+    <subsection xml:id="trackdown-google-docs">
+      <title>Advantages of Google Docs</title>
+
+      <p>
+        Google Docs offers users a familiar, intuitive, and free web-based
+        interface that allows multiple users to simultaneously write/edit the
+        same document. In Google Docs it is possible to:
+      </p>
+
+      <p><ul>
+        <li><p>track changes (incl. accepting/rejecting suggestions)</p></li>
+        <li><p>add comments to suggest and discuss changes</p></li>
+        <li><p>
+          check spelling and grammar errors (potentially integrating
+          third-party services like Grammarly)
+        </p></li>
+      </ul></p>
+
+      <p>
+        Moreover, Google Docs allows anyone to contribute to the
+        writing/editing of the document. No programming experience is required;
+        users can just focus on writing/editing the narrative text.
+      </p>
+
+      <p>
+        Note that not all collaborators have to have a Google account (although
+        this is recommended to utilize all Google Docs features). Only the
+        person who manages the <pkg>trackdown</pkg> workflow needs to have a
+        Google account to upload files to Google Drive. Other collaborators can
+        be invited to contribute to the document using a shared link.
+      </p>
+    </subsection>
+  </section>
+
+  <section xml:id="workflowr">
+    <title>Organize an R Markdown project into a research website with workflowr</title>
+
+    <p>
+      The <pkg>workflowr</pkg> package can help you organize a (data analysis)
+      project with a project template and the version control tool Git. Every
+      time you make a change to the project, you can log the change, and
+      <pkg>workflowr</pkg> can build a website corresponding to that particular
+      version of your project. This means that you will be able to view the
+      full history of your analysis results. Although this package uses Git as
+      the backend for version control, you do not really have to be familiar
+      with Git. The package provides R functions that do the Git operations
+      under the hood, and you only need to call these R functions. Furthermore,
+      <pkg>workflowr</pkg> automates best practices for reproducible code. Each
+      time an R Markdown document is rendered, <pkg>workflowr</pkg>
+      automatically sets a seed with <c>set.seed()</c>, records the session
+      information with <c>sessionInfo()</c>, and scans for absolute file paths,
+      etc. Please see the
+      <url href="https://workflowr.github.io/workflowr/">package documentation</url>
+      for how to get started and more information.
+    </p>
+
+    <p>
+      The main author of <pkg>workflowr</pkg>, John Blischak, has also put
+      together a non-exhaustive list of R packages and guides related to the
+      workflow of R projects, which can be found in this GitHub repo:
+      <url href="https://github.com/jdblischak/r-project-workflows"/>.
+    </p>
+  </section>
+
+  <section xml:id="blastula-email">
+    <title>Send emails based on R Markdown</title>
+
+    <p>
+      With the <pkg>blastula</pkg> package, you can render an Rmd document to
+      the email body and send the email. To render an Rmd document to an email,
+      the document needs to use the output format
+      <c>blastula::blastula_email</c>, e.g.,
+    </p>
+
+    <program language="md"><input>
+---
+title: Weekly Report
+output: blastula::blastula_email
+--- 
+
+Dear Boss,
+
+Below is an analysis of the `iris` data:
+
+```{r}
+summary(iris)
+plot(iris[, -5])
+```
+
+Please let me know if it is not boring enough.
+
+Sincerely,  
+John
+    </input></program>
+
+    <p>
+      This Rmd document should be rendered via the function
+      <c>blastula::render_email()</c>, and the output can be passed to
+      <c>blastula::smtp_send()</c>, which will send out the email. Note that
+      <c>smtp_send()</c> needs an email server as well as your credentials.
+    </p>
+
+    <p>
+      If you use RStudio Connect, you can find more examples at
+      <url href="https://solutions.rstudio.com/r/blastula/"/>, including
+      automated, conditional, and parameterized emails.
+    </p>
+  </section>
 
 </chapter>

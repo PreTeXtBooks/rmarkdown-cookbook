@@ -3,9 +3,338 @@
   <title>Word</title>
 
   <p>
-    This chapter is a skeleton to be filled in. It will cover generating Word
-    documents from R Markdown, including using Word templates, formatting
-    options, and working with cross-references in Word output.
+    To generate a Word document from R Markdown, you can use the output
+    format <c>word_document</c>. If you want to include cross-references in
+    the document, you may consider the output format
+    <c>bookdown::word_document2</c>, as mentioned in
+    <xref ref="cross-ref"/>.
   </p>
+
+  <program language="yaml">
+    <input>
+---
+output:
+  word_document: default
+  bookdown::word_document2: default  # for cross-references
+---
+    </input>
+  </program>
+
+  <p>
+    From our experience, the most frequently asked questions about Word
+    output are:
+  </p>
+
+  <ol>
+    <li><p>How can I apply a custom Word template to the document?</p></li>
+    <li><p>How can I incorporate changes made in Word in the original R
+      Markdown document?</p></li>
+    <li><p>How can I style individual document elements?</p></li>
+  </ol>
+
+  <p>
+    We will address these questions in this chapter.
+  </p>
+
+  <section xml:id="word-template">
+    <title>Custom Word templates</title>
+
+    <p>
+      You can apply the styles defined in a Word template document to new
+      Word documents generated from R Markdown. Such a template document is
+      also called a "style reference document." The key is that you have to
+      create this template document from Pandoc first, and change the style
+      definitions in it later. Then pass the path of this template to the
+      <c>reference_docx</c> option of <c>word_document</c>, e.g.,
+    </p>
+
+    <program language="yaml">
+      <input>
+---
+output:
+  word_document:
+    reference_docx: "template.docx"
+---
+      </input>
+    </program>
+
+    <p>
+      As we just mentioned, the document <c>template.docx</c> has to be
+      generated from Pandoc. You can create this template from an arbitrary
+      R Markdown document with the <c>word_document</c> output format (the
+      actual content of this document does not matter, but it should contain
+      the type of elements of which you want to style). Then open the
+      <c>.docx</c> file, and edit the styles.
+    </p>
+
+    <figure xml:id="fig-word-template-1">
+      <caption>Find the styles of a specific document element.</caption>
+      <image source="external/images/word-template-1.png" width="100%">
+        <description>Screenshot of the Word Styles panel open on the HOME
+          tab, with a style item highlighted for the element under the
+          cursor.</description>
+      </image>
+    </figure>
+
+    <p>
+      <xref ref="fig-word-template-1"/> shows that you can open the
+      "Styles" window from the "HOME" tab in Word. When you move the cursor
+      to a specific element in the document, an item in the styles list will
+      be highlighted. If you want to modify the style of any type of
+      element, you can click the drop-down menu on the highlighted item, and
+      you will see a dialog box like <xref ref="fig-word-template-2"/>.
+    </p>
+
+    <figure xml:id="fig-word-template-2">
+      <caption>Modify the styles of an element in a Word document.</caption>
+      <image source="external/images/word-template-2.png" width="100%">
+        <description>Screenshot of the Word Modify Style dialog box used to
+          change the formatting of a named style.</description>
+      </image>
+    </figure>
+
+    <p>
+      After you finish modifying the styles, you can save the document
+      (with a filename that will not be accidentally overwritten), and use
+      it as the template for future Word documents. When Pandoc renders a
+      new Word document with a reference document (template), it will read
+      the styles in the template and apply them to the new document.
+    </p>
+
+    <p>
+      You may watch a short video at
+      <url href="https://vimeo.com/110804387"/>, or read the article at
+      <url href="https://rmarkdown.rstudio.com/articles_docx.html"/> for
+      more detailed instructions on how to create a Word template with
+      custom styles.
+    </p>
+
+    <p>
+      Sometimes it may not be straightforward to find the style name for an
+      element. There may be multiple styles applied to the same element, and
+      you will only see one of them highlighted in the list of styles. It
+      may require some guesswork and online searching to figure out the
+      actual style that you want to modify. For example, you have to click
+      the "Manage Styles" button (the third button from left to right at
+      the bottom of the style list in <xref ref="fig-word-template-1"/>),
+      and scroll through a large number of style names before you find the
+      "Table" style (see <xref ref="fig-word-table"/>). Then you can modify
+      this style for your tables (e.g., add borders).
+    </p>
+
+    <figure xml:id="fig-word-table">
+      <caption>Modify the styles of tables in a Word document.</caption>
+      <image source="external/images/word-table.png" width="100%">
+        <description>Screenshot of the Word Manage Styles dialog showing the
+          Table style selected for modification.</description>
+      </image>
+    </figure>
+
+  </section>
+
+  <section xml:id="word-redoc">
+    <title>The two-way workflow between R Markdown and Word</title>
+
+    <p>
+      While it is easy to generate a Word document from R Markdown, things
+      can be particularly painful when someone else edits the Word document
+      and you have to manually port the changes back to the original R
+      Markdown document. Luckily, Noam Ross has provided a promising
+      solution to this problem. The <em>redoc</em> package
+      (<url href="https://github.com/noamross/redoc"/>) allows you to
+      generate a Word document, revise the Word document, and convert the
+      revised Word document back to R Markdown. Please note that as of this
+      writing (June 2020), the <em>redoc</em> package is still
+      experimental, and more unfortunately, its author has suspended the
+      development. Anyway, if you want to try it out, you can install the
+      package from GitHub:
+    </p>
+
+    <program language="r">
+      <input>
+remotes::install_github("noamross/redoc")
+      </input>
+    </program>
+
+    <p>
+      Once the package is installed, you may use the output format
+      <c>redoc::redoc</c>:
+    </p>
+
+    <program language="yaml">
+      <input>
+---
+output: redoc::redoc
+---
+      </input>
+    </program>
+
+    <p>
+      This output format generates a Word document that actually stores the
+      original Rmd document, so the Word document can be converted back to
+      Rmd. Tracked changes in Word will be converted to text written with
+      the CriticMarkup syntax
+      (<url href="http://criticmarkup.com"/>). For example,
+      <c>{++ important ++}</c> represents the insertion of the word
+      "important" in the text.
+    </p>
+
+    <p>
+      You can convert the Word document generated by <c>redoc::redoc</c>
+      to Rmd via the function <c>redoc::dedoc()</c>, e.g.,
+      <c>redoc::dedoc("file.docx")</c> will generate <c>file.Rmd</c>. In
+      this process, you can decide how to deal with tracked changes in Word
+      via the <c>track_changes</c> argument, e.g., you may accept or reject
+      changes, or convert tracked changes to CriticMarkup. We recommend
+      that you use <c>track_changes = 'criticmarkup'</c> to avoid the
+      permanent loss of tracked changes.
+    </p>
+
+    <p>
+      When editing the Word document, you are expected to edit the parts
+      that are <em>not</em> automatically generated by code chunks or inline
+      R expressions in R Markdown. For example, you must not edit a table
+      if it is automatically generated by <c>knitr::kable()</c> in a code
+      chunk, because such changes will be lost when you convert Word to Rmd
+      via <c>dedoc()</c>. To avoid accidentally editing the automatic
+      results from code chunks, you may set the option
+      <c>highlight_outputs</c> to <c>true</c> in the <c>redoc::redoc</c>
+      format, which means the automatic output will be highlighted in Word
+      (with a background color). You should tell your collaborator that they
+      should not touch these highlighted parts in the Word document.
+    </p>
+
+    <p>
+      Again, the <em>redoc</em> package is still experimental and its
+      future is unclear at the moment, so the introduction here is
+      intentionally brief. When in doubt, we recommend that you read its
+      documentation on GitHub.
+    </p>
+
+  </section>
+
+  <section xml:id="word-officedown">
+    <title>Style individual elements</title>
+
+    <p>
+      Due to the simplicity of Markdown, you can apply some global styles
+      to the Word document (see <xref ref="word-template"/>), but it is not
+      straightforward to style individual elements, such as changing the
+      color of a word, or centering a paragraph.
+    </p>
+
+    <p>
+      Continuing his effort to make it easier to work with Office documents
+      in R, David Gohel started to develop the <em>officedown</em> package
+      in 2018, which aims to bring some <em>officer</em> features into R
+      Markdown. As of this writing, this package is still experimental,
+      although its initial version has been published on CRAN. You may
+      either install it from CRAN or GitHub:
+    </p>
+
+    <program language="r">
+      <input>
+# install from CRAN
+install.packages("officedown")
+
+# or GitHub
+remotes::install_github("davidgohel/officedown")
+      </input>
+    </program>
+
+    <p>
+      After the package is installed, you need to load it in your R
+      Markdown document, e.g.,
+    </p>
+
+    <program language="md">
+      <input>
+```{r, setup, include=FALSE}
+library(officedown)
+```
+      </input>
+    </program>
+
+    <p>
+      There is an output format <c>rdocx_document</c> in the
+      <em>officedown</em> package, which is based on
+      <c>rmarkdown::word_document</c> by default, and has several other
+      features such as styling tables and plots.
+    </p>
+
+    <p>
+      The <em>officedown</em> package allows you to style specific Word
+      elements via the <em>officer</em> package. For example, you can
+      create a style via the function <c>officer::fp_text()</c>, and apply
+      the style to a piece of text via <c>ftext()</c> in an inline R
+      expression:
+    </p>
+
+    <program language="md">
+      <input>
+---
+title: Style text with officedown
+output:
+  officedown::rdocx_document: default
+---
+
+```{r}
+library(officedown)
+library(officer)
+ft &lt;- fp_text(color = 'red', bold = TRUE)
+```
+
+# Test
+
+The **officedown** package is
+`r ftext('awesome', ft)`!
+      </input>
+    </program>
+
+    <p>
+      Besides functions in <em>officer</em>, <em>officedown</em> also
+      allows you to use some special HTML comments to perform
+      <em>officer</em> tasks. For example, the function
+      <c>officer::block_pour_docx()</c> can be used to import an external
+      Word document into the current document, and alternatively, you can
+      use the HTML comment in R Markdown:
+    </p>
+
+    <program language="html">
+      <input>
+&lt;!---BLOCK_POUR_DOCX{file: 'my-file.docx'}---&gt;
+      </input>
+    </program>
+
+    <p>
+      That is equivalent to the inline R expression:
+    </p>
+
+    <program language="md">
+      <input>
+`r block_pour_docx(file = 'my-file.docx')`
+      </input>
+    </program>
+
+    <p>
+      Other things you may do with <em>officedown</em> and <em>officer</em>
+      include the following:
+    </p>
+
+    <ul>
+      <li><p>Insert page breaks.</p></li>
+      <li><p>Put content in a multi-column layout.</p></li>
+      <li><p>Change paragraph settings.</p></li>
+      <li><p>Insert a table of contents.</p></li>
+      <li><p>Change the orientation of a section (landscape or portrait).</p></li>
+    </ul>
+
+    <p>
+      To learn more about <em>officedown</em>, please check out its
+      documentation at
+      <url href="https://davidgohel.github.io/officedown/"/>.
+    </p>
+
+  </section>
 
 </chapter>

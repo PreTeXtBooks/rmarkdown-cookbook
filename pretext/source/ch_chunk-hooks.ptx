@@ -1,12 +1,466 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xml:id="ch-chunk-hooks" xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Chunk Hooks</title>
+  <title>Chunk Hooks (*)</title>
 
   <p>
-    This chapter is a skeleton to be filled in. It will introduce chunk hooks,
-    which are functions triggered by chunk options to execute additional tasks
-    beyond running the code in a chunk, such as post-processing plots or
-    recording execution time.
+    A <em>chunk hook</em> is a function that is triggered by a chunk option when
+    the value of this chunk option is not <c>NULL</c>. Chunk hooks provide a way
+    for you to execute additional tasks beyond running the code in a chunk. For
+    example, you may want to post-process plots (e.g.,
+    <xref ref="crop-plot"/> and <xref ref="optipng"/>), or record the time taken
+    by a code chunk (<xref ref="time-chunk"/>). Such tasks may not be essential
+    to the computing or analysis in the report, but they can be useful for other
+    purposes (e.g., enhance plots or help you identify the most time-consuming
+    chunks).
   </p>
+
+  <p>
+    You can use chunk hooks purely for their side effects (e.g., only printing
+    out certain information to the console), or for their returned values, which
+    will be written to the output document if the value is a character value.
+  </p>
+
+  <p>
+    Like output hooks (see <xref ref="ch-output-hooks"/>), chunk hooks are also
+    registered via the object <c>knitr::knit_hooks</c>. Please note that the
+    names of output hooks are reserved by <em>knitr</em>, so you must not use
+    these names for your custom chunk hooks:
+  </p>
+
+  <program language="r"><input>
+names(knitr:::.default.hooks)
+  </input></program>
+
+  <console>
+    <output>
+## [1] "source"   "output"   "warning"  "message"  "error"    "plot"
+## [7] "inline"   "chunk"    "document"
+    </output>
+  </console>
+
+  <p>
+    A chunk hook is associated with a chunk option of the same name. For
+    example, you can register a chunk hook with the name <c>greet</c>:
+  </p>
+
+  <program language="r"><input>
+knitr::knit_hooks$set(greet = function(before) {
+  if (before) "Hello!" else "Bye!"
+})
+  </input></program>
+
+  <p>
+    We will explain the arguments of the hook function in a moment. Now we set
+    the chunk option <c>greet = TRUE</c> for the chunk below:
+  </p>
+
+  <program language="md"><input>
+```{r, greet=TRUE}
+1 + 1
+```
+  </input></program>
+
+  <console>
+    <output>
+Hello!
+
+```r
+1 + 1
+```
+
+## [1] 2
+
+Bye!
+    </output>
+  </console>
+
+  <p>
+    And you will see that <q>Hello!</q> appears before the chunk, and
+    <q>Bye!</q> appears after the chunk in the output (which is because they are
+    character values).
+  </p>
+
+  <p>
+    A chunk hook function can possibly take four arguments: <c>before</c>,
+    <c>options</c>, <c>envir</c>, and <c>name</c>. In other words, it can be of
+    this form:
+  </p>
+
+  <program language="r"><input>
+function(before, options, envir, name) {
+
+}
+  </input></program>
+
+  <p>
+    All four arguments are optional. You can have four, three, two, one, or even
+    no arguments. In the above example, we used one argument (i.e.,
+    <c>before</c>). The meanings of these arguments are:
+  </p>
+
+  <ul>
+    <li><p>
+      <c>before</c>: Whether the chunk hook is currently being executed before
+      or after the code chunk itself is executed. Note that a chunk hook is
+      executed twice for every code chunk (once before with
+      <c>hook(before = TRUE)</c> and once after with
+      <c>hook(before = FALSE)</c>).
+    </p></li>
+    <li><p>
+      <c>options</c>: The list of chunk options for the current code chunk,
+      e.g., <c>list(fig.width = 5, echo = FALSE, ...)</c>.
+    </p></li>
+    <li><p>
+      <c>envir</c>: The environment in which the chunk hook is evaluated.
+    </p></li>
+    <li><p>
+      <c>name</c>: The name of the chunk option that triggered the chunk hook.
+    </p></li>
+  </ul>
+
+  <p>
+    As we mentioned in the beginning of this chapter, non-character values
+    returned by chunk hooks are silently ignored, and character values are
+    written to the output document.
+  </p>
+
+  <section xml:id="crop-plot">
+    <title>Crop plots</title>
+
+    <p>
+      The chunk hook <c>knitr::hook_pdfcrop()</c> can be used to crop PDF and
+      other types of plot files, i.e., remove the extra margins in plots. To
+      enable it, set this hook via <c>knit_hooks$set()</c> in a code chunk, and
+      turn on the corresponding chunk option, e.g.,
+    </p>
+
+    <program language="r"><input>
+knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)
+    </input></program>
+
+    <p>
+      Then you can use the chunk option <c>crop = TRUE</c> to crop plots in a
+      code chunk.
+    </p>
+
+    <p>
+      The hook <c>hook_pdfcrop()</c> calls the external program
+      <c>pdfcrop</c> to crop PDF files. This program often comes with a LaTeX
+      distribution (e.g., TeX Live or MiKTeX). You can check if it is available
+      in your system via:
+    </p>
+
+    <program language="r"><input>
+# if the returned value is not empty, it is available
+Sys.which('pdfcrop')
+    </input></program>
+
+    <p>
+      If you are using the LaTeX distribution TinyTeX (see
+      <xref ref="install-latex"/>), and <c>pdfcrop</c> is not available in your
+      system, you may install it via
+      <c>tinytex::tlmgr_install('pdfcrop')</c>.
+    </p>
+
+    <p>
+      For non-PDF plot files such as PNG or JPEG files, this hook function calls
+      the R package <em>magick</em> for cropping. You need to make sure this R
+      package has been installed.
+    </p>
+
+  </section>
+
+  <section xml:id="optipng">
+    <title>Optimize PNG plots</title>
+
+    <p>
+      If you have installed the program OptiPNG
+      (<url href="http://optipng.sourceforge.net"/>), you may use the hook
+      <c>knitr::hook_optipng()</c> to optimize PNG plot files to a smaller size
+      without losing the image quality.
+    </p>
+
+    <program language="r"><input>
+knitr::knit_hooks$set(optipng = knitr::hook_optipng)
+    </input></program>
+
+    <p>
+      After you set up this hook, you can use the chunk option <c>optipng</c> to
+      pass command-line arguments to OptiPNG, e.g., <c>optipng = '-o7'</c>.
+      These command-line arguments are optional, which means you can just use
+      <c>optipng = ''</c> to enable the hook for a code chunk. Please see the
+      user manual on the website of OptiPNG to know the possible arguments.
+    </p>
+
+    <p>
+      OptiPNG can be easily installed on macOS with Homebrew
+      (<url href="https://brew.sh"/>): <c>brew install optipng</c>, and on
+      Windows using Scoop (<url href="https://scoop.sh"/>):
+      <c>scoop install optipng</c>.
+    </p>
+
+  </section>
+
+  <section xml:id="time-chunk">
+    <title>Report how much time each chunk takes to run</title>
+
+    <p>
+      By default, <em>knitr</em> provides a text-based progress bar to show you
+      the knitting progress. If you want more precise timing information about
+      the chunks, you may register a custom chunk hook to record the time for
+      each chunk. Here is an example hook:
+    </p>
+
+    <program language="r"><input>
+knitr::knit_hooks$set(time_it = local({
+  now &lt;- NULL
+  function(before, options) {
+    if (before) {
+      # record the current time before each chunk
+      now &lt;&lt;- Sys.time()
+    } else {
+      # calculate the time difference after a chunk
+      res &lt;- difftime(Sys.time(), now, units = "secs")
+      # return a character string to show the time
+      paste('Time for this code chunk to run:', 
+            round(res, 2), 'seconds')
+    }
+  }})
+)
+    </input></program>
+
+    <p>
+      Then you can time a chunk with the chunk option <c>time_it</c>, e.g.,
+    </p>
+
+    <program language="md"><input>
+```{r, time_it = TRUE}
+Sys.sleep(2)
+```
+    </input></program>
+
+    <p>
+      If you want to time all code chunks, you can certainly set the option
+      globally: <c>knitr::opts_chunk$set(time_it = TRUE)</c>.
+    </p>
+
+    <p>
+      In the above hook function, you can also output more information from the
+      chunk options (i.e., the <c>options</c> argument of the function). For
+      example, you may print out the chunk label in the returned value:
+    </p>
+
+    <program language="r"><input>
+paste('Time for the chunk', options$label, 'to run:', res)
+    </input></program>
+
+    <p>
+      Or you may record the time without printing it out in the hook:
+    </p>
+
+    <program language="r"><input>
+all_times &lt;- list()  # store the time for each chunk
+knitr::knit_hooks$set(time_it = local({
+  now &lt;- NULL
+  function(before, options) {
+    if (before) {
+      now &lt;&lt;- Sys.time()
+    } else {
+      res &lt;- difftime(Sys.time(), now)
+      all_times[[options$label]] &lt;&lt;- res
+    }
+  }})
+)
+    </input></program>
+
+    <p>
+      Then you can access all the time information in the object
+      <c>all_times</c>. This object is a named list with the names being chunk
+      labels, and element values being the execution time for each chunk.
+    </p>
+
+    <p>
+      Lastly, as a technical note, we want to explain the use of the
+      <c>local()</c> function in the previous hooks because some readers may not
+      be familiar with it. This function allows you to run code in a
+      <q>local</q> environment. The main benefit is that variables created in
+      the code are local to that environment, so they will not pollute the outer
+      environment (usually the global environment). For example, we created a
+      variable <c>now</c> in <c>local()</c>, and used it in the <c>time_it</c>
+      hook function. In the hook function, we update the value of <c>now</c> via
+      the double arrow <c>&lt;&lt;-</c> instead of the normal assignment operator
+      <c>&lt;-</c>. This is because <c>&lt;&lt;-</c> assigns a value to a
+      variable in the parent environment (which is the environment in
+      <c>local()</c> in this case), and <c>&lt;-</c> can only assign values to
+      variables in the current environment. Before each code chunk is evaluated,
+      the local variable <c>now</c> records the current time. After each code
+      chunk is evaluated, we calculate the time difference between the current
+      time and <c>now</c>. Note that <c>local()</c> returns the last value in
+      the expression passed to it, which is a (hook) function in this case. In
+      short, <c>local()</c> can make your workspace cleaner by not exposing
+      variables that are only used locally but unused in the global environment.
+      If you do not mind creating a variable <c>now</c> in the global
+      environment, you can choose not to use <c>local()</c>.
+    </p>
+
+  </section>
+
+  <section xml:id="show-header">
+    <title>Show the chunk header in the output</title>
+
+    <p>
+      Sometimes you may want to show the original code chunk header to your
+      readers. For example, when you write an R Markdown tutorial, you may want
+      to show both the chunk output and the chunk options that you used to
+      generate the output, so your readers can learn how to do it by themselves.
+    </p>
+
+    <p>
+      The original chunk options are actually stored as a character string in
+      the chunk option <c>params.src</c>. After you know this, you may write a
+      chunk hook to add <c>params.src</c> to the output. Below is a full
+      example:
+    </p>
+
+    <program language="md"><input>
+---
+title: Show chunk headers in the output
+---
+
+Set up a chunk hook named `wrapper` to wrap the chunk
+output inside the original chunk header and footer.
+
+```{r, setup, include=FALSE}
+knitr::knit_hooks$set(wrapper = function(before, options) {
+  # the original chunk might be indented
+  if (is.null(indent &lt;- options$indent)) indent &lt;- ''
+  
+  # hide the wrapper=TRUE option
+  opts &lt;- gsub(', wrapper=TRUE', '', options$params.src)
+  
+  if (before) {
+    # add the header
+    sprintf('\n\n%s````\n```{r,%s}\n````\n', indent, opts)
+  } else {
+    # add the footer
+    sprintf('\n\n%s````\n```\n````\n', indent)
+  }
+})
+```
+
+Now we apply the hook via the chunk option `wrapper=TRUE`.
+Remember to put `wrapper=TRUE` at the end of the header, and
+it has to be `wrapper=TRUE` precisely (e.g., not `wrapper=T`),
+following a comma and a space, unless you adjust the `gsub()`
+call in the above hook.
+
+```{r, test-label, collapse=TRUE, wrapper=TRUE}
+1 + 1
+plot(cars)
+```
+
+You should see the original chunk header appear in
+the output. The hook should also work when the chunk
+is indented, e.g.,
+
+- One bullet.
+
+  ```{r, eval=TRUE, wrapper=TRUE}
+  2 + 2
+  ```
+
+- Another bullet.
+    </input></program>
+
+    <p>
+      Basically, we restored the chunk header from <c>options$params.src</c> by
+      putting this string inside <c>```{r, }</c>. Then we wrapped this line in
+      a pair of four backticks, so it can be displayed verbatim in the output.
+      Note that the original code chunk might be indented (e.g., when it is
+      nested in a list item), so we also need to add the proper indentation,
+      which is stored in the chunk option <c>options$indent</c>.
+    </p>
+
+    <p>
+      The output of the bullet list at the end of the above example will be
+      like this:
+    </p>
+
+    <program language="text"><input>
+- One bullet.
+
+  ````
+  ```{r, eval=TRUE}
+  ````
+  ```r
+  2 + 2
+  ```
+  ```
+  ## [1] 4
+  ```
+  ````
+  ```
+  ````
+
+- Another bullet.
+    </input></program>
+
+    <p>
+      You can see that the code chunk was evaluated, and the chunk header was
+      also added.
+    </p>
+
+  </section>
+
+  <section xml:id="rgl-3d">
+    <title>Embed an interactive 3D plot with rgl</title>
+
+    <p>
+      The <em>rgl</em> package can be used to generate interactive 3D plots.
+      These plots can still be interactive if they are saved to the WebGL
+      format, which can be done through a hook function
+      <c>rgl::hook_webgl()</c>. Below is an example that shows you how to set
+      up <em>rgl</em> and <em>knitr</em> so 3D plots can be saved while
+      preserving the interactivity:
+    </p>
+
+    <program language="md"><input>
+---
+title: Embed 3D plots with rgl
+output: html_document
+---
+
+Set up a hook to save **rgl** plots:
+
+```{r, setup}
+library(rgl)
+knitr::knit_hooks$set(webgl = hook_webgl)
+```
+
+See if it works for this 3D plot after we enable the hook
+via the chunk option `webgl = TRUE`:
+
+```{r, test-rgl, webgl=TRUE}
+x &lt;- sort(rnorm(1000))
+y &lt;- rnorm(1000)
+z &lt;- rnorm(1000) + atan2(x,y)
+plot3d(x, y, z, col = rainbow(1000))
+```
+    </input></program>
+
+    <p>
+      You should get an interactive 3D scatterplot like
+      <xref ref="fig-rgl-3d"/> after you compile this example. Note that
+      the interactive plots only work when the output format is HTML.
+    </p>
+
+    <figure xml:id="fig-rgl-3d">
+      <caption>A 3D scatterplot generated from the rgl package.</caption>
+      <image source="external/images/rgl-3d.png" width="70%">
+        <description>A 3D scatterplot of random data points shown in multiple colours, generated using the rgl package's WebGL output.</description>
+      </image>
+    </figure>
+
+  </section>
 
 </chapter>
