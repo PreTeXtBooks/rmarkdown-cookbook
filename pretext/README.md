@@ -4,11 +4,11 @@ This directory contains the PreTeXt version of the *R Markdown Cookbook*.
 
 ## Building the Book
 
-To build the book locally:
+To build the book locally from the repository root:
 
 ```bash
-python3 ../check_ptx_consistency.py
-python3 ../copy_images.py
+python3 check_ptx_consistency.py
+python3 copy_images.py
 cd pretext
 pretext build web
 ```

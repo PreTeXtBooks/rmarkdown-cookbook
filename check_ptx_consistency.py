@@ -195,16 +195,16 @@ def check_chapter(repo_root: Path, rmd_path: str, ptx_path: str) -> list[str]:
     prose_recall = recall(tokenize(prose), tokenize(ptx_text))
     titles = extract_ptx_titles(root)
     headings = extract_rmd_headings(prose)
-    title_recall = 1.0 if not headings else sum(heading in titles for heading in headings) / len(headings)
+    heading_recall = 1.0 if not headings else sum(heading in titles for heading in headings) / len(headings)
 
     errors = []
     if prose_recall < PROSE_RECALL_THRESHOLD:
         errors.append(
             f"{rmd_path} -> {ptx_path}: prose token recall {prose_recall:.3f} is below {PROSE_RECALL_THRESHOLD:.2f}"
         )
-    if title_recall < HEADING_RECALL_THRESHOLD:
+    if heading_recall < HEADING_RECALL_THRESHOLD:
         errors.append(
-            f"{rmd_path} -> {ptx_path}: heading recall {title_recall:.3f} is below {HEADING_RECALL_THRESHOLD:.2f}"
+            f"{rmd_path} -> {ptx_path}: heading recall {heading_recall:.3f} is below {HEADING_RECALL_THRESHOLD:.2f}"
         )
     return errors
 
