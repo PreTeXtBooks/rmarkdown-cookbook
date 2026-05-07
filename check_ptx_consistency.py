@@ -11,6 +11,9 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parent
+LEFT_DOUBLE_QUOTE = "\u201c"
+RIGHT_DOUBLE_QUOTE = "\u201d"
+RIGHT_SINGLE_QUOTE = "\u2019"
 
 CHAPTER_PAIRS = [
     ("01-installation.Rmd", "pretext/source/ch_intro.ptx"),
@@ -131,7 +134,7 @@ def split_rmd(text: str) -> tuple[str, list[str]]:
 
 def normalize_inline(text: str) -> str:
     text = html.unescape(text)
-    text = text.lower().replace("“", '"').replace("”", '"').replace("’", "'")
+    text = text.lower().replace(LEFT_DOUBLE_QUOTE, '"').replace(RIGHT_DOUBLE_QUOTE, '"').replace(RIGHT_SINGLE_QUOTE, "'")
     text = re.sub(r"`([^`]*)`", lambda m: m.group(1), text)
     text = re.sub(r"!\[[^\]]*\]\([^)]+\)", " IMG ", text)
     text = re.sub(r"\[([^\]]+)\]\([^)]+\)", lambda m: f" {m.group(1)} ", text)

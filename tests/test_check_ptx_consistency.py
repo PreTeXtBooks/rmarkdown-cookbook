@@ -29,6 +29,23 @@ title: Example
         self.assertEqual(len(code_blocks), 1)
         self.assertIn("## Hidden Heading", code_blocks[0])
 
+    def test_split_rmd_ignores_headings_inside_standard_fences(self):
+        prose, code_blocks = check_ptx_consistency.split_rmd(
+            """# Visible Heading
+
+```python
+## Hidden Heading
+print("hello")
+```
+"""
+        )
+
+        headings = check_ptx_consistency.extract_rmd_headings(prose)
+
+        self.assertEqual(headings, ["visible heading"])
+        self.assertEqual(len(code_blocks), 1)
+        self.assertIn("## Hidden Heading", code_blocks[0])
+
 
 class ChapterCheckTests(unittest.TestCase):
     def test_check_chapter_accepts_matching_content(self):
