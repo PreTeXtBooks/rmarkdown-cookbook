@@ -84,5 +84,62 @@ class ChapterCheckTests(unittest.TestCase):
             )
 
 
+class BackmatterAndMainTests(unittest.TestCase):
+    def test_check_backmatter_reports_missing_references_title(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "18-references.Rmd").write_text("# References\n", encoding="utf-8")
+            (root / "pretext/source").mkdir(parents=True)
+            (root / "pretext/source/meta_backmatter.ptx").write_text(
+                "<backmatter><references><title>Bibliography</title></references></backmatter>",
+                encoding="utf-8",
+            )
+
+            errors = check_ptx_consistency.check_backmatter(root)
+
+            self.assertTrue(any("missing References title" in error for error in errors))
+            self.assertTrue(any("expected at least" in error for error in errors))
+
+    def test_main_returns_success_and_failure(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "chapter.Rmd").write_text("# Sample Chapter\n\nMatching prose.\n", encoding="utf-8")
+            (root / "chapter.ptx").write_text(
+                "<chapter><title>Sample Chapter</title><p>Matching prose.</p></chapter>",
+                encoding="utf-8",
+            )
+            (root / "18-references.Rmd").write_text("# References\n", encoding="utf-8")
+            (root / "pretext/source").mkdir(parents=True)
+            (root / "pretext/source/meta_backmatter.ptx").write_text(
+                """<backmatter>
+                <references>
+                  <title>References</title>
+                  <biblio xml:id="a"/>
+                  <biblio xml:id="b"/>
+                  <biblio xml:id="c"/>
+                  <biblio xml:id="d"/>
+                  <biblio xml:id="e"/>
+                </references>
+                </backmatter>""",
+                encoding="utf-8",
+            )
+
+            original_root = check_ptx_consistency.REPO_ROOT
+            original_pairs = check_ptx_consistency.CHAPTER_PAIRS
+            try:
+                check_ptx_consistency.REPO_ROOT = root
+                check_ptx_consistency.CHAPTER_PAIRS = [("chapter.Rmd", "chapter.ptx")]
+                self.assertEqual(check_ptx_consistency.main(), 0)
+
+                (root / "chapter.ptx").write_text(
+                    "<chapter><title>Different</title><p>Different prose.</p></chapter>",
+                    encoding="utf-8",
+                )
+                self.assertEqual(check_ptx_consistency.main(), 1)
+            finally:
+                check_ptx_consistency.REPO_ROOT = original_root
+                check_ptx_consistency.CHAPTER_PAIRS = original_pairs
+
+
 if __name__ == "__main__":
     unittest.main()
