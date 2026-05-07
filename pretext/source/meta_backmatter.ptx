@@ -37,6 +37,27 @@
       <url href="https://r4ds.had.co.nz/">https://r4ds.had.co.nz/</url>.
     </biblio>
 
+    <biblio type="raw" xml:id="R-pandoc">
+      Dervieux, C. (2023).
+      <pubtitle>pandoc: Manage and Run Universal Converter Pandoc from R</pubtitle>.
+      URL:
+      <url href="https://cderv.github.io/pandoc/">https://cderv.github.io/pandoc/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-tinytex">
+      Xie, Y. (2023).
+      <pubtitle>tinytex: Helper Functions to Install and Maintain TeX Live, and Compile LaTeX Documents</pubtitle>.
+      URL:
+      <url href="https://github.com/rstudio/tinytex">https://github.com/rstudio/tinytex</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="tinytex2019">
+      Xie, Y. (2019).
+      <pubtitle>TinyTeX: A lightweight, cross-platform, and easy-to-maintain LaTeX distribution based on TeX Live</pubtitle>.
+      <em>TUGboat</em>, 40(1), 30--32. URL:
+      <url href="https://tug.org/TUGboat/Contents/contents40-1.html">https://tug.org/TUGboat/Contents/contents40-1.html</url>.
+    </biblio>
+
   </references>
 
   <index>
