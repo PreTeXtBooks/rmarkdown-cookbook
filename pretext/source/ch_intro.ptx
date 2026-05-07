@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xml:id="ch-installation" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Installation</title>
-
+<introduction>
   <p>
     To use R Markdown, you have to install R and the R package
     <em>rmarkdown</em>.
@@ -34,7 +34,7 @@ remotes::install_github('rstudio/rmarkdown')
     (<xref ref="install-latex"/>) and certain LaTeX packages
     (<xref ref="install-latex-pkgs"/>).
   </p>
-
+</introduction>
   <section xml:id="install-pandoc">
     <title>Use a Pandoc version not bundled with the RStudio IDE</title>
 
