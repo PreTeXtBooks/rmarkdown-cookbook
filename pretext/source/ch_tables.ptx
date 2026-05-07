@@ -50,6 +50,19 @@ knitr::kable(head(mtcars[, 1:4]), 'pipe')
         </input>
       </program>
 
+      <console>
+        <output>
+|                   |  mpg| cyl| disp|  hp|
+|:------------------|----:|---:|----:|---:|
+|Mazda RX4          | 21.0|   6|  160| 110|
+|Mazda RX4 Wag      | 21.0|   6|  160| 110|
+|Datsun 710         | 22.8|   4|  108|  93|
+|Hornet 4 Drive     | 21.4|   6|  258| 110|
+|Hornet Sportabout  | 18.7|   8|  360| 175|
+|Valiant            | 18.1|   6|  225| 105|
+        </output>
+      </console>
+
       <p>
         You can also generate simple tables, or tables in HTML, LaTeX, and
         reStructuredText:
@@ -63,6 +76,40 @@ knitr::kable(head(mtcars[, 1:4]), 'latex')
 knitr::kable(head(mtcars[, 1:4]), 'rst')
         </input>
       </program>
+
+      <console>
+        <output>
+# kable(head(mtcars[, 1:4]), 'simple'):
+                    mpg   cyl   disp    hp
+------------------  ----  ----  -----  ----
+Mazda RX4           21.0     6    160   110
+Mazda RX4 Wag       21.0     6    160   110
+Datsun 710          22.8     4    108    93
+Hornet 4 Drive      21.4     6    258   110
+Hornet Sportabout   18.7     8    360   175
+Valiant             18.1     6    225   105
+
+# kable(mtcars[1:2, 1:2], 'html'):
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;&lt;th&gt;&lt;/th&gt;&lt;th&gt;mpg&lt;/th&gt;&lt;th&gt;cyl&lt;/th&gt;&lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;&lt;td&gt;Mazda RX4&lt;/td&gt;&lt;td&gt;21&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;Mazda RX4 Wag&lt;/td&gt;&lt;td&gt;21&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+# kable(head(mtcars[, 1:4]), 'latex'):
+\begin{tabular}{l|r|r|r|r}
+\hline
+  &amp; mpg &amp; cyl &amp; disp &amp; hp\\
+\hline
+Mazda RX4 &amp; 21.0 &amp; 6 &amp; 160 &amp; 110\\
+...
+\end{tabular}
+        </output>
+      </console>
 
       <p>
         Please note that only the formats <c>pipe</c> and <c>simple</c> are
@@ -201,6 +248,16 @@ format(10000.123, big.mark = ',')
         </input>
       </program>
 
+      <console>
+        <output>
+## [1] 1
+## [1] 1.2
+## [1] 1.235
+## [1] "1e+03"
+## [1] "10,000.12"
+        </output>
+      </console>
+
       <p>
         Then we round and format numbers in a table:
       </p>
@@ -312,6 +369,13 @@ knitr:::escape_latex(c('100%', '# a comment', 'column_name'))
 xfun::html_escape(c('&lt;address&gt;', 'x = "character"', 'a &amp; b'))
         </input>
       </program>
+
+      <console>
+        <output>
+## [1] "100\\%"        "\\# a comment" "column\\_name"
+## [1] "&amp;lt;address&amp;gt;"    "x = &amp;quot;character&amp;quot;" "a &amp;amp; b"
+        </output>
+      </console>
     </subsection>
 
     <subsection xml:id="kable-multiple">

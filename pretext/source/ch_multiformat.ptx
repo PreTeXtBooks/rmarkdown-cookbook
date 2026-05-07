@@ -57,6 +57,12 @@ knitr::is_html_output(excludes = 'markdown')
       </input>
     </program>
 
+    <console>
+      <output>
+## [1] FALSE
+      </output>
+    </console>
+
     <p>
       If a certain output element can only be generated in LaTeX or HTML,
       you can use these functions to conditionally generate it. For

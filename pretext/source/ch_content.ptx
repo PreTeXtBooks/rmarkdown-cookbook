@@ -851,6 +851,18 @@ knitr::combine_words(LETTERS[1:5])
       </input>
     </program>
 
+    <console>
+      <output>
+## [1] "apple, banana, and cherry"
+## [1] "`apple', `banana', and `cherry'"
+## [1] "apple, banana, cherry"
+## [1] "apple / banana / cherry"
+## [1] "apple"
+## [1] "apple and banana"
+## [1] "A, B, C, D, and E"
+      </output>
+    </console>
+
     <p>
       This function can be particularly handy when it is used in an inline
       R expression, e.g.,
@@ -891,6 +903,12 @@ This morning we had `r knitr::combine_words(v)` for breakfast.
 blogdown:::quote_poem(c('This line', 'should be', 'broken.'))
       </input>
     </program>
+
+    <console>
+      <output>
+## [1] "This line  \nshould be  \nbroken."
+      </output>
+    </console>
 
     <p>
       If you use the RStudio IDE and have installed the package

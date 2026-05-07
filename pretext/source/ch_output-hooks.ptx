@@ -325,6 +325,12 @@ if (TRUE) {
 strrep(' ', c(1, 3, 6, 0))
     </input></program>
 
+    <console>
+      <output>
+## [1] " "      "   "    "      " ""
+      </output>
+    </console>
+
     <p>
       The method introduced in <xref ref="number-lines"/> may be the actual way in
       which you want to add line numbers to source code. The syntax is cleaner, and
@@ -528,6 +534,16 @@ knitr::knit_hooks$set(output = function(x, options) {
 print(cars)
       </input>
     </program>
+
+    <console>
+      <output>
+##    speed dist
+## 1      4    2
+## 2      4   10
+## 3      7    4
+....
+      </output>
+    </console>
 
     <program language="r"><input>
 knitr::knit_hooks$set(output = hook_output)

@@ -23,6 +23,20 @@
 names(knitr::knit_engines$get())
   </input></program>
 
+  <console>
+    <output>
+##  [1] "awk"        "bash"       "coffee"     "gawk"       "groovy"
+##  [6] "haskell"    "lein"       "mysql"      "node"       "octave"
+## [11] "perl"       "psql"       "Rscript"    "ruby"       "sas"
+## [16] "scala"      "sed"        "sh"         "stata"      "zsh"
+## [21] "highlight"  "Rcpp"       "tikz"       "dot"        "c"
+## [26] "fortran"    "fortran95"  "asy"        "cat"        "asis"
+## [31] "stan"       "block"      "block2"     "js"         "css"
+## [36] "sql"        "go"         "python"     "julia"      "sass"
+## [41] "scss"
+    </output>
+  </console>
+
   <p>
     At the moment, most code chunks of non-R languages are executed
     independently. For example, all <c>bash</c> code chunks in the same
@@ -124,6 +138,12 @@ knitr::knit_engines$set(upper = function(options) {
 Hello, **knitr** engines!
 ```
     </input></program>
+
+    <console>
+      <output>
+HELLO, **KNITR** ENGINES!
+      </output>
+    </console>
 
     <p>
       Next we show an example of an alternative Python engine named
@@ -561,6 +581,18 @@ b:
       <program language="r"><input>
 xfun::tree(yaml::read_yaml('demo.yml'))
       </input></program>
+
+      <console>
+        <output>
+List of 2
+ $ a:List of 2
+  ..$ aa: chr "something"
+  ..$ bb: num 1
+ $ b:List of 2
+  ..$ aa: chr "something else"
+  ..$ bb: num 2
+        </output>
+      </console>
     </subsection>
   </section>
 

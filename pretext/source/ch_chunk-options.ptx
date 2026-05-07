@@ -115,6 +115,12 @@ leaflet() %&gt;% addTiles()
       </input>
     </program>
 
+    <console>
+      <output>
+## Error in 1 + "a": non-numeric argument to binary operator
+      </output>
+    </console>
+
     <p>
       You will see the error message in the output document after you compile the
       Rmd document. In R Markdown, <c>error = FALSE</c> is the default, which means
@@ -637,6 +643,16 @@ cat(paste0('- `', names(iris), '`'), sep = '\n')
       </input>
     </program>
 
+    <console>
+      <output>
+- `Sepal.Length`
+- `Sepal.Width`
+- `Petal.Length`
+- `Petal.Width`
+- `Species`
+      </output>
+    </console>
+
     <p>
       The hyphen (<c>-</c>) is the syntax for unordered lists in Markdown. Below
       is a full example that shows how you can generate section headers, paragraphs,
@@ -757,8 +773,19 @@ if (TRUE) {
     <p>
       The output should look fairly familiar to you if you have ever typed and run
       code in the R console, since the source code contains the prompt character
-      <c>&gt;</c> and the continuation character <c>+</c>.
+      <c>&gt;</c> and the continuation character <c>+</c>:
     </p>
+
+    <console>
+      <output>
+> 1 + 1
+[1] 2
+> if (TRUE) {
++   2 + 2
++ }
+[1] 4
+      </output>
+    </console>
   </section>
 
   <section xml:id="attr-output">

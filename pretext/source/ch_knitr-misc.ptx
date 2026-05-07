@@ -513,6 +513,13 @@ knitr::knit_expand(
 )
     </input></program>
 
+    <console>
+      <output>
+## [1] "The value of `pi` is 3.14159265358979."
+## [1] "The value of `a` is -0.3278, so `a + 1` is 0.6722."
+      </output>
+    </console>
+
     <p>
       This means that if you have an Rmd document that contains some dynamic
       parts in <c>{{ }}</c>, you may apply <c>knit_expand()</c> on the document,

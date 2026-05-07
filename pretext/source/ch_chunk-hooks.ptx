@@ -31,6 +31,13 @@
 names(knitr:::.default.hooks)
   </input></program>
 
+  <console>
+    <output>
+## [1] "source"   "output"   "warning"  "message"  "error"    "plot"
+## [7] "inline"   "chunk"    "document"
+    </output>
+  </console>
+
   <p>
     A chunk hook is associated with a chunk option of the same name. For
     example, you can register a chunk hook with the name <c>greet</c>:
@@ -52,6 +59,20 @@ knitr::knit_hooks$set(greet = function(before) {
 1 + 1
 ```
   </input></program>
+
+  <console>
+    <output>
+Hello!
+
+```r
+1 + 1
+```
+
+## [1] 2
+
+Bye!
+    </output>
+  </console>
 
   <p>
     And you will see that <q>Hello!</q> appears before the chunk, and
