@@ -123,14 +123,14 @@
     </biblio>
 
     <biblio type="raw" xml:id="R-dagitty">
-      dagitty (2023).
+      Textor, J., van der Zander, B., and Ankan, A. (2023).
       <pubtitle>dagitty: Graphical Analysis of Structural Causal Models</pubtitle>.
       URL:
       <url href="https://www.dagitty.net">https://www.dagitty.net</url>.
     </biblio>
 
     <biblio type="raw" xml:id="R-diagram">
-      diagram (2020).
+      Soetaert, K. (2020).
       <pubtitle>diagram: Functions for Visualising Simple Graphs (Networks), Plotting Flow Diagrams</pubtitle>.
       URL:
       <url href="https://github.com/cran/diagram">https://github.com/cran/diagram</url>.
@@ -438,7 +438,7 @@
     </biblio>
 
     <biblio type="raw" xml:id="R-stargazer">
-      stargazer (2022).
+      Hlavac, M. (2022).
       <pubtitle>stargazer: Well-Formatted Regression and Summary Statistics Tables</pubtitle>.
       URL:
       <url href="https://github.com/cran/stargazer">https://github.com/cran/stargazer</url>.
