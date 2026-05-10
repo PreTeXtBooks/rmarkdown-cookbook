@@ -906,8 +906,11 @@ tab %>%
       There are many other R packages that can be used to generate tables. The
       main reason that <c>kable()</c> (Section <xref ref="kable"/>) and
       <em>kableExtra</em> (<xref ref="kableextra"/>) were introduced first is
-      their broad usage and good documentation. Next we list packages that you
-      can check out to decide which one fits your purpose best.
+      not that they are better than other packages, but because we are familiar
+      with only them.<fn>Frankly speaking, I rarely use tables by myself, so
+      I'm not highly motivated to learn how to create sophisticated
+      tables.</fn> Next we list packages that you can check out to decide
+      which one fits your purpose best.
     </p>
 
     <ul>
@@ -926,7 +929,12 @@ tab %>%
         subtitle), the column labels, the table body, row group labels, and
         the table footer. Some parts are optional. You can also format numbers
         and add background shading to cells. Currently <em>gt</em> mainly
-        supports HTML output. You can find more information about it at
+        supports HTML output.<fn>If you need the support for other output
+        formats such as LaTeX and Word, the <em>gtsummary</em> package
+        <cite key="R-gtsummary"/> has made some extensions based on <em>gt</em>
+        that look very promising:
+        <url href="https://github.com/ddsjoberg/gtsummary"/>.</fn> You can
+        find more information about it at
         <url href="https://gt.rstudio.com"/>.</p></li>
 
       <li><p><em>formattable</em> <cite key="R-formattable"/>: Provides some utility functions to format
