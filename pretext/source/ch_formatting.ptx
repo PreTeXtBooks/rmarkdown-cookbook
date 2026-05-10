@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xml:id="ch-formatting" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Formatting</title>
-
+<introduction>
   <p>
     The greatest strength of the Markdown language is that its simplicity
     makes it very easy to read and write even to newcomers. This is its key
@@ -47,7 +47,7 @@
     <url href="https://www.rstudio.com/resources/cheatsheets/"/> provides a
     good overview of the basic syntax.
   </p>
-
+</introduction>
   <section xml:id="font-color">
     <title>Font color</title>
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xml:id="ch-languages" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Other Languages</title>
-
+<introduction>
   <p>
     Besides the R language, many other languages are supported in R Markdown
     through the <em>knitr</em> package. The language name is indicated by the
@@ -66,7 +66,7 @@ names(knitr::knit_engines$get())
     First, let's reveal how a language engine works by registering a custom
     language engine.
   </p>
-
+</introduction>
   <section xml:id="custom-engine">
     <title>Register a custom language engine (*)</title>
 

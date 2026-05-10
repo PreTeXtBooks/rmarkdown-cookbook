@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xml:id="ch-chunk-options" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Chunk Options</title>
-
+<introduction>
   <p>
     As illustrated in <xref ref="rmarkdown-process"/>, the R package <em>knitr</em>
     plays a critical role in R Markdown. In this chapter and the next three chapters,
@@ -33,7 +33,7 @@ knitr::opts_chunk$set(
 ```
     </input>
   </program>
-
+</introduction>
   <section xml:id="chunk-variable">
     <title>Use variables in chunk options</title>
 

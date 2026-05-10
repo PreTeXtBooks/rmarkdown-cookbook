@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xml:id="ch-basics" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Basics</title>
-
+<introduction>
   <p>
     In this chapter, we present some key concepts about R Markdown. First, we
     introduce the basic components of an R Markdown document: the prose and
@@ -14,7 +14,7 @@
     <pubtitle>R Markdown: The Definitive Guide</pubtitle>
     (<url href="https://bookdown.org/yihui/rmarkdown/"/>).
   </p>
-
+</introduction>
   <section xml:id="r-code">
     <title>Code chunks and inline R code</title>
 

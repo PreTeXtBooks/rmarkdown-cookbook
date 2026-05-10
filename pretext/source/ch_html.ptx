@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xml:id="ch-html" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>HTML Output</title>
-
+<introduction>
   <p>
     Compared to LaTeX, HTML may be a little weak in typesetting for paged
     output. However, it is much more powerful in presenting results, especially
@@ -18,7 +18,7 @@
     templates, style or fold code blocks, arrange content in tabs, and embed
     files on HTML pages.
   </p>
-
+</introduction>
   <section xml:id="html-css">
     <title>Apply custom CSS</title>
 

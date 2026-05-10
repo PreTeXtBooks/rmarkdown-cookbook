@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xml:id="ch-multiformat" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Multiple Output Formats</title>
-
+<introduction>
   <p>
     One main advantage of R Markdown is that it can create multiple output
     formats from a single source, which could be one or multiple Rmd
@@ -33,7 +33,7 @@
     will show you how to conditionally enable or disable it based on the
     output format.
   </p>
-
+</introduction>
   <section xml:id="latex-html">
     <title>LaTeX or HTML output</title>
 

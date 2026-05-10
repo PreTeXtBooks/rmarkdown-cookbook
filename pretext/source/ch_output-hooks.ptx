@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xml:id="ch-output-hooks" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Output Hooks (*)</title>
-
+<introduction>
   <p>
     With the <em>knitr</em> package, you have control over every piece of output
     from your code chunks, such as source code, text output, messages, and plots.
@@ -145,7 +145,7 @@ local({
     predefined purposes, output hooks can be much more powerful since they are
     user-defined functions, and you can do anything you want in functions.
   </p>
-
+</introduction>
   <section xml:id="hook-hide">
     <title>Redact source code</title>
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xml:id="ch-tables" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Tables</title>
-
+<introduction>
   <p>
     Tables are one of the primary ways in which we can communicate results in
     a report. You may often desire to tweak their appearance to suit your
@@ -16,7 +16,7 @@
       <em>kableExtra</em> package.</p></li>
     <li><p>Provide a list of other packages that produce tables.</p></li>
   </ul>
-
+</introduction>
   <section xml:id="kable">
     <title>The function <c>knitr::kable()</c></title>
 
