@@ -458,7 +458,7 @@ side of the text output via the `.numberLines` attribute:
 
     <figure xml:id="fig-hook-scroll">
       <caption>An example of scrollable text output, with its height specified in the chunk option <c>max.height</c>.</caption>
-      <image source="external/images/hook-scroll.png" width="100%">
+      <image source="images/hook-scroll.png" width="100%">
         <description>Screenshot of scrollable text output using the max.height chunk option</description>
       </image>
     </figure>
@@ -654,7 +654,7 @@ figcaption {
 
     <figure xml:id="fig-hook-html5">
       <caption>A figure in the HTML5 figure tag.</caption>
-      <image source="external/images/hook-html5.png" width="100%">
+      <image source="images/hook-html5.png" width="100%">
         <description>Screenshot showing a plot rendered inside an HTML5 figure tag with a styled caption</description>
       </image>
     </figure>

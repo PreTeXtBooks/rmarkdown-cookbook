@@ -174,7 +174,7 @@ mtcars[1:5, "mpg", drop = FALSE]
     <figure xml:id="fig-chunk-bg">
       <caption>A code chunk and its text output with background colors
         defined by Bootstrap.</caption>
-      <image source="external/images/chunk-bg.png" width="100%">
+      <image source="images/chunk-bg.png" width="100%">
         <description>Screenshot of R code chunks with Bootstrap background
           colors bg-danger and bg-warning applied.</description>
       </image>
@@ -219,7 +219,7 @@ mtcars[1:5, "mpg"]
     <figure xml:id="fig-chunk-border">
       <caption>A code chunk with a light pink background color and a thick
         red border.</caption>
-      <image source="external/images/chunk-border.png" width="100%">
+      <image source="images/chunk-border.png" width="100%">
         <description>Screenshot of a code chunk styled with a light pink
           background and thick red border.</description>
       </image>
@@ -326,7 +326,7 @@ print(mtcars)
 
     <figure xml:id="fig-html-scroll">
       <caption>Scrollable code blocks using custom CSS.</caption>
-      <image source="external/images/html-scroll.png" width="100%">
+      <image source="images/html-scroll.png" width="100%">
         <description>Screenshot of HTML output with scrollable code
           blocks constrained to a fixed height.</description>
       </image>
@@ -537,7 +537,7 @@ head(mtcars)
 
     <figure xml:id="fig-html-tabs">
       <caption>Turn sections into tabs.</caption>
-      <image source="external/images/html-tabs.png" width="100%">
+      <image source="images/html-tabs.png" width="100%">
         <description>Screenshot of HTML output with two tabs — Plots and
           Tables — showing tabbed content organization.</description>
       </image>
@@ -997,11 +997,11 @@ output:
     <figure xml:id="fig-details-tag">
       <caption>Wrap text output in the details element.</caption>
       <sidebyside widths="48% 48%">
-        <image source="external/images/details-closed.png">
+        <image source="images/details-closed.png">
           <description>Screenshot of HTML output showing a collapsed details
             disclosure element with a "Details" button.</description>
         </image>
-        <image source="external/images/details-open.png">
+        <image source="images/details-open.png">
           <description>Screenshot of HTML output showing an expanded details
             disclosure element with the text output visible.</description>
         </image>

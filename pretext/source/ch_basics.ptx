@@ -67,7 +67,7 @@ its area is `r pi * x^2`.
 
     <figure xml:id="fig-visual-edit">
       <caption>The visual Markdown editor in RStudio.</caption>
-      <image source="external/images/visual-edit.png" width="100%">
+      <image source="images/visual-edit.png" width="100%">
         <description>The visual Markdown editor in RStudio.</description>
       </image>
     </figure>

@@ -726,7 +726,7 @@ thead, tfoot, tr:nth-child(even) { background: #eee; }
 
       <figure xml:id="fig-striped-table">
         <caption>A striped table created with HTML and CSS.</caption>
-        <image source="external/images/striped-table.png" width="70%">
+        <image source="images/striped-table.png" width="70%">
           <description>A screenshot of a striped HTML table with alternating row backgrounds.</description>
         </image>
       </figure>

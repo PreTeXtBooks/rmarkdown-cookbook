@@ -229,7 +229,7 @@ output:
     <figure xml:id="fig-unnumbered-sections">
       <caption>A screenshot of the table of contents of this book to show
       numbered and unnumbered chapters.</caption>
-      <image source="external/images/unnumbered-sections.png" width="100%">
+      <image source="images/unnumbered-sections.png" width="100%">
         <description>A screenshot of the table of contents of this book to
         show numbered and unnumbered chapters.</description>
       </image>
@@ -595,7 +595,7 @@ knitr::write_bib(file = 'packages.bib')
     <figure xml:id="fig-bookdown-ref">
       <caption>Example of cross-referencing within an R Markdown
       document.</caption>
-      <image source="external/images/bookdown-ref.png" width="100%">
+      <image source="images/bookdown-ref.png" width="100%">
         <description>Example of cross-referencing within an R Markdown
         document.</description>
       </image>
@@ -1163,7 +1163,7 @@ DiagrammeR::grViz("digraph {
 
       <figure xml:id="fig-diagram-profit">
         <caption>A diagram showing a programmer's daydream.</caption>
-        <image source="external/images/diagram-profit.jpg" width="100%">
+        <image source="images/diagram-profit.jpg" width="100%">
           <description>A diagram showing a programmer's daydream.</description>
         </image>
       </figure>
@@ -1218,7 +1218,7 @@ DiagrammeR::grViz("
 
       <figure xml:id="fig-diagram-params">
         <caption>A diagram using parameters input from R.</caption>
-        <image source="external/images/diagram-params.jpg" width="100%">
+        <image source="images/diagram-params.jpg" width="100%">
           <description>A diagram using parameters input from R.</description>
         </image>
       </figure>

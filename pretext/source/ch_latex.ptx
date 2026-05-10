@@ -255,7 +255,7 @@ This is your report.
 
     <figure xml:id="fig-latex-logo">
       <caption>A logo on a LaTeX title page.</caption>
-      <image source="external/images/latex-logo.png" width="100%">
+      <image source="images/latex-logo.png" width="100%">
         <description>A logo on a LaTeX title page.</description>
       </image>
     </figure>
@@ -656,7 +656,7 @@ boxplot(Sepal.Width ~ Species, data = iris)
     <figure xml:id="fig-latex-subfig">
       <caption>An example of one figure environment containing multiple
       sub-figures.</caption>
-      <image source="external/images/latex-subfig.png" width="100%">
+      <image source="images/latex-subfig.png" width="100%">
         <description>An example of one figure environment containing multiple
         sub-figures.</description>
       </image>
