@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xml:id="ch-workflow" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Workflow</title>
-
+<introduction>
   <p>
     In this chapter, we introduce some tips on working with individual R
     Markdown documents as well as running your R Markdown projects. You may
@@ -13,7 +13,7 @@
     <url href="https://rmd4sci.njtierney.com/workflow.html"><em>R Markdown for
     Scientists</em></url>.
   </p>
-
+</introduction>
   <section xml:id="rstudio-shortcuts">
     <title>Use RStudio keyboard shortcuts</title>
 

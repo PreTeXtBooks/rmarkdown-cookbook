@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xml:id="ch-content" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Document Elements</title>
-
+<introduction>
   <p>
     In this chapter, we introduce some tips and tricks that can be used to
     customize or generate the document elements of R Markdown, including page
@@ -9,7 +9,7 @@
     cross-references, equations, animations, interactive plots, diagrams,
     and comments.
   </p>
-
+</introduction>
   <section xml:id="pagebreaks">
     <title>Insert page breaks</title>
 

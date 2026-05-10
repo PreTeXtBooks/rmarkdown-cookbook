@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xml:id="ch-chunk-hooks" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Chunk Hooks (*)</title>
-
+<introduction>
   <p>
     A <em>chunk hook</em> is a function that is triggered by a chunk option when
     the value of this chunk option is not <c>NULL</c>. Chunk hooks provide a way
@@ -123,7 +123,7 @@ function(before, options, envir, name) {
     returned by chunk hooks are silently ignored, and character values are
     written to the output document.
   </p>
-
+</introduction>
   <section xml:id="crop-plot">
     <title>Crop plots</title>
 
