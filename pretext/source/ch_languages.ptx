@@ -201,6 +201,12 @@ print(1 + 1)
 ```
     </input></program>
 
+    <console>
+      <output>
+2
+      </output>
+    </console>
+
     <p>
       You can even override existing language engines in <em>knitr</em> via
       <c>knitr::knit_engines$set()</c>, if you are sure that your versions are
@@ -320,11 +326,19 @@ a **true** random number!
       <c>bash</c> example, with the chunk header <c>```{bash}</c>:
     </p>
 
-    <program language="md"><input>
-```{bash}
+    <program language="bash"><input>
 ls *.Rmd | head -n 5
-```
     </input></program>
+
+    <console>
+      <output>
+00-authors.Rmd
+01-installation.Rmd
+02-overview.Rmd
+03-basics.Rmd
+04-content.Rmd
+      </output>
+    </console>
 
     <p>
       Please note that <c>bash</c> is invoked with the R function
@@ -537,6 +551,12 @@ the header and footer of the PDF output document:
 \fancyfoot[LE,RO]{\thepage}
 \fancypagestyle{plain}{\pagestyle{fancy}}
 ```
+
+\lipsum[1-15]
+
+# More random content
+
+\lipsum[16-30]
       </input></program>
 
       <p>
@@ -578,7 +598,20 @@ b:
 
       <p>
         Its output is displayed below, and it also generated a file
-        <c>demo.yml</c>. To show the file <c>demo.yml</c> is really generated,
+        <c>demo.yml</c>.
+      </p>
+
+      <program language="yaml"><input>
+a:
+  aa: "something"
+  bb: 1
+b:
+  aa: "something else"
+  bb: 2
+      </input></program>
+
+      <p>
+        To show the file <c>demo.yml</c> is really generated,
         we can try to read it into R with the <em>yaml</em> package <xref ref="R-yaml"/>:
       </p>
 
