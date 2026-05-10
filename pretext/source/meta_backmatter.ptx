@@ -3,76 +3,6 @@
   <references xml:id="references">
     <title>References</title>
 
-    <biblio type="raw" xml:id="knitr2015">
-      Xie, Y. (2015). <pubtitle>Dynamic Documents with R and knitr</pubtitle>,
-      2nd edition. Chapman &amp; Hall/CRC. URL:
-      <url href="https://yihui.org/knitr/">https://yihui.org/knitr/</url>.
-    </biblio>
-
-    <biblio type="raw" xml:id="blogdown2017">
-      Xie, Y., Thomas, A., and Hill, A. (2017).
-      <pubtitle>blogdown: Creating Websites with R Markdown</pubtitle>.
-      Chapman &amp; Hall/CRC. URL:
-      <url href="https://bookdown.org/yihui/blogdown/">https://bookdown.org/yihui/blogdown/</url>.
-    </biblio>
-
-    <biblio type="raw" xml:id="bookdown2016">
-      Xie, Y. (2016).
-      <pubtitle>bookdown: Authoring Books and Technical Documents with R Markdown</pubtitle>.
-      Chapman &amp; Hall/CRC. URL:
-      <url href="https://bookdown.org/yihui/bookdown/">https://bookdown.org/yihui/bookdown/</url>.
-    </biblio>
-
-    <biblio type="raw" xml:id="rmarkdown2018">
-      Xie, Y., Allaire, J. J., and Grolemund, G. (2018).
-      <pubtitle>R Markdown: The Definitive Guide</pubtitle>.
-      Chapman &amp; Hall/CRC. URL:
-      <url href="https://bookdown.org/yihui/rmarkdown/">https://bookdown.org/yihui/rmarkdown/</url>.
-    </biblio>
-
-    <biblio type="raw" xml:id="wickham2016">
-      Wickham, H. and Grolemund, G. (2016).
-      <pubtitle>R for Data Science</pubtitle>.
-      O'Reilly Media, Inc. URL:
-      <url href="https://r4ds.had.co.nz/">https://r4ds.had.co.nz/</url>.
-    </biblio>
-
-    <biblio type="raw" xml:id="R-pandoc">
-      Dervieux, C. (2023).
-      <pubtitle>pandoc: Manage and Run Universal Converter Pandoc from R</pubtitle>.
-      URL:
-      <url href="https://cderv.github.io/pandoc/">https://cderv.github.io/pandoc/</url>.
-    </biblio>
-
-    <biblio type="raw" xml:id="R-tinytex">
-      Xie, Y. (2023).
-      <pubtitle>tinytex: Helper Functions to Install and Maintain TeX Live, and Compile LaTeX Documents</pubtitle>.
-      URL:
-      <url href="https://github.com/rstudio/tinytex">https://github.com/rstudio/tinytex</url>.
-    </biblio>
-
-    <biblio type="raw" xml:id="tinytex2019">
-      Xie, Y. (2019).
-      <pubtitle>TinyTeX: A lightweight, cross-platform, and easy-to-maintain LaTeX distribution based on TeX Live</pubtitle>.
-      <em>TUGboat</em>, 40(1), 30--32. URL:
-      <url href="https://tug.org/TUGboat/Contents/contents40-1.html">https://tug.org/TUGboat/Contents/contents40-1.html</url>.
-    </biblio>
-
-
-    <biblio type="raw" xml:id="R-Cairo">
-      Urbanek, S. and Horner, J. (2025).
-      <pubtitle>Cairo: R Graphics Device using Cairo Graphics Library for Creating High-Quality Bitmap (PNG, JPEG, TIFF), Vector (PDF, SVG, PostScript) and Display (X11 and Win32) Output</pubtitle>.
-      URL:
-      <url href="http://www.rforge.net/Cairo/">http://www.rforge.net/Cairo/</url>.
-    </biblio>
-
-    <biblio type="raw" xml:id="R-DT">
-      Xie, Y., Cheng, J., and Tan, X. (2025).
-      <pubtitle>DT: A Wrapper of the JavaScript Library DataTables</pubtitle>.
-      URL:
-      <url href="https://github.com/rstudio/DT">https://github.com/rstudio/DT</url>.
-    </biblio>
-
     <biblio type="raw" xml:id="R-animation">
       Xie, Y. (2025).
       <pubtitle>animation: A Gallery of Animations in Statistics and Utilities to Create Animations</pubtitle>.
@@ -101,6 +31,13 @@
       <url href="https://github.com/rstudio/blogdown">https://github.com/rstudio/blogdown</url>.
     </biblio>
 
+    <biblio type="raw" xml:id="blogdown2017">
+      Xie, Y., Thomas, A., and Hill, A. (2017).
+      <pubtitle>blogdown: Creating Websites with R Markdown</pubtitle>.
+      Chapman &amp; Hall/CRC. URL:
+      <url href="https://bookdown.org/yihui/blogdown/">https://bookdown.org/yihui/blogdown/</url>.
+    </biblio>
+
     <biblio type="raw" xml:id="R-bookdown">
       Xie, Y. (2025).
       <pubtitle>bookdown: Authoring Books and Technical Documents with R Markdown</pubtitle>.
@@ -108,11 +45,25 @@
       <url href="https://github.com/rstudio/bookdown">https://github.com/rstudio/bookdown</url>.
     </biblio>
 
+    <biblio type="raw" xml:id="bookdown2016">
+      Xie, Y. (2016).
+      <pubtitle>bookdown: Authoring Books and Technical Documents with R Markdown</pubtitle>.
+      Chapman &amp; Hall/CRC. URL:
+      <url href="https://bookdown.org/yihui/bookdown/">https://bookdown.org/yihui/bookdown/</url>.
+    </biblio>
+
     <biblio type="raw" xml:id="R-broom">
       Robinson, D., Hayes, A., and Couch, S. (2026).
       <pubtitle>broom: Convert Statistical Objects into Tidy Tibbles</pubtitle>.
       URL:
       <url href="https://broom.tidymodels.org/">https://broom.tidymodels.org/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-Cairo">
+      Urbanek, S. and Horner, J. (2025).
+      <pubtitle>Cairo: R Graphics Device using Cairo Graphics Library for Creating High-Quality Bitmap (PNG, JPEG, TIFF), Vector (PDF, SVG, PostScript) and Display (X11 and Win32) Output</pubtitle>.
+      URL:
+      <url href="http://www.rforge.net/Cairo/">http://www.rforge.net/Cairo/</url>.
     </biblio>
 
     <biblio type="raw" xml:id="R-condformat">
@@ -141,6 +92,13 @@
       <pubtitle>downloadthis: Implement Download Buttons in rmarkdown</pubtitle>.
       URL:
       <url href="https://github.com/fmmattioni/downloadthis">https://github.com/fmmattioni/downloadthis</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-DT">
+      Xie, Y., Cheng, J., and Tan, X. (2025).
+      <pubtitle>DT: A Wrapper of the JavaScript Library DataTables</pubtitle>.
+      URL:
+      <url href="https://github.com/rstudio/DT">https://github.com/rstudio/DT</url>.
     </biblio>
 
     <biblio type="raw" xml:id="R-equatiomatic">
@@ -276,6 +234,12 @@
       <url href="https://yihui.org/knitr/">https://yihui.org/knitr/</url>.
     </biblio>
 
+    <biblio type="raw" xml:id="knitr2015">
+      Xie, Y. (2015). <pubtitle>Dynamic Documents with R and knitr</pubtitle>,
+      2nd edition. Chapman &amp; Hall/CRC. URL:
+      <url href="https://yihui.org/knitr/">https://yihui.org/knitr/</url>.
+    </biblio>
+
     <biblio type="raw" xml:id="R-learnr">
       Aden-Buie, G., Schloerke, B., and Allaire, J. J. (2025).
       <pubtitle>learnr: Interactive Tutorials for R</pubtitle>.
@@ -323,6 +287,13 @@
       <pubtitle>pander: An R Pandoc Writer</pubtitle>.
       URL:
       <url href="https://rapporter.github.io/pander/">https://rapporter.github.io/pander/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="R-pandoc">
+      Dervieux, C. (2023).
+      <pubtitle>pandoc: Manage and Run Universal Converter Pandoc from R</pubtitle>.
+      URL:
+      <url href="https://cderv.github.io/pandoc/">https://cderv.github.io/pandoc/</url>.
     </biblio>
 
     <biblio type="raw" xml:id="R-pixiedust">
@@ -393,6 +364,13 @@
       <pubtitle>rmarkdown: Dynamic Documents for R</pubtitle>.
       URL:
       <url href="https://github.com/rstudio/rmarkdown">https://github.com/rstudio/rmarkdown</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="rmarkdown2018">
+      Xie, Y., Allaire, J. J., and Grolemund, G. (2018).
+      <pubtitle>R Markdown: The Definitive Guide</pubtitle>.
+      Chapman &amp; Hall/CRC. URL:
+      <url href="https://bookdown.org/yihui/rmarkdown/">https://bookdown.org/yihui/rmarkdown/</url>.
     </biblio>
 
     <biblio type="raw" xml:id="R-rmdformats">
@@ -479,6 +457,20 @@
       <url href="https://github.com/daqana/tikzDevice">https://github.com/daqana/tikzDevice</url>.
     </biblio>
 
+    <biblio type="raw" xml:id="R-tinytex">
+      Xie, Y. (2023).
+      <pubtitle>tinytex: Helper Functions to Install and Maintain TeX Live, and Compile LaTeX Documents</pubtitle>.
+      URL:
+      <url href="https://github.com/rstudio/tinytex">https://github.com/rstudio/tinytex</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="tinytex2019">
+      Xie, Y. (2019).
+      <pubtitle>TinyTeX: A lightweight, cross-platform, and easy-to-maintain LaTeX distribution based on TeX Live</pubtitle>.
+      <em>TUGboat</em>, 40(1), 30--32. URL:
+      <url href="https://tug.org/TUGboat/Contents/contents40-1.html">https://tug.org/TUGboat/Contents/contents40-1.html</url>.
+    </biblio>
+
     <biblio type="raw" xml:id="R-trackdown">
       Kothe, E., Callegher, C. Z., and Gambarota, F. (2021).
       <pubtitle>trackdown: Collaborative Editing of Rmd (or Rnw) Documents in Google Drive</pubtitle>.
@@ -500,11 +492,25 @@
       <url href="https://rstudio.github.io/webshot2/">https://rstudio.github.io/webshot2/</url>.
     </biblio>
 
+    <biblio type="raw" xml:id="wickham2016">
+      Wickham, H. and Grolemund, G. (2016).
+      <pubtitle>R for Data Science</pubtitle>.
+      O'Reilly Media, Inc. URL:
+      <url href="https://r4ds.had.co.nz/">https://r4ds.had.co.nz/</url>.
+    </biblio>
+
     <biblio type="raw" xml:id="R-workflowr">
       Blischak, J., Carbonetto, P., and Stephens, M. (2025).
       <pubtitle>workflowr: A Framework for Reproducible and Collaborative Data Science</pubtitle>.
       URL:
       <url href="https://workflowr.github.io/workflowr/">https://workflowr.github.io/workflowr/</url>.
+    </biblio>
+
+    <biblio type="raw" xml:id="workflowr2019">
+      Blischak, J. D., Carbonetto, P., and Stephens, M. (2019).
+      <pubtitle>Creating and sharing reproducible research code the workflowr way [version 1; peer review: 3 approved]</pubtitle>.
+      <em>F1000Research</em>. URL:
+      <url href="https://f1000research.com/articles/8-1749">https://f1000research.com/articles/8-1749</url>.
     </biblio>
 
     <biblio type="raw" xml:id="R-xaringan">
@@ -540,13 +546,6 @@
       <pubtitle>ztable: Zebra-Striped Tables in LaTeX and HTML Formats</pubtitle>.
       URL:
       <url href="https://github.com/cardiomoon/ztable">https://github.com/cardiomoon/ztable</url>.
-    </biblio>
-
-    <biblio type="raw" xml:id="workflowr2019">
-      Blischak, J. D., Carbonetto, P., and Stephens, M. (2019).
-      <pubtitle>Creating and sharing reproducible research code the workflowr way [version 1; peer review: 3 approved]</pubtitle>.
-      <em>F1000Research</em>. URL:
-      <url href="https://f1000research.com/articles/8-1749">https://f1000research.com/articles/8-1749</url>.
     </biblio>
 
   </references>

@@ -39,7 +39,7 @@
     <p>
       R Markdown is a powerful tool for combining analysis and reporting into
       the same document. Since the birth of the <em>rmarkdown</em> package
-      <cite key="R-rmarkdown"/> in early 2014, R Markdown has grown
+      <xref ref="R-rmarkdown"/> in early 2014, R Markdown has grown
       substantially from a package that supports a few output formats, to an
       extensive and diverse ecosystem that supports the creation of books,
       blogs, scientific articles, websites, and even resumes.
@@ -48,7 +48,7 @@
       There is a wealth of guidance that has been written over the past few
       years, and the book
       <url href="https://bookdown.org/yihui/rmarkdown/"><em>R Markdown: The
-      Definitive Guide</em></url> <cite key="rmarkdown2018"/> provides a
+      Definitive Guide</em></url> <xref ref="rmarkdown2018"/> provides a
       detailed reference on the built-in R Markdown output formats of the
       <em>rmarkdown</em> package, as well as several other extension packages.
       However, we have received comments from our readers and publisher that it

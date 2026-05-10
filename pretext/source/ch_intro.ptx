@@ -3,8 +3,8 @@
   <title>Installation</title>
 <introduction>
   <p>
-    To use R Markdown, you have to install R <cite key="R-base"/> and the R package
-    <em>rmarkdown</em> <cite key="R-rmarkdown"/>.
+    To use R Markdown, you have to install R <xref ref="R-base"/> and the R package
+    <em>rmarkdown</em> <xref ref="R-rmarkdown"/>.
   </p>
 
   <program language="r">
@@ -93,7 +93,7 @@ rmarkdown::find_pandoc(cache = FALSE)
     <p>
       If you want an Rmd document to be compiled by a specific version of Pandoc
       installed on your computer, the <em>pandoc</em> package
-      <cite key="R-pandoc"/> will help. This package is designed to help test
+      <xref ref="R-pandoc"/> will help. This package is designed to help test
       R code with different Pandoc versions. It allows installing and managing
       several Pandoc binary versions on the system and easily switching between
       versions. The function
@@ -157,7 +157,7 @@ knit: (function(input, ...) { pandoc::with_pandoc_version("2.9.1", rmarkdown::re
       privileges.<fn>Actually, we recommend that you <em>do not</em> use your
       root privilege (i.e., <c>sudo</c>) to install TinyTeX on Linux or macOS,
       if you are the only user of your system.</fn> You can install TinyTeX
-      with the R package <em>tinytex</em> <cite key="R-tinytex"/>:
+      with the R package <em>tinytex</em> <xref ref="R-tinytex"/>:
     </p>
 
     <program language="r">
@@ -198,7 +198,7 @@ tinytex::install_tinytex()
 
     <p>
       If you are interested in the technical details, you may check out
-      <cite key="tinytex2019"/> and the FAQ page at
+      <xref ref="tinytex2019"/> and the FAQ page at
       <url href="https://yihui.org/tinytex/faq/"/>.
     </p>
   </section>
@@ -226,7 +226,7 @@ tinytex::install_tinytex()
     <p>
       If you are using TinyTeX as introduced in <xref ref="install-latex"/>,
       usually you do not need to deal with such errors, since
-      <em>tinytex</em> <cite key="R-tinytex"/> will automatically deal with
+      <em>tinytex</em> <xref ref="R-tinytex"/> will automatically deal with
       them, but if you run into such errors anyway, it is still easy to install
       the missing LaTeX
       package(s) via <c>tinytex::parse_install()</c>. This function takes the

@@ -164,7 +164,7 @@ Sys.which('pdfcrop')
 
     <p>
       For non-PDF plot files such as PNG or JPEG files, this hook function calls
-      the R package <em>magick</em> <cite key="R-magick"/> for cropping. You need to make sure this R
+      the R package <em>magick</em> <xref ref="R-magick"/> for cropping. You need to make sure this R
       package has been installed.
     </p>
 
@@ -416,7 +416,7 @@ is indented, e.g.,
     <title>Embed an interactive 3D plot with rgl</title>
 
     <p>
-      The <em>rgl</em> package <cite key="R-rgl"/> can be used to generate interactive 3D plots.
+      The <em>rgl</em> package <xref ref="R-rgl"/> can be used to generate interactive 3D plots.
       These plots can still be interactive if they are saved to the WebGL
       format, which can be done through a hook function
       <c>rgl::hook_webgl()</c>. Below is an example that shows you how to set

@@ -737,7 +737,7 @@ thead, tfoot, tr:nth-child(even) { background: #eee; }
     <title>The <em>kableExtra</em> package</title>
 
     <p>
-      The <em>kableExtra</em> package <cite key="R-kableExtra"/> is designed to extend the basic
+      The <em>kableExtra</em> package <xref ref="R-kableExtra"/> is designed to extend the basic
       functionality of tables produced using <c>knitr::kable()</c> (see
       <xref ref="kable"/>). Since <c>knitr::kable()</c> is simple by design,
       it definitely has a lot of missing features that are commonly seen in
@@ -911,7 +911,7 @@ tab %>%
     </p>
 
     <ul>
-      <li><p><em>flextable</em> <cite key="R-flextable"/> and <em>huxtable</em> <cite key="R-huxtable"/>: If you are looking for
+      <li><p><em>flextable</em> <xref ref="R-flextable"/> and <em>huxtable</em> <xref ref="R-huxtable"/>: If you are looking for
         a table package that supports the widest range of output formats,
         <em>flextable</em> and <em>huxtable</em> are probably the two best
         choices. They all support HTML, LaTeX, and Office formats, and contain
@@ -921,7 +921,7 @@ tab %>%
         <em>huxtable</em> is at
         <url href="https://hughjonesd.github.io/huxtable/"/>.</p></li>
 
-      <li><p><em>gt</em> <cite key="R-gt"/>: Allows you to compose a table by putting together
+      <li><p><em>gt</em> <xref ref="R-gt"/>: Allows you to compose a table by putting together
         different parts of the table, such as the table header (title and
         subtitle), the column labels, the table body, row group labels, and
         the table footer. Some parts are optional. You can also format numbers
@@ -929,7 +929,7 @@ tab %>%
         supports HTML output. You can find more information about it at
         <url href="https://gt.rstudio.com"/>.</p></li>
 
-      <li><p><em>formattable</em> <cite key="R-formattable"/>: Provides some utility functions to format
+      <li><p><em>formattable</em> <xref ref="R-formattable"/>: Provides some utility functions to format
         numbers (e.g., <c>percent()</c> and <c>accounting()</c>), and also
         functions to style table columns (e.g., format the text, annotate
         numbers with background shading or color bars, or add icons in cells).
@@ -937,7 +937,7 @@ tab %>%
         format. You can find more information about it from its GitHub project
         at <url href="https://github.com/renkun-ken/formattable"/>.</p></li>
 
-      <li><p><em>DT</em> <cite key="R-DT"/>: Built on top of the JavaScript library
+      <li><p><em>DT</em> <xref ref="R-DT"/>: Built on top of the JavaScript library
         <em>DataTables</em>, which can turn a static table into an interactive
         table on an HTML page. You may sort, search, and paginate the table.
         <em>DT</em> also supports formatting the cells, works with Shiny to
@@ -946,7 +946,7 @@ tab %>%
         Excel, or interactively reorder columns). See the package repository
         for more information: <url href="https://github.com/rstudio/DT"/>.</p></li>
 
-      <li><p><em>reactable</em> <cite key="R-reactable"/>: Similar to <em>DT</em>, this package also
+      <li><p><em>reactable</em> <xref ref="R-reactable"/>: Similar to <em>DT</em>, this package also
         creates interactive tables based on a JavaScript library. Frankly
         speaking, it looks better than <em>DT</em> in several aspects in my eyes
         (such as row grouping and aggregation, and embedding HTML widgets). Had
@@ -955,21 +955,21 @@ tab %>%
         <em>DT</em>, so you may read its documentation and see which one fits your
         purpose better: <url href="https://glin.github.io/reactable/"/>.</p></li>
 
-      <li><p><em>rhandsontable</em> <cite key="R-rhandsontable"/>: Also similar to <em>DT</em>, and has an
+      <li><p><em>rhandsontable</em> <xref ref="R-rhandsontable"/>: Also similar to <em>DT</em>, and has an
         Excel feel (e.g., you can edit data directly in the table). Visit
         <url href="https://jrowen.github.io/rhandsontable/"/> to learn more about
         it.</p></li>
 
-      <li><p><em>pixiedust</em> <cite key="R-pixiedust"/>: Features creating tables for models (such as
-        linear models) converted through the <em>broom</em> package <cite key="R-broom"/>. It
+      <li><p><em>pixiedust</em> <xref ref="R-pixiedust"/>: Features creating tables for models (such as
+        linear models) converted through the <em>broom</em> package <xref ref="R-broom"/>. It
         supports Markdown, HTML, and LaTeX output formats. Its repository is
         at <url href="https://github.com/nutterb/pixiedust"/>.</p></li>
 
-      <li><p><em>stargazer</em> <cite key="R-stargazer"/>: Features formatting regression models and
+      <li><p><em>stargazer</em> <xref ref="R-stargazer"/>: Features formatting regression models and
         summary statistics tables. The package is available on CRAN at
         <url href="https://cran.r-project.org/package=stargazer"/>.</p></li>
 
-      <li><p><em>xtable</em> <cite key="R-xtable"/>: Perhaps the oldest package for creating
+      <li><p><em>xtable</em> <xref ref="R-xtable"/>: Perhaps the oldest package for creating
         tables—the first release was made in 2000. It supports both LaTeX and
         HTML formats. The package is available on CRAN at
         <url href="https://cran.r-project.org/package=xtable"/>.</p></li>
@@ -977,7 +977,7 @@ tab %>%
 
     <p>
       I'm not going to introduce the rest of packages, but will just list them
-      here: <em>tables</em> <cite key="R-tables"/>, <em>pander</em> <cite key="R-pander"/>, <em>tangram</em> <cite key="R-tangram"/>, <em>ztable</em> <cite key="R-ztable"/>, and <em>condformat</em> <cite key="R-condformat"/>.
+      here: <em>tables</em> <xref ref="R-tables"/>, <em>pander</em> <xref ref="R-pander"/>, <em>tangram</em> <xref ref="R-tangram"/>, <em>ztable</em> <xref ref="R-ztable"/>, and <em>condformat</em> <xref ref="R-condformat"/>.
     </p>
   </section>
 

@@ -384,7 +384,7 @@ After another paragraph, we introduce the plot:
       for each new code chunk. This brings a problem: you cannot easily modify a
       plot from a previous code chunk, because the previous graphical device has
       been closed. This is usually problematic for base R graphics (not so for
-      grid graphics such as those created from <em>ggplot2</em> <cite key="R-ggplot2"/> because plots can
+      grid graphics such as those created from <em>ggplot2</em> <xref ref="R-ggplot2"/> because plots can
       be saved to R objects). For example, if we draw a plot in one code chunk,
       and add a line to the plot in a later chunk, R will signal an error saying
       that a high-level plot has not been created, so it could not add the line.
