@@ -146,7 +146,10 @@ HELLO, **KNITR** ENGINES!
     </console>
 
     <p>
-      Next we show an example of an alternative Python engine named
+      Next we show an example of an alternative Python engine<fn>In practice,
+      you should use the built-in <c>python</c> engine instead, which is based
+      on the <em>reticulate</em> package and supports Python code chunks much
+      better (see <xref ref="eng-python"/>).</fn> named
       <c>py</c>. This engine is implemented by simply calling the
       <c>python</c> command via the R function <c>system2()</c>:
     </p>

@@ -882,7 +882,10 @@ lines of output
     </program>
 
     <p>
-      When the output format is HTML, it is usually converted to:
+      When the output format is HTML, it is usually<fn>It could also be
+      converted to <c>&lt;div class="className"&gt;&lt;/div&gt;</c>. You may
+      view the source of the HTML output document to make sure.</fn> converted
+      to:
     </p>
 
     <program language="html">
