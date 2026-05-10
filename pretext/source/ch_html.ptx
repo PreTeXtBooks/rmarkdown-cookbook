@@ -996,10 +996,16 @@ output:
 
     <figure xml:id="fig-details-tag">
       <caption>Wrap text output in the details element.</caption>
-      <image source="external/images/details-closed.png" width="100%">
-        <description>Screenshot of HTML output showing a collapsed details
-          disclosure element with a "Details" button.</description>
-      </image>
+      <sidebyside widths="48% 48%">
+        <image source="external/images/details-closed.png">
+          <description>Screenshot of HTML output showing a collapsed details
+            disclosure element with a "Details" button.</description>
+        </image>
+        <image source="external/images/details-open.png">
+          <description>Screenshot of HTML output showing an expanded details
+            disclosure element with the text output visible.</description>
+        </image>
+      </sidebyside>
     </figure>
 
     <p>
