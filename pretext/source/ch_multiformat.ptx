@@ -21,7 +21,7 @@
   <p>
     Sometimes it is just impossible for an output element to work for all
     output formats. For example, you can easily create a GIF animation with
-    the <em>gifski</em> package <cite key="R-gifski"/> (see <xref ref="animation"/>), and it will
+    the <em>gifski</em> package <xref ref="R-gifski"/> (see <xref ref="animation"/>), and it will
     work perfectly for HTML output, but embedding such an animation in
     LaTeX output is not possible without extra steps of processing the GIF
     file and using extra LaTeX packages.
@@ -188,7 +188,7 @@ non-HTML formats.
     <p>
       There is actually a better solution than the one mentioned in the
       above error message, but it involves extra packages. You can install
-      the <em>webshot2</em> package <cite key="R-webshot2"/> in R and also install Google Chrome or
+      the <em>webshot2</em> package <xref ref="R-webshot2"/> in R and also install Google Chrome or
       any other Chromium-based browser if you do not have such a browser
       installed:
     </p>
@@ -234,7 +234,7 @@ install.packages('webshot2')
       <c>knitr::include_app()</c> to include it, which works in the same
       way as <c>include_url()</c>.
       <url href="https://bookdown.org/yihui/bookdown/web-pages-and-shiny-apps.html">Section 2.11</url>
-      of the <em>bookdown</em> book <cite key="bookdown2016"/> contains more details about
+      of the <em>bookdown</em> book <xref ref="bookdown2016"/> contains more details about
       <c>include_app()</c> and <c>include_url()</c>.
     </p>
 
