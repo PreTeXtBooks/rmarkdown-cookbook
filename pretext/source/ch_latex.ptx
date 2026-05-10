@@ -290,8 +290,7 @@ title: |
 
     <p>
       The use of additional LaTeX packages can allow for extensive
-      customization of document styling. In addition, several packages such
-      as <em>kableExtra</em> may have LaTeX dependencies for the R package
+      customization of document styling. In addition, several packages such as <em>kableExtra</em> <cite key="R-kableExtra"/> may have LaTeX dependencies for the R package
       to function. Much like R, we need to load packages within the R
       Markdown document before we are able to use their functions.
     </p>

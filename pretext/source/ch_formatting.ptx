@@ -619,7 +619,7 @@ pre.numberSource code > span > a:first-child::before {
     </program>
 
     <p>
-      For <em>revealjs</em>'s <c>revealjs_presentation</c> output format,
+      For <em>revealjs</em>'s <cite key="R-revealjs"/> <c>revealjs_presentation</c> output format,
       you may also need to adjust the CSS:
     </p>
 

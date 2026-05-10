@@ -225,8 +225,8 @@ output: redoc::redoc
 
     <p>
       Continuing his effort to make it easier to work with Office documents
-      in R, David Gohel started to develop the <em>officedown</em> package
-      in 2018, which aims to bring some <em>officer</em> features into R
+      in R, David Gohel started to develop the <em>officedown</em> package <cite key="R-officedown"/>
+      in 2018, which aims to bring some <em>officer</em> features <cite key="R-officer"/> into R
       Markdown. As of this writing, this package is still experimental,
       although its initial version has been published on CRAN. You may
       either install it from CRAN or GitHub:
