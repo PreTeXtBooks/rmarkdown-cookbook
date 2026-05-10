@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xml:id="ch-knitr-misc" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Miscellaneous knitr Tricks</title>
-
+<introduction>
   <p>
     Besides chunk options (<xref ref="ch-chunk-options"/>), output hooks
     (<xref ref="ch-output-hooks"/>), and chunk hooks (<xref ref="ch-chunk-hooks"/>),
@@ -9,7 +9,7 @@
     these tricks in this chapter, such as how to reuse code chunks, exit knitting
     early, display a plot in a custom place, and so on.
   </p>
-
+</introduction>
   <section xml:id="reuse-chunks">
     <title>Reuse code chunks</title>
 

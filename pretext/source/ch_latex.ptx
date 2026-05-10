@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xml:id="ch-latex" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>LaTeX Output</title>
-
+<introduction>
   <p>
     For many authors, the main output of their work will be the PDF report,
     in which case they can utilize the powerful styling of LaTeX. In this
@@ -19,7 +19,7 @@
     output format, but at the expense of this transferability. This problem
     is not unique to LaTeX, but all other output formats as well.
   </p>
-
+</introduction>
   <section xml:id="latex-preamble">
     <title>Add LaTeX code to the preamble</title>
 

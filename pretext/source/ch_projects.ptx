@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xml:id="ch-projects" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Managing Projects</title>
-
+<introduction>
   <p>
     When you work on larger projects or reports, you may not want to put all
     text and code in a single R Markdown document, but organize them in smaller
     units instead. In this chapter, we introduce tips on how to organize
     multiple files related to R Markdown.
   </p>
-
+</introduction>
   <section xml:id="source-script">
     <title>Source external R scripts</title>
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xml:id="ch-overview" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Conceptual Overview</title>
-
+<introduction>
   <p>
     The goal of this text is to showcase many tips and tricks for getting the
     most value from R Markdown. The following chapters demonstrate techniques
@@ -14,7 +14,7 @@
     subsequent chapters (so feel free to skip ahead!), but it may help you
     to build a richer mental model for how all the pieces fit together.
   </p>
-
+</introduction>
   <section xml:id="rmarkdown-process">
     <title>What happens when we render?</title>
 
