@@ -425,25 +425,31 @@ knitr::opts_knit$set(root.dir = '/tmp')
 
     <p><ul>
       <li>
-        <p>
-          If you use the Rmd document directory as the working directory for
-          code chunks (<em>knitr</em>'s default), you assume that file paths
-          are relative to the Rmd document. This is similar to how web browsers
-          handle relative paths. The advantage of this approach is that you can
-          freely move the Rmd file <em>together with</em> its referenced files
-          anywhere, as long as their relative locations remain the same.
-        </p>
-        <p>
-          Some users like to think of relative paths in Rmd documents as
-          <q>relative to the working directory of the R console,</q> as opposed
-          to <q>relative to the Rmd file.</q> Therefore <em>knitr</em>'s
-          default working directory feels confusing. The reason that it was not
-          designed to use the working directory of the R console as the default
-          was that users could use <c>setwd()</c> to change the working
-          directory at any time. This working directory is not guaranteed to be
-          stable. Each time a user calls <c>setwd()</c> in the console, there
-          is a risk that the file paths in the Rmd document may become invalid.
-        </p>
+      <p>If you use the Rmd document directory as the working directory for code chunks
+      (knitr's default), you assume that file paths are relative to the Rmd document. This is
+      similar to how web browsers handle relative paths, e.g., for an image
+      <c>&lt;img src="foo/bar.png" /&gt;</c> on an HTML page
+      <c>https://www.example.org/path/to/page.html</c>, your web browser will try to fetch the
+      image from <c>https://www.example.org/path/to/foo/bar.png</c>. In other words, the
+      relative path <c>foo/bar.png</c> is relative to the directory of the HTML file, which is
+      <c>https://www.example.org/path/to/</c>.</p>
+      <p>The advantage of this approach is that you can freely move the Rmd file together with
+      its referenced files anywhere, as long as their relative locations remain the same. For
+      the HTML page and image example above, the files <c>page.html</c> and <c>foo/bar.png</c>
+      could be moved together to a different directory, such as
+      <c>https://www.example.org/another/path/</c>, and you will not need to update the
+      relative path in the <c>src</c> attribute of <c>&lt;img /&gt;</c>.</p>
+      <p>Some users like to think of relative paths in Rmd documents as <q>relative to the
+      working directory of the R console,</q> as opposed to <q>relative to the Rmd file.</q>
+      Therefore knitr's default working directory feels confusing. The reason that I did not use
+      the working directory of the R console as the default when I designed knitr was that users
+      could use <c>setwd()</c> to change the working directory at any time. This working
+      directory is not guaranteed to be stable. Each time a user calls <c>setwd()</c> in the
+      console, there is a risk that the file paths in the Rmd document may become invalid. It
+      could be surprising that the file paths depend on an external factor (<c>setwd()</c>),
+      which is out of the control of the Rmd file. If you treat the Rmd file as <q>the center
+      of the universe</q> when thinking of relative paths, the paths inside the Rmd file may be
+      stabler.</p>
         <p>
           Furthermore, if you do not want to think too hard on relative paths,
           you may enter a path in RStudio using its autocomplete, as shown in
@@ -464,23 +470,34 @@ knitr::opts_knit$set(root.dir = '/tmp')
         </p>
       </li>
       <li>
-        <p>
-          Using the project directory as the working directory requires an
-          obvious assumption: you have to use a project (e.g., an RStudio
-          project or a version control project) in the first place, which could
-          be a disadvantage of this approach. The advantage of this type of
-          working directory is that all relative paths in any Rmd document are
-          relative to the project root directory, so you do not need to think
-          where your Rmd file is located in the project or adjust the relative
-          paths of other files accordingly. This type of working directory is
-          advocated by the <em>here</em> package <cite key="R-here"/>, which provides the function
-          <c>here::here()</c> to return an absolute path by resolving a
-          relative path passed to it. The disadvantage is that when you move
-          the referenced file together with the Rmd file to another location in
-          the project, you need to update the referenced path in the Rmd
-          document. When you share the Rmd file with other people, you also
-          have to share the whole project.
-        </p>
+<p>
+  <ul>
+    <li>
+      <p>Using the project directory as the working directory requires an obvious assumption:
+      you have to use a project (e.g., an RStudio project or a version control project) in the
+      first place, which could be a disadvantage of this approach. The advantage of this type
+      of working directory is that all relative paths in any Rmd document are relative to the
+      project root directory, so you do not need to think where your Rmd file is located in the
+      project or adjust the relative paths of other files accordingly. This type of working
+      directory is advocated by the <c>here</c> package <xref ref="R-here"/>, which provides
+      the function <c>here::here()</c> to return an absolute path by resolving a relative path
+      passed to it (remember that the relative path is relative to the project root). The
+      disadvantage is that when you move the referenced file together with the Rmd file to
+      another location in the project, you need to update the referenced path in the Rmd
+      document. When you share the Rmd file with other people, you also have to share the whole
+      project.</p>
+      <p>These types of paths are similar to absolute paths without the protocol or domain in
+      HTML. For example, an image <c>&lt;img src="/foo/bar.png" /&gt;</c> on the page
+      <c>https://www.example.org/path/to/page.html</c> refers to the image under the root
+      directory of the website, i.e., <c>https://www.example.org/foo/bar.png</c>. The leading
+      <c>/</c> in the <c>src</c> attribute of the image indicates the root directory of the
+      website. If you want to learn more (or further confuse yourself) about absolute and
+      relative paths in HTML, please see <url
+      href="https://bookdown.org/yihui/blogdown/html.html">Appendix B.1 of the blogdown
+      book</url> <xref ref="blogdown2017"/>.</p>
+    </li>
+  </ul>
+</p>
       </li>
     </ul></p>
 
