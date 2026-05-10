@@ -38,7 +38,7 @@
     <title>Preface</title>
     <p>
       R Markdown is a powerful tool for combining analysis and reporting into
-      the same document. Since the birth of the <em>rmarkdown</em> package <cite key="R-rmarkdown"/> in
+      the same document. Since the birth of the <em>rmarkdown</em> package <xref ref="R-rmarkdown"/> in
       early 2014, R Markdown has grown substantially from a package that
       supports a few output formats, to an extensive and diverse ecosystem that
       supports the creation of books, blogs, scientific articles, websites, and

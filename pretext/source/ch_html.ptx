@@ -26,7 +26,7 @@
       We strongly recommend that you learn some CSS and JavaScript if you wish
       to customize the appearance of HTML documents.
       <url href="https://bookdown.org/yihui/blogdown/website-basics.html">Appendix B</url>
-      of the <em>blogdown</em> book <cite key="blogdown2017"/> contains short tutorials on HTML, CSS, and
+      of the <em>blogdown</em> book <xref ref="blogdown2017"/> contains short tutorials on HTML, CSS, and
       JavaScript.
     </p>
 
@@ -245,7 +245,7 @@ knitr::opts_chunk$set(class.source='watch-out')
 
     <p>
       If you want to decorate individual elements in code blocks instead of
-      the whole blocks, you may consider using the <em>flair</em> package <cite key="R-flair"/>.
+      the whole blocks, you may consider using the <em>flair</em> package <xref ref="R-flair"/>.
       With this package, you can highlight different parts of your code
       (such as fixed strings, function names, and arguments) with custom
       styles (e.g., color, font size, and/or font weight).
@@ -634,7 +634,7 @@ output:
       Rmd source document in the HTML output file. Sometimes the Rmd source
       file alone may not be enough to reproduce the report. For example, the
       report may need an external data file. There is a series of functions
-      in the <em>xfun</em> package <cite key="R-xfun"/> that enable you to embed arbitrary files
+      in the <em>xfun</em> package <xref ref="R-xfun"/> that enable you to embed arbitrary files
       in the HTML output file. To use these functions, make sure you have
       the following R packages available:
     </p>
@@ -688,7 +688,7 @@ xfun::embed_files(list.files('.', '[.](Rmd|csv)$'))
       You can learn more technical details behind these functions from the
       help page <c>?xfun::embed_file</c> or the blog post at
       <url href="https://yihui.org/en/2018/07/embed-file/"/>. Based on the
-      same idea, the <em>downloadthis</em> package <cite key="R-downloadthis"/> has implemented download
+      same idea, the <em>downloadthis</em> package <xref ref="R-downloadthis"/> has implemented download
       buttons, so that users can click buttons to download files instead of
       links. If you prefer using buttons, you may consider using this
       package.
@@ -972,7 +972,7 @@ output:
       for its specific layout, you may use a service such as
       <url href="https://realfavicongenerator.net"/> to generate a set of
       favicons and a slightly more complex version of the header HTML code.
-      This service is currently used by the <em>pkgdown</em> package's <cite key="R-pkgdown"/>
+      This service is currently used by the <em>pkgdown</em> package's <xref ref="R-pkgdown"/>
       <c>pkgdown::build_favicon()</c> function to make a set of favicons
       out of R package logos.
     </p>
@@ -1089,7 +1089,7 @@ document.querySelectorAll('pre:not([class])');
         RStudio offers a number of services for publishing various types of
         content created in R Markdown to the Internet. These services make
         it particularly easy to publish content by using the RStudio IDE or
-        the <em>rsconnect</em> package <cite key="R-rsconnect"/>.
+        the <em>rsconnect</em> package <xref ref="R-rsconnect"/>.
       </p>
 
       <ul>
@@ -1115,7 +1115,7 @@ document.querySelectorAll('pre:not([class])');
             the YAML metadata. You will no longer be able to render your
             document to an HTML document as before; instead, you run your
             document with <c>rmarkdown::run()</c>. To learn more, please
-            refer to <cite key="rmarkdown2018"/> (Chapter 19:
+            refer to <xref ref="rmarkdown2018"/> (Chapter 19:
             <url href="https://bookdown.org/yihui/rmarkdown/shiny-documents.html"/>).</fn> ShinyApps.io is
             an analog to RPubs for Shiny applications. Apps and interactive
             R Markdown documents can be published using the push-button in
@@ -1169,7 +1169,7 @@ document.querySelectorAll('pre:not([class])');
         or a sophisticated project like a website based on <em>blogdown</em>
         (which relies upon a static website generator). For more details,
         see <url href="https://bookdown.org/yihui/blogdown/static-sites.html">Section
-        2.1 on Static Sites</url> of the <em>blogdown</em> book <cite key="blogdown2017"/>.
+        2.1 on Static Sites</url> of the <em>blogdown</em> book <xref ref="blogdown2017"/>.
       </p>
 
       <p>

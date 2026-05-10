@@ -7,7 +7,7 @@
     Markdown documents as well as running your R Markdown projects. You may
     also check out
     <url href="https://r4ds.had.co.nz/r-markdown-workflow.html">Chapter 30</url>
-    of the book <em>R for Data Science</em> <cite key="wickham2016"/>, which briefly introduces some tips
+    of the book <em>R for Data Science</em> <xref ref="wickham2016"/>, which briefly introduces some tips
     on using analysis notebooks (including R Markdown documents). Nicholas
     Tierney also discusses the workflow in the book
     <url href="https://rmd4sci.njtierney.com/workflow.html"><em>R Markdown for
@@ -121,7 +121,7 @@
     </p>
 
     <p>
-      If you do not use RStudio, the <pkg>spelling</pkg> package <cite key="R-spelling"/> has a function
+      If you do not use RStudio, the <pkg>spelling</pkg> package <xref ref="R-spelling"/> has a function
       <c>spell_check_files()</c>, which can check the spelling of common
       document formats, including R Markdown. When spell checking Rmd documents,
       it will skip code chunks and only check ordinary text.
@@ -349,7 +349,7 @@ rmarkdown::render('input.Rmd', params = 'ask')
     <p>
       For more information on parameterized reports, you may read
       <url href="https://bookdown.org/yihui/rmarkdown/parameterized-reports.html">Chapter 15</url>
-      of the <em>R Markdown Definitive Guide</em> <cite key="rmarkdown2018"/>.
+      of the <em>R Markdown Definitive Guide</em> <xref ref="rmarkdown2018"/>.
     </p>
   </section>
 
@@ -464,9 +464,9 @@ knit: myPackage::knit_with_date
     <title>Collaborate on Rmd documents through Google Drive with trackdown</title>
 
     <p>
-      The <pkg>trackdown</pkg> package <cite key="R-trackdown"/> offers a simple solution for
+      The <pkg>trackdown</pkg> package <xref ref="R-trackdown"/> offers a simple solution for
       collaborative writing and editing of R Markdown (or Sweave) documents.
-      Based on the <pkg>googledrive</pkg> package <cite key="R-googledrive"/>, <pkg>trackdown</pkg> allows
+      Based on the <pkg>googledrive</pkg> package <xref ref="R-googledrive"/>, <pkg>trackdown</pkg> allows
       uploading the local <c>.Rmd</c> (or <c>.Rnw</c>) file as a plain-text
       file to Google Drive. By taking advantage of the easily readable Markdown
       (or LaTeX) syntax and the well-known online interface offered by Google
@@ -644,7 +644,7 @@ remotes::install_github("claudiozandonella/trackdown",
     <title>Organize an R Markdown project into a research website with workflowr</title>
 
     <p>
-      The <pkg>workflowr</pkg> package <cite key="R-workflowr"/> <cite key="workflowr2019"/> can help you organize a (data analysis)
+      The <pkg>workflowr</pkg> package <xref ref="R-workflowr"/> <xref ref="workflowr2019"/> can help you organize a (data analysis)
       project with a project template and the version control tool Git. Every
       time you make a change to the project, you can log the change, and
       <pkg>workflowr</pkg> can build a website corresponding to that particular
@@ -674,7 +674,7 @@ remotes::install_github("claudiozandonella/trackdown",
     <title>Send emails based on R Markdown</title>
 
     <p>
-      With the <pkg>blastula</pkg> package <cite key="R-blastula"/>, you can render an Rmd document to
+      With the <pkg>blastula</pkg> package <xref ref="R-blastula"/>, you can render an Rmd document to
       the email body and send the email. To render an Rmd document to an email,
       the document needs to use the output format
       <c>blastula::blastula_email</c>, e.g.,
