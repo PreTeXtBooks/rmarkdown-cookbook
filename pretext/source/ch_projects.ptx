@@ -401,7 +401,7 @@ knitr::opts_knit$set(root.dir = '/tmp')
 
     <figure xml:id="fig-rmd-wd">
       <caption>Change the default working directory for all R Markdown documents in RStudio.</caption>
-      <image source="external/images/rmd-wd.png" width="70%"/>
+      <image source="images/rmd-wd.png" width="70%"/>
     </figure>
 
     <p>
@@ -417,7 +417,7 @@ knitr::opts_knit$set(root.dir = '/tmp')
 
     <figure xml:id="fig-knit-wd">
       <caption>Knit an Rmd document with other possible working directories in RStudio.</caption>
-      <image source="external/images/knit-wd.png" width="70%"/>
+      <image source="images/knit-wd.png" width="70%"/>
     </figure>
 
     <p>There is no absolutely correct choice for the working directory. Each
@@ -510,7 +510,7 @@ knitr::opts_knit$set(root.dir = '/tmp')
 
     <figure xml:id="fig-rmd-relative">
       <caption>Autocomplete file paths in an Rmd document in RStudio.</caption>
-      <image source="external/images/rmd-relative.png" width="70%"/>
+      <image source="images/rmd-relative.png" width="70%"/>
     </figure>
 
   </section>
@@ -550,7 +550,7 @@ knitr::opts_knit$set(root.dir = '/tmp')
 
     <figure xml:id="fig-package-vignette">
       <caption>Create a package vignette in RStudio.</caption>
-      <image source="external/images/package-vignette.png" width="70%"/>
+      <image source="images/package-vignette.png" width="70%"/>
     </figure>
 
     <p>
@@ -745,7 +745,7 @@ description: What this template does
 
     <figure xml:id="fig-bookdown-project">
       <caption>Create a bookdown project in RStudio.</caption>
-      <image source="external/images/bookdown-project.png" width="70%"/>
+      <image source="images/bookdown-project.png" width="70%"/>
     </figure>
 
     <p>

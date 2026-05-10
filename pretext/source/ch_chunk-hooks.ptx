@@ -456,7 +456,7 @@ plot3d(x, y, z, col = rainbow(1000))
 
     <figure xml:id="fig-rgl-3d">
       <caption>A 3D scatterplot generated from the rgl package.</caption>
-      <image source="external/images/rgl-3d.png" width="70%">
+      <image source="images/rgl-3d.png" width="70%">
         <description>A 3D scatterplot of random data points shown in multiple colours, generated using the rgl package's WebGL output.</description>
       </image>
     </figure>

@@ -69,7 +69,7 @@ output:
 
     <figure xml:id="fig-word-template-1">
       <caption>Find the styles of a specific document element.</caption>
-      <image source="external/images/word-template-1.png" width="100%">
+      <image source="images/word-template-1.png" width="100%">
         <description>Screenshot of the Word Styles panel open on the HOME
           tab, with a style item highlighted for the element under the
           cursor.</description>
@@ -87,7 +87,7 @@ output:
 
     <figure xml:id="fig-word-template-2">
       <caption>Modify the styles of an element in a Word document.</caption>
-      <image source="external/images/word-template-2.png" width="100%">
+      <image source="images/word-template-2.png" width="100%">
         <description>Screenshot of the Word Modify Style dialog box used to
           change the formatting of a named style.</description>
       </image>
@@ -124,7 +124,7 @@ output:
 
     <figure xml:id="fig-word-table">
       <caption>Modify the styles of tables in a Word document.</caption>
-      <image source="external/images/word-table.png" width="100%">
+      <image source="images/word-table.png" width="100%">
         <description>Screenshot of the Word Manage Styles dialog showing the
           Table style selected for modification.</description>
       </image>

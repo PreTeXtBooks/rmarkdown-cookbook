@@ -343,7 +343,7 @@ rmarkdown::render('input.Rmd', params = 'ask')
 
     <figure xml:id="fig-params-shiny">
       <caption>Knit an R Markdown document with parameters that you can input from a GUI.</caption>
-      <image source="external/images/params-shiny.png" width="90%"/>
+      <image source="images/params-shiny.png" width="90%"/>
     </figure>
 
     <p>
@@ -546,7 +546,7 @@ remotes::install_github("claudiozandonella/trackdown",
         <caption>trackdown workflow: collaborative code writing is done locally
         using Git whereas collaborative writing of the narrative text is done
         online using Google Docs.</caption>
-        <image source="external/images/trackdown1.png" width="100%"/>
+        <image source="images/trackdown1.png" width="100%"/>
       </figure>
     </subsection>
 

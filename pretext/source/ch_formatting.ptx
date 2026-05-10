@@ -334,14 +334,14 @@ output:
 
     <figure xml:id="fig-wrap-text-1">
       <caption>Normal text output that is too wide.</caption>
-      <image source="external/images/wrap-none.png" width="100%">
+      <image source="images/wrap-none.png" width="100%">
         <description>Normal text output that is too wide.</description>
       </image>
     </figure>
 
     <figure xml:id="fig-wrap-text-2">
       <caption>Text output wrapped with the listings package.</caption>
-      <image source="external/images/wrap-listings.png" width="100%">
+      <image source="images/wrap-listings.png" width="100%">
         <description>Text output wrapped with the listings package.</description>
       </image>
     </figure>
@@ -810,7 +810,7 @@ The figure on the left-hand side shows the `cars` data.
     <figure xml:id="fig-multicol">
       <caption>A two-column layout that works for HTML, LaTeX, and Beamer
       output.</caption>
-      <image source="external/images/multicol.png" width="100%">
+      <image source="images/multicol.png" width="100%">
         <description>A two-column layout that works for HTML, LaTeX, and
         Beamer output.</description>
       </image>

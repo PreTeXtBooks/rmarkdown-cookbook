@@ -45,7 +45,7 @@
     <figure xml:id="fig-rmdworkflow">
       <caption>A diagram illustrating how an R Markdown document is
       converted to the final output document.</caption>
-      <image source="external/images/workflow.png" width="100%">
+      <image source="images/workflow.png" width="100%">
         <description>A diagram illustrating how an R Markdown document is
         converted to the final output document.</description>
       </image>
@@ -333,7 +333,7 @@ params:
       <figure xml:id="fig-knitr-workflow">
         <caption>A flowchart of inputs and outputs to a language
         engine.</caption>
-        <image source="external/images/knitr-workflow.jpg">
+        <image source="images/knitr-workflow.jpg">
           <description>A flowchart of inputs and outputs to a language
           engine.</description>
         </image>
@@ -435,7 +435,7 @@ print(y)
       <figure xml:id="fig-rmd-containers">
         <caption>A simple R Markdown document illustrated as a set of nested
         containers.</caption>
-        <image source="external/images/rmd-containers.jpg" width="50%">
+        <image source="images/rmd-containers.jpg" width="50%">
           <description>A simple R Markdown document illustrated as a set of
           nested containers.</description>
         </image>

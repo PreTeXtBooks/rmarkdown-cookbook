@@ -14,9 +14,10 @@ def main():
     script_dir = Path(__file__).parent
     source_images_dir = script_dir / "images"
     # Put images in pretext/assets/images/ directory.
-    # publication.ptx sets external="../assets", so PTX source files reference
-    # images as source="external/images/filename.png" which resolves to
-    # pretext/assets/images/filename.png at build time.
+    # publication.ptx sets external="../assets", so PreTeXt resolves source paths
+    # relative to that directory. PTX source files reference images as
+    # source="images/filename.png" which resolves to pretext/assets/images/filename.png
+    # and renders as external/images/filename.png in the HTML output.
     pretext_assets = script_dir / "pretext" / "assets" / "images"
     
     print("Preparing images for PreTeXt book...")
