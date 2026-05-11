@@ -591,13 +591,11 @@ been noted, and _will be reported to the authorities_!
 
       <p>The output is:</p>
 
-      <note>
-        <p><em>NOTICE!</em></p>
-        <p>
-          Thank you for noticing this <em>new notice</em>! Your noticing it has
-          been noted, and <em>will be reported to the authorities</em>!
-        </p>
-      </note>
+      <figure>
+        <image source="https://github.com/user-attachments/assets/90fcd9d2-62cc-4eec-93ac-331603573507" width="95%">
+          <description>Screenshot of the black NOTICE custom block output.</description>
+        </image>
+      </figure>
 
     </subsection>
 
@@ -642,13 +640,11 @@ been noted, and _will be reported to the authorities_!
 
       <p>The output is:</p>
 
-      <note>
-        <p><em>NOTICE!</em></p>
-        <p>
-          Thank you for noticing this <em>new notice</em>! Your noticing it has
-          been noted, and <em>will be reported to the authorities</em>!
-        </p>
-      </note>
+      <figure>
+        <image source="https://github.com/user-attachments/assets/a1e85f68-4efe-4066-8af4-10b419b1870f" width="95%">
+          <description>Screenshot of the infobox custom block output with icon styling.</description>
+        </image>
+      </figure>
 
       <p>
         For the HTML output, we can add an image to the box through the
@@ -739,6 +735,12 @@ Include the actual content here.
       <p>
         Below we show more example blocks with different icons:
       </p>
+
+      <figure>
+        <image source="https://github.com/user-attachments/assets/df249d7b-1296-493c-96e0-6e17952fc4c3" width="95%">
+          <description>Screenshot showing additional infobox examples with different icons.</description>
+        </image>
+      </figure>
 
       <p>
         Alternatively, you may use the LaTeX package
