@@ -138,7 +138,6 @@ options(knitr.table.format = 'latex')
         automatically decide the appropriate format. For example, we can use
         the <c>latex</c> format only when the output format is LaTeX:
       </p>
-
       <program language="r">
         <input>
 options(knitr.table.format = function() {
