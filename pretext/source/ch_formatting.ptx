@@ -126,8 +126,7 @@ colorize = function(x, color){
       <p>
         We can then use the code in an inline R expression
         <c>`r colorize("some words in red", "red")`</c>, which will create
-        colored text (you will not see the red color if you are reading this
-        book printed in black and white).
+        colored text.
       </p>
 
     </subsection>
@@ -142,21 +141,6 @@ colorize = function(x, color){
         filters (see <xref ref="lua-filters"/>). Below is a full example.
       </p>
 
-      <p>
-        In this example, we implicitly used a Pandoc Markdown extension
-        named <c>bracketed_spans</c>, which allows us to write text with
-        attributes, e.g.,
-        <c>[text]{.class attribute="value"}</c>. The Lua filter defined in
-        the <c>cat</c> code chunk<fn>If you are not familiar with
-        <c>cat</c> code chunks, please see <xref ref="eng-cat"/>.</fn> puts
-        text in <c>&lt;span style="color: ..."&gt;&lt;/span&gt;</c> if the
-        output format is HTML, and in <c>\textcolor{...}{}</c> if the
-        output format is LaTeX. The Lua filter is written to a file
-        <c>color-text.lua</c>, and enabled through the command-line option
-        <c>--lua-filter</c> passed to Pandoc via the <c>pandoc_args</c>
-        option of the output formats.
-      </p>
-
       <program language="yaml">
         <input>
 ---
@@ -166,9 +150,74 @@ output:
     pandoc_args: ["--lua-filter=color-text.lua"]
   pdf_document: 
     pandoc_args: ["--lua-filter=color-text.lua"]
+    keep_tex: true
 ---
+
+First, we define a Lua filter and write it to
+the file `color-text.lua`.
+
+```{cat, engine.opts = list(file = "color-text.lua")}
+Span = function(el)
+  color = el.attributes['color']
+  -- if no color attribute, return unchange
+  if color == nil then return el end
+  
+  -- transform to <span style="color: red;"></span>
+  if FORMAT:match 'html' then
+    -- remove color attributes
+    el.attributes['color'] = nil
+    -- use style attribute instead
+    el.attributes['style'] = 'color: ' .. color .. ';'
+    -- return full span element
+    return el
+  elseif FORMAT:match 'latex' then
+    -- remove color attributes
+    el.attributes['color'] = nil
+    -- encapsulate in latex code
+    table.insert(
+      el.content, 1,
+      pandoc.RawInline('latex', '\\textcolor{'..color..'}{')
+    )
+    table.insert(
+      el.content,
+      pandoc.RawInline('latex', '}')
+    )
+    -- returns only span content
+    return el.content
+  else
+    -- for other format return unchanged
+    return el
+  end
+end
+```
+
+Now we can test the filter with some text in brackets with
+the `color` attribute, e.g.,
+
+> Roses are [red and **bold**]{color="red"} and
+> violets are [blue]{color="blue"}.
         </input>
       </program>
+
+      <p>
+        In this example, we implicitly used a Pandoc Markdown extension
+        named <c>bracketed_spans</c>, which allows us to write text with
+        attributes, e.g.,
+        <c>[text]{.class attribute="value"}</c>. The Lua filter defined in
+        the <c>cat</c> code chunk<fn>If you are not familiar with
+        <c>cat</c> code chunks, please see <xref ref="eng-cat"/>.
+        We used this engine here to conveniently write out a chunk to a
+        <c>.lua file</c>, so we do not have to manage the Lua script in a
+        separate file <c>color-text.lua</c>. If you do not want to use the
+        <c>cat</c> engine, you can definitely copy the Lua code and save it
+        to a separate file, instead of embedding the Lua code in a code chunk.</fn>
+        puts text in <c>&lt;span style="color: ..."&gt;&lt;/span&gt;</c> if the
+        output format is HTML, and in <c>\textcolor{...}{}</c> if the
+        output format is LaTeX. The Lua filter is written to a file
+        <c>color-text.lua</c>, and enabled through the command-line option
+        <c>--lua-filter</c> passed to Pandoc via the <c>pandoc_args</c>
+        option of the output formats.
+      </p>
 
       <p>
         Compared to the previous method, the advantage of using the Lua
@@ -224,6 +273,13 @@ output:
       </input>
     </program>
 
+<p>The output is:</p>
+<console><output>
+Hiring Manager
+School of Ninja, Hacker’s University
+404 Not Found Road, Undefined 0x1234, NA
+</output></console>
+
     <p>
       You can see that the line break after <q>School of Ninja</q> was
       ignored.
@@ -237,7 +293,8 @@ output:
     <p>
       Sometimes the text output printed from R code may be too wide. If
       the output document has a fixed page width (e.g., PDF documents), the
-      text output may exceed the page margins.
+      text output may exceed the page margins. See <xref ref = "fig-wrap-text-1"/>
+      for an example.
     </p>
 
     <p>
@@ -403,7 +460,8 @@ knitr::include_graphics("foo/bar.png")
 
     <p>
       We used the width <c>50%</c> in the above examples, which means half
-      of the width of the image container. If you know that you only want
+      of the width of the image container.  (if the image is directly contained by a page instead of a child element of the page, that means half of the page width).
+      If you know that you only want
       to generate the image for a specific output format, you can use a
       specific unit. For example, you may use <c>300px</c> if the output
       format is HTML.
@@ -457,7 +515,16 @@ knitr::include_graphics("foo/bar.png")
     </program>
 
     <p>
-      will be rendered as the literal code chunk in the output. You have to
+      will be rendered as:
+</p>
+
+<console><output>
+```{r, eval=TRUE}
+1 + 1
+```
+</output>
+</console>
+<p>in the output. You have to
       use at least <m>N+1</m> backticks to wrap up <m>N</m> backticks. We
       are using four backticks here for the <c>verbatim</c> chunk because
       the inner chunk header contains three backticks.
@@ -485,6 +552,21 @@ The content can contain inline code like
       </input>
     </program>
 
+<p>will result in the Markdown source file as</p>
+
+<console><output>
+````markdown
+We can output arbitrary content **verbatim**.
+
+```{r}
+1 + 1
+```
+
+The content can contain inline code like
+`r pi * 5^2`, too.
+````
+</output></console>
+
     <p>
       The verbatim content will be syntax highlighted using the
       <c>markdown</c> language in the output.
@@ -495,6 +577,23 @@ The content can contain inline code like
       the <c>embed</c> engine instead. Here is an example of the CSS code
       from <xref ref="block-shaded"/>:
     </p>
+
+    <program language="md">
+      <input>
+.blackbox {
+  padding: 1em;
+  background: black;
+  color: white;
+  border: 2px solid orange;
+  border-radius: 10px;
+}
+.center {
+  text-align: center;
+}
+      </input>
+    </program>
+
+<p>The syntax for the above inclusion in our Rmd source file is</p>
 
     <program language="md">
       <input>
@@ -537,6 +636,11 @@ This will show a verbatim inline R expression `` `r
         </input>
       </program>
 
+<p>In the output document, you should see:</p>
+
+<console><output>
+This will show a verbatim inline R expression `r 1+1` in the output.
+</output></console>
       <p>
         The trick works for two reasons: (1) a single line break is often
         the same as a space to Markdown parsers; (2) <em>knitr</em>
@@ -787,6 +891,10 @@ output:
 
 # Two columns
 
+Below is a Div containing three child Divs side by side. The Div
+in the middle is empty, just to add more space between the left
+and right Divs.
+
 :::::: {.cols data-latex=""}
 
 ::: {.col data-latex="{0.55\textwidth}"}
@@ -798,10 +906,19 @@ plot(cars, pch = 19)
 
 ::: {.col data-latex="{0.05\textwidth}"}
 \ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
 :::
 
 ::: {.col data-latex="{0.4\textwidth}"}
 The figure on the left-hand side shows the `cars` data.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+enim ad minim veniam, quis nostrud exercitation ullamco laboris
+nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+nulla pariatur.
 :::
 ::::::
       </input>
@@ -825,18 +942,45 @@ The figure on the left-hand side shows the `cars` data.
       <c>Div</c>s can be placed side by side.
     </p>
 
+<program language="css">
+<input>
+.cols {display: flex; }
+</input>
+</program>
+
     <p>
       For LaTeX output (<c>pdf_document</c>), we have to introduce some
       hacks stored in <c>columns.tex</c> to the LaTeX preamble to define
       the LaTeX environments <c>cols</c> and <c>col</c>.
     </p>
 
+<program language="md">
+<input>
+\newenvironment{cols}[1][]{}{}
+
+\newenvironment{col}[1]{\begin{minipage}{#1}\ignorespaces}{%
+\end{minipage}
+\ifhmode\unskip\fi
+\aftergroup\useignorespacesandallpars}
+
+\def\useignorespacesandallpars#1\ignorespaces\fi{%
+#1\fi\ignorespacesandallpars}
+
+\makeatletter
+\def\ignorespacesandallpars{%
+  \@ifnextchar\par
+    {\expandafter\ignorespacesandallpars\@gobble}%
+    {}%
+}
+\makeatother
+</input></program>
+
     <p>
       The <c>col</c> environment is particularly complicated mainly because
       Pandoc starts a new paragraph for each <c>Div</c> in LaTeX output,
       and we have to remove these new paragraphs. Otherwise, the
       <c>Div</c>s cannot be placed side by side. The hacks were borrowed
-      from <url href="https://tex.stackexchange.com/q/179016/9128"/>.
+      from <url href="https://tex.stackexchange.com/q/179016/9128">https://tex.stackexchange.com/q/179016/9128.</url>
     </p>
 
     <p>
