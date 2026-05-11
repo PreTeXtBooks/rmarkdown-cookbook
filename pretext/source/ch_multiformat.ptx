@@ -741,9 +741,9 @@ Include the actual content here.
 
       <p>
         Alternatively, you may use the LaTeX package
-        <em>awesomebox</em> (<url href="https://ctan.org/pkg/awesomebox"/>)
+        <url href="https://ctan.org/pkg/awesomebox">awesomebox</url>
         to generate boxes with icons in the PDF output. This package gives
-        you a much larger number of icons to choose from. A brief example:
+        you a much larger number of icons to choose from. We give a brief example below: please refer to the package documentation for the possible LaTeX environments and their arguments
       </p>
 
       <program language="md">
@@ -791,12 +791,6 @@ the authorities_!
 :::
         </input>
       </program>
-
-      <p>
-        Please refer to the package documentation for the possible LaTeX
-        environments and their arguments.
-      </p>
-
     </subsection>
 
   </section>
