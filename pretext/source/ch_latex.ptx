@@ -114,7 +114,8 @@ output:
       If you are using the default Pandoc template for LaTeX output, there
       are several options that you may set to adjust the appearance of the
       PDF output document. We list a few example options below, and you may
-      see <url href="https://pandoc.org/MANUAL.html#variables-for-latex"/>
+      see <url href="https://pandoc.org/MANUAL.html#variables-for-latex">
+      https://pandoc.org/MANUAL.html#variables-for-latex</url>
       for a full list.
     </p>
 
@@ -172,7 +173,7 @@ output:
     <p>
       Then the document will use the font
       <url href="https://tug.org/FontCatalogue/accanthis/">Accanthis</url>.
-      You may see <url href="https://tug.org/FontCatalogue/"/> for a list of
+      You may see <url href="https://tug.org/FontCatalogue/">https://tug.org/FontCatalogue</url> for a list of
       many other LaTeX font packages. If your LaTeX distribution is TinyTeX
       and the required font packages have not been installed, they should be
       automatically installed when the document is compiled (see
@@ -202,7 +203,7 @@ output:
       slides, because a Beamer document is a LaTeX document, too. In
       addition, Pandoc has provided a few more options for Beamer slides,
       which can be found at
-      <url href="https://pandoc.org/MANUAL.html#variables-for-beamer-slides"/>.
+      <url href="https://pandoc.org/MANUAL.html#variables-for-beamer-slides">https://pandoc.org/MANUAL.html#variables-for-beamer-slides</url>.
       For example, you can specify the author affiliation via the
       <c>institute</c> option:
     </p>
@@ -243,9 +244,17 @@ header-includes:
   - \posttitle{\end{center}}
 ---
 
+<!-- Optionally include a page break. This will force the start
+of the document to the second page -->
+
 \newpage
 
 This is your report.
+
+```{r, include=FALSE}
+# copy the R logo to the current directory
+file.copy(file.path(R.home("doc"), "html", "logo.jpg"), '.')
+```
       </input>
     </program>
 
@@ -435,7 +444,9 @@ output:
       </program>
 
       <p>
-        The <c>figure</c> environment is a floating environment. In summary,
+        The <c>figure</c> environment is a floating environment.
+You can read a detailed description of floats at <url href = "https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions">https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions</url>.
+        In summary,
         floats are used as containers for things that cannot be broken over
         a page, such as tables and figures. If the figure or table cannot be
         contained in the space left on the current page, LaTeX will try to
@@ -537,11 +548,54 @@ output:
       <p>
         LaTeX's own float placement parameters could prevent placements that
         seem entirely <q>reasonable</q> to you — they are notoriously rather
-        conservative. The defaults include settings such as:
-        <c>topfraction = 0.7</c> (max fraction of page for floats at top),
-        <c>bottomfraction = 0.3</c> (max fraction of page for floats at
-        bottom), <c>textfraction = 0.2</c> (min fraction of page for text).
+        conservative. These defaults are displayed in <xref ref="tab-latex-float-settings"/>
       </p>
+
+<table xml:id="tab-latex-float-settings">
+  <title>Default LaTeX Float Settings</title>
+  <tabular halign="left">
+    <row header="yes">
+      <cell>Command</cell>
+      <cell>Description</cell>
+      <cell>Default</cell>
+    </row>
+    <row>
+      <cell><c>topfraction</c></cell>
+      <cell>max fraction of page for floats at top</cell>
+      <cell>0.7</cell>
+    </row>
+    <row>
+      <cell><c>bottomfraction</c></cell>
+      <cell>max fraction of page for floats at bottom</cell>
+      <cell>0.3</cell>
+    </row>
+    <row>
+      <cell><c>textfraction</c></cell>
+      <cell>min fraction of page for text</cell>
+      <cell>0.2</cell>
+    </row>
+    <row>
+      <cell><c>floatpagefraction</c></cell>
+      <cell>min fraction of page that should have floats</cell>
+      <cell>0.5</cell>
+    </row>
+    <row>
+      <cell><c>topnumber</c></cell>
+      <cell>max number of floats at top of page</cell>
+      <cell>2</cell>
+    </row>
+    <row>
+      <cell><c>bottomnumber</c></cell>
+      <cell>max number of floats at bottom of page</cell>
+      <cell>1</cell>
+    </row>
+    <row>
+      <cell><c>totalnumber</c></cell>
+      <cell>max number of floats on a page</cell>
+      <cell>3</cell>
+    </row>
+  </tabular>
+</table>
 
       <p>
         To encourage LaTeX not to move your figures, we can alter these
@@ -753,7 +807,8 @@ output: latex_fragment
       The LaTeX package <em>fancyhdr</em> has provided several commands to
       customize the header and footer lines of your document. For a more
       complete guide, please refer to the full documentation at
-      <url href="https://ctan.org/pkg/fancyhdr"/>. To begin with, we must
+      <url href="https://ctan.org/pkg/fancyhdr">https://ctan.org/pkg/fancyhdr</url>.
+      To begin with, we must
       load the package. Then we can change the header style, e.g.,
     </p>
 
@@ -885,11 +940,11 @@ output:
       If you want to learn by examples, you may take a look at the
       <em>MonashEBSTemplates</em> package
       (<url href="https://github.com/robjhyndman/MonashEBSTemplates"/>),
-      which has provided several custom LaTeX templates. For example, the
+      which has provided several custom LaTeX templates. These templates are under the <c>inst/rmarkdown/templates/*/resources/</c> directories (here * denotes the template names). For example, the
       template for the output format <c>MonashEBSTemplates::memo</c> allows
       you to use a variable <c>branding</c> in the YAML metadata to control
       whether to include the brand logo of Monash University. This is
-      achieved by an <c>if</c> statement in the template:
+      achieved by an <c>if</c> statement in the template that looks like this:
     </p>
 
     <program language="latex">
@@ -1001,6 +1056,8 @@ and \Sexpr{1.9910214e28} is a big number.
       you use RStudio, you can hit the <c>Compile PDF</c> button on the
       toolbar. Please note that the default method to compile Rnw documents
       is through Sweave, and you may want to change it to <em>knitr</em>.
+      (see the post <url href = "http://stackoverflow.com/q/27592837/559676">
+      http://stackoverflow.com/q/27592837/559676</url> for how to do that).
     </p>
 
     <p>
