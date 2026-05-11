@@ -59,7 +59,7 @@ knitr::is_html_output(excludes = 'markdown')
 
     <console>
       <output>
-## [1] FALSE
+## [1] TRUE
       </output>
     </console>
 
