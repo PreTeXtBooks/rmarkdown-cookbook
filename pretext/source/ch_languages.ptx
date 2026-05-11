@@ -95,7 +95,7 @@ knitr::knit_engines$set(foo = function(options) {
       code chunk:
     </p>
 
-    <program language="md"><input>
+      <program language="md"><input>
 ```{foo}
 1 + 1
 2 + 2
@@ -697,7 +697,8 @@ summarize
       Asymptote code in R Markdown with the <c>asy</c> engine if you have
       installed Asymptote (see its website for instructions on the
       installation). Below is an example copied from the repository
-      <url href="https://github.com/vectorgraphics/asymptote">https://github.com/vectorgraphics/asymptote</url>:
+      <url href="https://github.com/vectorgraphics/asymptote">https://github.com/vectorgraphics/asymptote</url>,
+      and its output is shown in <xref ref="fig-elevation"/>:
     </p>
 
     <program language="md"><input>
@@ -722,6 +723,13 @@ draw(s,lightgray+opacity(0.7));
 grid3(XYZgrid);
 ```
     </input></program>
+
+    <figure xml:id="fig-elevation">
+      <caption>A 3D graph made with Asymptote.</caption>
+      <image source="images/elevation.png" width="70%">
+        <description>A three-dimensional surface plot with a rainbow-colored projection plane and a translucent gray surface drawn with Asymptote.</description>
+      </image>
+    </figure>
 
     <p>
       Note that for PDF output, you may need some additional LaTeX packages,
@@ -761,11 +769,11 @@ writeLines(paste(x, y, sep = ','), 'sine.csv')
       </input></program>
 
       <p>
-        Then read it in Asymptote, and draw a graph based on the data (below
-        is an <c>asy</c> code chunk):
+        Then read it in Asymptote, and draw a graph based on the data as shown
+        in <xref ref="fig-sine-curve"/> (below is an <c>asy</c> code chunk):
       </p>
 
-      <program language="md"><input>
+    <program language="md"><input>
 ```{asy, fig.cap='Pass data from R to Asymptote to draw a graph.', cache=TRUE}
 import graph;
 size(400,300,IgnoreAspect);
@@ -791,6 +799,13 @@ xaxis("$x$",BottomTop,LeftTicks);
 yaxis("$y$",LeftRight,RightTicks);
 ```
       </input></program>
+
+      <figure xml:id="fig-sine-curve">
+        <caption>Pass data from R to Asymptote to draw a graph.</caption>
+        <image source="images/sine-curve.png" width="70%">
+          <description>A graph of a sine curve and a dashed line, with their intersection labeled using data generated in R and plotted in Asymptote.</description>
+        </image>
+      </figure>
     </subsection>
   </section>
 
