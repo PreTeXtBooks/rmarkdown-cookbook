@@ -33,17 +33,17 @@ def main():
     if convert_available:
         print("ImageMagick found - will convert EPS to PNG")
     else:
-        print("ImageMagick not found - will only copy existing PNG files")
+        print("ImageMagick not found - will only copy existing image files")
     
     images_copied = 0
     images_converted = 0
     
-    # Copy existing image files (PNG, JPG, JPEG)
+    # Copy existing image files (PNG, JPG, JPEG, GIF)
     for img_file in sorted(source_images_dir.rglob("*")):
         # Skip defunct images and non-image files
         if "defunct_images" in str(img_file):
             continue
-        if img_file.suffix.lower() not in (".png", ".jpg", ".jpeg"):
+        if img_file.suffix.lower() not in (".png", ".jpg", ".jpeg", ".gif"):
             continue
             
         target_file = pretext_assets / img_file.name
@@ -82,7 +82,12 @@ def main():
                 continue
     
     # Summary
-    total_images = len(list(pretext_assets.glob("*.png"))) + len(list(pretext_assets.glob("*.jpg")))
+    total_images = (
+        len(list(pretext_assets.glob("*.png")))
+        + len(list(pretext_assets.glob("*.jpg")))
+        + len(list(pretext_assets.glob("*.jpeg")))
+        + len(list(pretext_assets.glob("*.gif")))
+    )
     print(f"\nComplete!")
     print(f"  Copied: {images_copied} PNG files")
     print(f"  Converted: {images_converted} EPS files")
