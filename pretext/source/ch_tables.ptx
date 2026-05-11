@@ -29,6 +29,14 @@
       appearance of tables.
     </p>
 
+<program language = "r">
+<input>
+kable(x, format, digits = getOption("digits"), row.names = NA,
+  col.names = NA, align, caption = opts_current$get("tab.cap"),
+  label = NULL, format.args = list(), escape = TRUE, ...)
+</input>
+</program>
+
     <subsection xml:id="kable-formats">
       <title>Supported table formats</title>
 
@@ -71,43 +79,101 @@ knitr::kable(head(mtcars[, 1:4]), 'pipe')
       <program language="r">
         <input>
 knitr::kable(head(mtcars[, 1:4]), 'simple')
-knitr::kable(mtcars[1:2, 1:2], 'html')
-knitr::kable(head(mtcars[, 1:4]), 'latex')
-knitr::kable(head(mtcars[, 1:4]), 'rst')
         </input>
       </program>
 
       <console>
         <output>
 # kable(head(mtcars[, 1:4]), 'simple'):
-                    mpg   cyl   disp    hp
-------------------  ----  ----  -----  ----
-Mazda RX4           21.0     6    160   110
-Mazda RX4 Wag       21.0     6    160   110
-Datsun 710          22.8     4    108    93
-Hornet 4 Drive      21.4     6    258   110
-Hornet Sportabout   18.7     8    360   175
-Valiant             18.1     6    225   105
+                      mpg   cyl   disp    hp
+------------------  -----  ----  -----  ----
+Mazda RX4            21.0     6    160   110
+Mazda RX4 Wag        21.0     6    160   110
+Datsun 710           22.8     4    108    93
+Hornet 4 Drive       21.4     6    258   110
+Hornet Sportabout    18.7     8    360   175
+Valiant              18.1     6    225   105
+        </output>
+      </console>
 
-# kable(mtcars[1:2, 1:2], 'html'):
+      <program language="r">
+        <input>
+knitr::kable(mtcars[1:2, 1:2], 'html')
+        </input>
+      </program>
+
+      <console>
+        <output>
 &lt;table&gt;
  &lt;thead&gt;
-  &lt;tr&gt;&lt;th&gt;&lt;/th&gt;&lt;th&gt;mpg&lt;/th&gt;&lt;th&gt;cyl&lt;/th&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; mpg &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; cyl &lt;/th&gt;
+  &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
-  &lt;tr&gt;&lt;td&gt;Mazda RX4&lt;/td&gt;&lt;td&gt;21&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;&lt;/tr&gt;
-  &lt;tr&gt;&lt;td&gt;Mazda RX4 Wag&lt;/td&gt;&lt;td&gt;21&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mazda RX4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mazda RX4 Wag &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
+  &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+        </output>
+      </console>
 
-# kable(head(mtcars[, 1:4]), 'latex'):
+      <program language="r">
+        <input>
+knitr::kable(head(mtcars[, 1:4]), 'latex')
+        </input>
+      </program>
+
+      <console>
+        <output>
 \begin{tabular}{l|r|r|r|r}
 \hline
-  &amp; mpg &amp; cyl &amp; disp &amp; hp\\
+  & mpg & cyl & disp & hp\\
 \hline
-Mazda RX4 &amp; 21.0 &amp; 6 &amp; 160 &amp; 110\\
-...
+Mazda RX4 & 21.0 & 6 & 160 & 110\\
+\hline
+Mazda RX4 Wag & 21.0 & 6 & 160 & 110\\
+\hline
+Datsun 710 & 22.8 & 4 & 108 & 93\\
+\hline
+Hornet 4 Drive & 21.4 & 6 & 258 & 110\\
+\hline
+Hornet Sportabout & 18.7 & 8 & 360 & 175\\
+\hline
+Valiant & 18.1 & 6 & 225 & 105\\
+\hline
 \end{tabular}
+        </output>
+      </console>
+
+      <program language="r">
+        <input>
+knitr::kable(head(mtcars[, 1:4]), 'rst')
+        </input>
+      </program>
+
+      <console>
+        <output>
+=================  ====  ===  ====  ===
+\                   mpg  cyl  disp   hp
+=================  ====  ===  ====  ===
+Mazda RX4          21.0    6   160  110
+Mazda RX4 Wag      21.0    6   160  110
+Datsun 710         22.8    4   108   93
+Hornet 4 Drive     21.4    6   258  110
+Hornet Sportabout  18.7    8   360  175
+Valiant            18.1    6   225  105
+=================  ====  ===  ====  ===
         </output>
       </console>
 
@@ -167,6 +233,66 @@ knitr::kable(iris2, col.names = gsub('[.]', ' ', names(iris)))
         </input>
       </program>
 
+<table>
+  <title>Iris Dataset (First Six Observations)</title>
+  <tabular>
+    <col halign="right"/>
+    <col halign="right"/>
+    <col halign="right"/>
+    <col halign="right"/>
+    <col halign="left"/>
+    <row header="yes">
+      <cell>Sepal Length</cell>
+      <cell>Sepal Width</cell>
+      <cell>Petal Length</cell>
+      <cell>Petal Width</cell>
+      <cell>Species</cell>
+    </row>
+    <row>
+      <cell>5.1</cell>
+      <cell>3.5</cell>
+      <cell>1.4</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>4.9</cell>
+      <cell>3.0</cell>
+      <cell>1.4</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>4.7</cell>
+      <cell>3.2</cell>
+      <cell>1.3</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>4.6</cell>
+      <cell>3.1</cell>
+      <cell>1.5</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>5.0</cell>
+      <cell>3.6</cell>
+      <cell>1.4</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>5.4</cell>
+      <cell>3.9</cell>
+      <cell>1.7</cell>
+      <cell>0.4</cell>
+      <cell>setosa</cell>
+    </row>
+  </tabular>
+</table>
+
       <p>
         The <c>col.names</c> argument can take an arbitrary character vector
         (not necessarily the modified column names via functions like
@@ -203,6 +329,68 @@ knitr::kable(
 knitr::kable(iris2, align = 'lccrr')
         </input>
       </program>
+
+<table>
+  <title>Iris Dataset (First Six Observations)</title>
+  <tabular>
+    <col halign="left"/>
+    <col halign="center"/>
+    <col halign="center"/>
+    <col halign="right"/>
+    <col halign="right"/>
+    <row header="yes">
+      <cell>Sepal Length</cell>
+      <cell>Sepal Width</cell>
+      <cell>Petal Length</cell>
+      <cell>Petal Width</cell>
+      <cell>Species</cell>
+    </row>
+    <row>
+      <cell>5.1</cell>
+      <cell>3.5</cell>
+      <cell>1.4</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>4.9</cell>
+      <cell>3.0</cell>
+      <cell>1.4</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>4.7</cell>
+      <cell>3.2</cell>
+      <cell>1.3</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>4.6</cell>
+      <cell>3.1</cell>
+      <cell>1.5</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>5.0</cell>
+      <cell>3.6</cell>
+      <cell>1.4</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>5.4</cell>
+      <cell>3.9</cell>
+      <cell>1.7</cell>
+      <cell>0.4</cell>
+      <cell>setosa</cell>
+    </row>
+  </tabular>
+</table>
+
+
     </subsection>
 
     <subsection xml:id="kable-caption">
