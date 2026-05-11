@@ -214,7 +214,7 @@ install.packages('webshot2')
     <title>Embed a web page</title>
 
     <p>
-      If you have the <em>webshot2</em> package and Chrome installed (see
+      If you have the <em>webshot2</em> package <xref ref="R-webshot2"/> and Chrome installed (see
       <xref ref="html-widgets"/>), you can embed any web page in the
       output document through <c>knitr::include_url()</c>. When you pass
       a URL of a web page to this function in a code chunk, it will
@@ -246,7 +246,8 @@ install.packages('webshot2')
     <p>
       You can place multiple figures side by side using the
       <c>fig.show="hold"</c> chunk option along with the <c>out.width</c>
-      option. In the example below, we have set <c>out.width="50%"</c>:
+      option. In the example below, we have set <c>out.width="50%"</c> (see
+      <xref ref="fig-figures-side"/> for the output):
     </p>
 
     <program language="md">
