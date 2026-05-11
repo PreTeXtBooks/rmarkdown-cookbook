@@ -644,7 +644,7 @@ knitr::write_bib(file = 'packages.bib')
         <p>
           <em>A bookdown output format</em>: Cross-referencing is not
           provided directly within the base <em>rmarkdown</em> package,
-          but is provided as an extension in <em>bookdown</em>. We must
+          but is provided as an extension in <em>bookdown</em> <xref ref="R-bookdown"/>. We must
           therefore use an output format from <em>bookdown</em> (e.g.,
           <c>html_document2</c>, <c>pdf_document2</c>, and
           <c>word_document2</c>, etc.) in the YAML <c>output</c> field.
@@ -1223,9 +1223,19 @@ for (i in 1:2) {
       </input>
     </program>
 
+    <figure xml:id="fig-pacman">
+      <caption>A Pac-man animation.</caption>
+      <image source="images/pacman.gif" width="50%">
+        <description>A Pac-man animation.</description>
+      </image>
+    </figure>
+
     <p>
       The image format of the animation is GIF, which works well for HTML
-      output, but it is not straightforward to support GIF in LaTeX.
+      output, but it is not straightforward to support GIF in LaTeX. That
+      is why you only see two static image frames in <xref ref="fig-pacman"/> if
+      you are reading the PDF or printed version of this book. If you read
+      the online version of this book, you will see the actual animation.
     </p>
 
     <p>
