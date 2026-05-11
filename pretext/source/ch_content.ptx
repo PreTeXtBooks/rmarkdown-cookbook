@@ -896,7 +896,7 @@ author:
       parameters directly within the YAML. For example, the <url href="https://rstudio.github.io/distill/">Distill</url> output
       format allows <c>url</c>, <c>affiliation</c>, and
       <c>affiliation_url</c> to be specified. After you install the
-      <em>distill</em> package <xref ref="R-distill"/>:
+      <em>distill</em> package <cite key="R-distill"/>:
     </p>
 
     <program language="r">
@@ -1287,7 +1287,7 @@ for (i in 1:2) {
 
     <p>
       While there are several different packages available for R, we will
-      only briefly introduce the package <em>DiagrammeR</em> <xref ref="R-DiagrammeR"/>, and mention
+      only briefly introduce the package <em>DiagrammeR</em> <cite key="R-DiagrammeR"/>, and mention
       other packages at the end. You can find the full documentation of
       <em>DiagrammeR</em> at
       <url href="https://rich-iannone.github.io/DiagrammeR/"/>. In this

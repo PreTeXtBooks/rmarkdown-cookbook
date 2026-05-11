@@ -931,7 +931,7 @@ tab %>%
         and add background shading to cells. Currently <em>gt</em> mainly
         supports HTML output.<fn>If you need the support for other output
         formats such as LaTeX and Word, the <em>gtsummary</em> package
-        <xref ref="R-gtsummary"/> has made some extensions based on <em>gt</em>
+        <cite key="R-gtsummary"/> has made some extensions based on <em>gt</em>
         that look very promising:
         <url href="https://github.com/ddsjoberg/gtsummary"/>.</fn> You can
         find more information about it at

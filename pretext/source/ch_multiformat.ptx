@@ -246,8 +246,7 @@ install.packages('webshot2')
     <p>
       You can place multiple figures side by side using the
       <c>fig.show="hold"</c> chunk option along with the <c>out.width</c>
-      option. In the example below, we have set <c>out.width="50%"</c> (see
-      <xref ref="fig-figures-side"/> for the output):
+      option. In the example below, we have set <c>out.width="50%"</c>:
     </p>
 
     <program language="md">
