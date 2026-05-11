@@ -607,7 +607,7 @@ been noted, and _will be reported to the authorities_!
         We can make custom blocks even more visually appealing by including
         images in them. Images can also be an effective way to convey the
         content of the block. For the following example, we assume that we
-        are working within a directory structure like this:
+        are working within a directory structure below, which is a simplified version of what is used to build this book:
       </p>
 
       <program language="md">
