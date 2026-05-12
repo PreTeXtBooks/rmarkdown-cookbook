@@ -214,7 +214,7 @@ install.packages('webshot2')
     <title>Embed a web page</title>
 
     <p>
-      If you have the <em>webshot2</em> package and Chrome installed (see
+      If you have the <em>webshot2</em> package <xref ref="R-webshot2"/> and Chrome installed (see
       <xref ref="html-widgets"/>), you can embed any web page in the
       output document through <c>knitr::include_url()</c>. When you pass
       a URL of a web page to this function in a code chunk, it will
@@ -590,13 +590,11 @@ been noted, and _will be reported to the authorities_!
 
       <p>The output is:</p>
 
-      <note>
-        <p><em>NOTICE!</em></p>
-        <p>
-          Thank you for noticing this <em>new notice</em>! Your noticing it has
-          been noted, and <em>will be reported to the authorities</em>!
-        </p>
-      </note>
+      <figure>
+        <image source="images/block-shaded-output.png" width="95%">
+          <description>Screenshot of the black NOTICE custom block output.</description>
+        </image>
+      </figure>
 
     </subsection>
 
@@ -641,13 +639,11 @@ been noted, and _will be reported to the authorities_!
 
       <p>The output is:</p>
 
-      <note>
-        <p><em>NOTICE!</em></p>
-        <p>
-          Thank you for noticing this <em>new notice</em>! Your noticing it has
-          been noted, and <em>will be reported to the authorities</em>!
-        </p>
-      </note>
+      <figure>
+        <image source="images/block-icons-caution-output.png" width="95%">
+          <description>Screenshot of the infobox custom block output with icon styling.</description>
+        </image>
+      </figure>
 
       <p>
         For the HTML output, we can add an image to the box through the
@@ -738,6 +734,12 @@ Include the actual content here.
       <p>
         Below we show more example blocks with different icons:
       </p>
+
+      <figure>
+        <image source="images/block-icons-examples-output.png" width="95%">
+          <description>Screenshot showing additional infobox examples with different icons.</description>
+        </image>
+      </figure>
 
       <p>
         Alternatively, you may use the LaTeX package

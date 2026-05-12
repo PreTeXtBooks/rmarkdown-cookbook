@@ -896,7 +896,7 @@ author:
       parameters directly within the YAML. For example, the <url href="https://rstudio.github.io/distill/">Distill</url> output
       format allows <c>url</c>, <c>affiliation</c>, and
       <c>affiliation_url</c> to be specified. After you install the
-      <em>distill</em> package:
+      <em>distill</em> package <cite key="R-distill"/>:
     </p>
 
     <program language="r">
@@ -930,7 +930,7 @@ output: distill::distill_article
     <title>Numbered figure captions</title>
 
     <p>
-      We can use <em>bookdown</em> output formats to add figure numbers to
+      We can use <em>bookdown</em> <xref ref="R-bookdown"/> output formats to add figure numbers to
       their captions. Below is an example:
     </p>
 
@@ -1093,7 +1093,7 @@ blogdown:::quote_poem(c('This line', 'should be', 'broken.'))
 
     <p>
       If you use the RStudio IDE and have installed the package
-      <em>blogdown</em>, you can select the text in which you want to
+      <em>blogdown</em> <xref ref="R-blogdown"/>, you can select the text in which you want to
       preserve the line breaks, and click the RStudio addin
       <q>Quote Poem</q> in the drop-down menu <q>Addins</q> on the
       toolbar. For example, the text below (in a fenced code block) does
@@ -1287,7 +1287,7 @@ for (i in 1:2) {
 
     <p>
       While there are several different packages available for R, we will
-      only briefly introduce the package <em>DiagrammeR</em>, and mention
+      only briefly introduce the package <em>DiagrammeR</em> <cite key="R-DiagrammeR"/>, and mention
       other packages at the end. You can find the full documentation of
       <em>DiagrammeR</em> at
       <url href="https://rich-iannone.github.io/DiagrammeR/"/>. In this

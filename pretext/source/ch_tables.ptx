@@ -13,7 +13,7 @@
     <li><p>Show all features of the table-generating function
       <c>knitr::kable()</c>.</p></li>
     <li><p>Highlight more advanced customization of tables using the
-      <em>kableExtra</em> package.</p></li>
+      <em>kableExtra</em> package <xref ref="R-kableExtra"/>.</p></li>
     <li><p>Provide a list of other packages that produce tables.</p></li>
   </ul>
 </introduction>
@@ -138,19 +138,19 @@ knitr::kable(head(mtcars[, 1:4]), 'latex')
         <output>
 \begin{tabular}{l|r|r|r|r}
 \hline
-  & mpg & cyl & disp & hp\\
+  &amp; mpg &amp; cyl &amp; disp &amp; hp\\
 \hline
-Mazda RX4 & 21.0 & 6 & 160 & 110\\
+Mazda RX4 &amp; 21.0 &amp; 6 &amp; 160 &amp; 110\\
 \hline
-Mazda RX4 Wag & 21.0 & 6 & 160 & 110\\
+Mazda RX4 Wag &amp; 21.0 &amp; 6 &amp; 160 &amp; 110\\
 \hline
-Datsun 710 & 22.8 & 4 & 108 & 93\\
+Datsun 710 &amp; 22.8 &amp; 4 &amp; 108 &amp; 93\\
 \hline
-Hornet 4 Drive & 21.4 & 6 & 258 & 110\\
+Hornet 4 Drive &amp; 21.4 &amp; 6 &amp; 258 &amp; 110\\
 \hline
-Hornet Sportabout & 18.7 & 8 & 360 & 175\\
+Hornet Sportabout &amp; 18.7 &amp; 8 &amp; 360 &amp; 175\\
 \hline
-Valiant & 18.1 & 6 & 225 & 105\\
+Valiant &amp; 18.1 &amp; 6 &amp; 225 &amp; 105\\
 \hline
 \end{tabular}
         </output>
