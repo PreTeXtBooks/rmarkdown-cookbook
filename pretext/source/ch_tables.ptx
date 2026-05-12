@@ -723,137 +723,226 @@ Mazda RX4 Wag        21.0     6    160   110
     <subsection xml:id="kable-latex">
       <title>Customize LaTeX tables</title>
 
-      <p>
-        If the only output format you need is LaTeX, there are a few extra
-        options you can use in <c>kable()</c>. Note that these options will
-        be ignored in other types of output such as HTML. Unless you have set
-        the table format option globally (see
-        <xref ref="kable-formats"/>), you will have to use the
-        <c>format</c> argument of <c>kable()</c> explicitly, e.g.,
-      </p>
+ <p>
+  If the only output format you need is LaTeX, there are a few extra options you can 
+  use in <c>kable()</c>. Note that these options will be ignored in other types of 
+  output such as HTML. Unless you have set the table format option globally (see 
+  <xref ref="kable-formats"/>), you will have to use the <c>format</c> 
+  argument of <c>kable()</c> explicitly in the examples of this section, e.g.,
+</p>
 
-      <program language="r">
-        <input>
-knitr::kable(iris2, format = 'latex', booktabs = TRUE)
-        </input>
-      </program>
+<program language="r">
+  <input>
+    knitr::kable(iris2, format = "latex", booktabs = TRUE)
+  </input>
+</program>
 
-      <p>
-        When you assign a caption to a table (see <xref ref="kable-caption"/>),
-        <c>kable()</c> will use the <c>table</c> environment to include the
-        table. You can change this
-        environment via the <c>table.envir</c> argument, e.g.,
-      </p>
+<p>
+  When you assign a caption to a table (see <xref ref="sec-table-captions"/>), 
+  <c>kable()</c> will use the <c>table</c> environment to include the table, i.e.,
+</p>
 
-      <program language="r">
-        <input>
-knitr::kable(cars[1:2, ], format = 'latex', table.envir = 'figure')
-        </input>
-      </program>
+<program language="latex">
+  <input>
+    \begin{table}
+    % the table body (usually the tabular environment)
+    \end{table}
+  </input>
+</program>
 
-      <p>
-        The floating position of the table is controlled by the argument
-        <c>position</c>. For example, we can try to force a table to float to
-        the bottom of a page via <c>position = "!b"</c>:
-      </p>
+<p>
+  You can change this environment via the <c>table.envir</c> argument, e.g.,
+</p>
 
-      <program language="r">
-        <input>
-knitr::kable(cars[1:2, ], format = 'latex', table.envir = 'table', position = '!b')
-        </input>
-      </program>
+<program language="r">
+  <input>
+    knitr::kable(cars[1:2, ], format = "latex", table.envir = "figure")
+  </input>
+  <output>
+    \begin{figure}
+    \begin{tabular}{r|r}
+    \hline
+    speed &amp; dist\\
+    \hline
+    4 &amp; 2\\
+    \hline
+    4 &amp; 10\\
+    \hline
+    \end{tabular}
+    \end{figure}
+  </output>
+</program>
 
-      <p>
-        When a table has a caption, you can also assign a short caption to it
-        via the <c>caption.short</c> argument, e.g.,
-      </p>
+<p>
+  The floating position of the table is controlled by the argument <c>position</c>. 
+  For example, we can try to force a table to float to the bottom of a page via 
+  <c>position = "!b"</c>:
+</p>
 
-      <program language="r">
-        <input>
-knitr::kable(iris2, caption = 'A long long long caption!', caption.short = 'A short one.')
-        </input>
-      </program>
+<program language="r">
+  <input>
+    knitr::kable(cars[1:2, ], format = "latex", table.envir = "table",
+      position = "!b")
+  </input>
+  <output>
+    \begin{table}[!b]
+    \begin{tabular}{r|r}
+    \hline
+    speed &amp; dist\\
+    \hline
+    4 &amp; 2\\
+    \hline
+    4 &amp; 10\\
+    \hline
+    \end{tabular}
+    \end{table}
+  </output>
+</program>
 
-      <p>
-        The short caption goes into the square brackets of the
-        <c>\caption[]{}</c> command in LaTeX, and is often used in the List
-        of Tables of the PDF output document.
-      </p>
+<p>
+  When a table has a caption, you can also assign a short caption to it via the 
+  <c>caption.short</c> argument, e.g.,
+</p>
 
-      <p>
-        If you are familiar with the LaTeX package
-        <url href="https://ctan.org/pkg/booktabs"><em>booktabs</em></url> for
-        publication-quality tables, you can set <c>booktabs = TRUE</c>, e.g.,
-      </p>
+<program language="r">
+  <input>
+    knitr::kable(iris2, caption = "A long long long caption!",
+      caption.short = "A short one.")
+  </input>
+</program>
 
-      <program language="r">
-        <input>
-iris3 = head(iris, 10)
-knitr::kable(iris3, format = 'latex', booktabs = TRUE)
-        </input>
-      </program>
+<p>
+  The short caption goes into the square brackets of the <c>\caption[]{}</c> command 
+  in LaTeX, and is often used in the List of Tables of the PDF output document (if the 
+  short caption is not provided, the full caption is displayed there).
+</p>
 
-      <p>
-        Please note that when you need additional LaTeX packages such as
-        <em>booktabs</em> for an R Markdown document, you have to declare
-        these packages in YAML (see <xref ref="latex-extra"/> for how).
-      </p>
+<p>
+  If you are familiar with the LaTeX package <c>booktabs</c> for publication-quality 
+  tables, you can set <c>booktabs = TRUE</c>, e.g.,
+</p>
 
-      <p>
-        Depending on whether the argument <c>booktabs</c> is <c>TRUE</c> or
-        <c>FALSE</c> (default), the table appearance is different. For
-        <c>booktabs = FALSE</c>:
-      </p>
+<program language="r">
+  <input>
+    iris3 &lt;- head(iris, 10)
+    knitr::kable(iris3, format = "latex", booktabs = TRUE)
+  </input>
+  <output>
+    \begin{tabular}{rrrrl}
+    \toprule
+    Sepal.Length &amp; Sepal.Width &amp; Petal.Length &amp; Petal.Width &amp; Species\\
+    \midrule
+    5.1 &amp; 3.5 &amp; 1.4 &amp; 0.2 &amp; setosa\\
+    4.9 &amp; 3.0 &amp; 1.4 &amp; 0.2 &amp; setosa\\
+    4.7 &amp; 3.2 &amp; 1.3 &amp; 0.2 &amp; setosa\\
+    4.6 &amp; 3.1 &amp; 1.5 &amp; 0.2 &amp; setosa\\
+    5.0 &amp; 3.6 &amp; 1.4 &amp; 0.2 &amp; setosa\\
+    \addlinespace
+    5.4 &amp; 3.9 &amp; 1.7 &amp; 0.4 &amp; setosa\\
+    4.6 &amp; 3.4 &amp; 1.4 &amp; 0.3 &amp; setosa\\
+    5.0 &amp; 3.4 &amp; 1.5 &amp; 0.2 &amp; setosa\\
+    4.4 &amp; 2.9 &amp; 1.4 &amp; 0.2 &amp; setosa\\
+    4.9 &amp; 3.1 &amp; 1.5 &amp; 0.1 &amp; setosa\\
+    \bottomrule
+    \end{tabular}
+  </output>
+</program>
 
-      <ul>
-        <li><p>Table columns are separated by vertical lines. You can
-          explicitly remove the vertical lines via the <c>vline</c> argument,
-          e.g., <c>knitr::kable(iris, vline = "")</c> (the default is
-          <c>vline = "|"</c>). You can set this option as a global R option
-          so you do not need to set it for every single table, e.g.,
-          <c>options(knitr.table.vline = "")</c>.</p></li>
-        <li><p>The horizontal lines can be defined via arguments
-          <c>toprule</c>, <c>midrule</c>, <c>linesep</c>, and
-          <c>bottomrule</c>. Their default values are all
-          <c>\hline</c>.</p></li>
-      </ul>
+<p>
+  Please note that when you need additional LaTeX packages such as <c>booktabs</c> for 
+  an R Markdown document, you have to declare these packages in YAML (see 
+  <xref ref="sec-yaml-latex-packages"/> for how).
+</p>
 
-      <p>
-        For <c>booktabs = TRUE</c>:
-      </p>
+<p>
+  Depending on whether the argument <c>booktabs</c> is <c>TRUE</c> or <c>FALSE</c> 
+  (default), the table appearance is different. For <c>booktabs = FALSE</c>:
+</p>
 
-      <ul>
-        <li><p>There are no vertical lines in the table, but you can add
-          these lines via the <c>vline</c> argument.</p></li>
-        <li><p>The table only has horizontal lines for the table header and
-          the bottom row. The default argument values are
-          <c>toprule = "\\toprule"</c>, <c>midrule = "\\midrule"</c>, and
-          <c>bottomrule = "\\bottomrule"</c>. A line space is added to every
-          five rows by default. This is controlled by the argument
-          <c>linesep</c>, which defaults to
-          <c>c("", "", "", "", "\\addlinespace")</c>. If you want to add a
-          space to every three rows, you can do this:</p>
-          <program language="r">
-            <input>
-knitr::kable(iris3, format = 'latex', linesep = c('', '', '\\addlinespace'), booktabs = TRUE)
-            </input>
-          </program>
-          <p>If you want to remove the line spaces altogether, you may use
-          <c>linesep = ''</c>.</p></li>
-      </ul>
+<ul>
+  <li>
+    <p>
+      Table columns are separated by vertical lines. You can explicitly remove the 
+      vertical lines via the <c>vline</c> argument, e.g., 
+      <c>knitr::kable(iris, vline = "")</c> (the default is <c>vline = "|"</c>). 
+      You can set this option as a global R option so you do not need to set it for 
+      every single table, e.g., <c>options(knitr.table.vline = "")</c>.
+    </p>
+  </li>
+  <li>
+    <p>
+      The horizontal lines can be defined via arguments <c>toprule</c>, <c>midrule</c>, 
+      <c>linesep</c>, and <c>bottomrule</c>. Their default values are all <c>\hline</c>.
+    </p>
+  </li>
+</ul>
 
-      <p>
-        Sometimes your table may be longer than a page. In this case, you can
-        use the argument <c>longtable = TRUE</c>, which uses the LaTeX package
-        <url href="https://ctan.org/pkg/longtable"><em>longtable</em></url> to span your table to multiple pages.
-      </p>
+<p>For <c>booktabs = TRUE</c>:</p>
 
-      <p>
-        Tables are center-aligned by default when they are included in a table
-        environment (i.e., when the table has a caption). If you do not want
-        to center a table, use the argument <c>centering = FALSE</c>.
-      </p>
-    </subsection>
+<ul>
+  <li>
+    <p>
+      There are no vertical lines in the table, but you can add these lines via the 
+      <c>vline</c> argument.
+    </p>
+  </li>
+  <li>
+    <p>
+      The table only has horizontal lines for the table header and the bottom row. The 
+      default argument values are <c>toprule = "\\toprule"</c>, 
+      <c>midrule = "\\midrule"</c>, and <c>bottomrule = "\\bottomrule"</c>. A line 
+      space is added to every five rows by default. This is controlled by the argument 
+      <c>linesep</c>, which defaults to 
+      <c>c("", "", "", "", "\\addlinespace")</c>. If you want to add a space to every 
+      three rows, you can do this:
+    </p>
+  </li>
+</ul>
+
+<program language="r">
+  <input>
+    knitr::kable(iris3, format = "latex", linesep = c("", "",
+      "\\addlinespace"), booktabs = TRUE)
+  </input>
+  <output>
+    \begin{tabular}{rrrrl}
+    \toprule
+    Sepal.Length &amp; Sepal.Width &amp; Petal.Length &amp; Petal.Width &amp; Species\\
+    \midrule
+    5.1 &amp; 3.5 &amp; 1.4 &amp; 0.2 &amp; setosa\\
+    4.9 &amp; 3.0 &amp; 1.4 &amp; 0.2 &amp; setosa\\
+    4.7 &amp; 3.2 &amp; 1.3 &amp; 0.2 &amp; setosa\\
+    \addlinespace
+    4.6 &amp; 3.1 &amp; 1.5 &amp; 0.2 &amp; setosa\\
+    5.0 &amp; 3.6 &amp; 1.4 &amp; 0.2 &amp; setosa\\
+    5.4 &amp; 3.9 &amp; 1.7 &amp; 0.4 &amp; setosa\\
+    \addlinespace
+    4.6 &amp; 3.4 &amp; 1.4 &amp; 0.3 &amp; setosa\\
+    5.0 &amp; 3.4 &amp; 1.5 &amp; 0.2 &amp; setosa\\
+    4.4 &amp; 2.9 &amp; 1.4 &amp; 0.2 &amp; setosa\\
+    \addlinespace
+    4.9 &amp; 3.1 &amp; 1.5 &amp; 0.1 &amp; setosa\\
+    \bottomrule
+    \end{tabular}
+  </output>
+</program>
+
+<p>
+  If you want to remove the line spaces altogether, you may use <c>linesep = ''</c>.
+</p>
+
+<p>
+  Sometimes your table may be longer than a page. In this case, you can use the argument 
+  <c>longtable = TRUE</c>, which uses the LaTeX package <c>longtable</c> to span your 
+  table to multiple pages.
+</p>
+
+<p>
+  Tables are center-aligned by default when they are included in a table environment 
+  (i.e., when the table has a caption). If you do not want to center a table, use the 
+  argument <c>centering = FALSE</c>.
+</p>
+</subsection>
 
     <subsection xml:id="kable-html">
       <title>Customize HTML tables</title>
@@ -871,7 +960,29 @@ knitr::kable(iris3, format = 'latex', linesep = c('', '', '\\addlinespace'), boo
 knitr::kable(mtcars[1:2, 1:2], table.attr = 'class="striped"', format = "html")
         </input>
       </program>
-
+<console><output>
+&lt;table class="striped"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; mpg &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; cyl &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mazda RX4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mazda RX4 Wag &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+</output></console>
       <p>
         We added a class <c>striped</c> to the table. However, a class name
         is not enough to change the appearance of a table. You have to define
