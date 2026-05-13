@@ -481,7 +481,11 @@ for (i in 1:5) warning('Here is the warning ', i)
       If you feel there is too much spacing between text output blocks and source
       code blocks in the output, you may consider collapsing the text output into
       the source blocks with the chunk option <c>collapse = TRUE</c>. When
-      <c>collapse = TRUE</c>. This is what the output looks like when <c>collapse = TRUE</c>:
+      <c>collapse = TRUE</c>, the source code and its text output will appear in
+      a single block instead of two separate blocks. This is what the output
+      looks like when <c>collapse = TRUE</c>:
+    </p>
+
     <program language="r">
       <input>
 1 + 1
@@ -491,7 +495,10 @@ for (i in 1:5) warning('Here is the warning ', i)
       </input>
     </program>
 
-<p>Below is the same chunk but it does not have the option <c>collapse = TRUE</c> (the default is <c>FALSE</c>):</p>
+    <p>
+      Below is the same chunk but it does not have the option
+      <c>collapse = TRUE</c> (the default is <c>FALSE</c>):
+    </p>
 
     <program language="r">
       <input>
@@ -499,7 +506,7 @@ for (i in 1:5) warning('Here is the warning ', i)
       </input>
     </program>
 
-<console>
+    <console>
       <output>
 ## [1] 2
       </output>
