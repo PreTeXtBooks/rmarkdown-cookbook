@@ -693,6 +693,12 @@ cat(paste0('- `', names(iris), '`'), sep = '\n')
       without the <c>results = 'asis'</c> option:
     </p>
 
+    <program language="r">
+      <input>
+cat(paste0('- `', names(iris), '`'), sep = '\n')
+      </input>
+    </program>
+
     <console>
       <output>
 ## - `Sepal.Length`
@@ -774,7 +780,9 @@ And definitely a paragraph.
       The <c>cat()</c> function is not the only function that can generate text
       output. Another commonly used function is <c>print()</c>. Please note that
       <c>print()</c> is often <em>implicitly</em> called to print objects, which is
-      why you see output after typing out an object or value in the R console. This
+      why you see output after typing out an object or value in the R console.
+For example, when you type <c>1:5</c> in the R console and hit the <c>Enter</c> key, you see the output because R actually called <c>print(1:5)</c> implicitly. This can be highly confusing when you fail to generate output inside an expression (such as a <c>for</c>-loop) with objects or values that would otherwise be correctly printed if they were typed in the R console. 
+This
       topic is quite technical, and the blog post
       <url href="https://yihui.org/en/2017/06/top-level-r-expressions/">The Ghost Printer behind Top-level R Expressions</url>
       explains it. If you are not interested in the technical details, just remember
