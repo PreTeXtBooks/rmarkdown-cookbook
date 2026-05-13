@@ -1066,7 +1066,9 @@ remotes::install_github("haozhu233/kableExtra")
       It has extensive documentation at
       <url href="https://haozhu233.github.io/kableExtra/"/>, which provides a lot of
       examples on how the <c>kable()</c> output can be customized for either
-      HTML or LaTeX output. The <em>kableExtra</em> package features the pipe
+      HTML or LaTeX output. We recommend that you read its documentation by yourself, and will only present a handful of examples in this section.
+</p>
+<p>The <em>kableExtra</em> package features the pipe
       operator, <c>%&gt;%</c>. You can pipe the <c>kable()</c> output to the
       styling functions of <em>kableExtra</em>, e.g.,
     </p>
