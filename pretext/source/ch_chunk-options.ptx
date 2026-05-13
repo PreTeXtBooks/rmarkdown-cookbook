@@ -482,25 +482,44 @@ for (i in 1:5) warning('Here is the warning ', i)
       code blocks in the output, you may consider collapsing the text output into
       the source blocks with the chunk option <c>collapse = TRUE</c>. When
       <c>collapse = TRUE</c>, the source code and its text output will appear in
-      a single block instead of two separate blocks.
-    </p>
-
-    <p>
-      This is what the output looks like when <c>collapse = TRUE</c>:
+      a single block instead of two separate blocks. This is what the output
+      looks like when <c>collapse = TRUE</c>:
     </p>
 
     <program language="r">
       <input>
 1 + 1
+## [1] 2
+1:10
+##  [1]  1  2  3  4  5  6  7  8  9 10
+      </input>
+    </program>
+
+    <p>
+      Below is the same chunk but it does not have the option
+      <c>collapse = TRUE</c> (the default is <c>FALSE</c>):
+    </p>
+
+    <program language="r">
+      <input>
+1 + 1
+      </input>
+    </program>
+
+    <console>
+      <output>
+## [1] 2
+      </output>
+    </console>
+
+    <program language="r">
+      <input>
 1:10
       </input>
     </program>
 
     <console>
       <output>
-1 + 1
-## [1] 2
-1:10
 ##  [1]  1  2  3  4  5  6  7  8  9 10
       </output>
     </console>
@@ -536,6 +555,19 @@ print('Hello world!') # indent by 2 spaces
       </input>
     </program>
 
+    <p>The output:</p>
+
+    <console>
+      <output>
+# messy R code...
+1 + 1
+x &lt;- 1:10  #some users prefer '&lt;-' as the assignment operator
+if (TRUE) {
+  print("Hello world!")  # indent by 2 spaces
+}
+      </output>
+    </console>
+
     <p>
       In <xref ref="text-width"/>, we mentioned how to control the width of text
       output. If you want to control the width of the source code, you may try the
@@ -551,6 +583,18 @@ print('Hello world!') # indent by 2 spaces
 ```
       </input>
     </program>
+
+    <p>The output:</p>
+
+    <console>
+      <output>
+# a long expression
+1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 +
+  1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 +
+  1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 +
+  1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1
+      </output>
+    </console>
 
     <p>
       Please read the help page <c>?formatR::tidy_source</c> to know the possible
