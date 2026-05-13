@@ -1189,11 +1189,12 @@ tinytex::tlmgr_install(c('pgf', 'preview', 'xcolor'))
       Second, it is often significantly slower to render the plots, because this
       device generates a LaTeX file and has to compile it to PDF. If you feel the
       code chunk is time-consuming, you may enable caching by the chunk option
-      <c>cache = TRUE</c> (see <xref ref="cache"/>). When using
-      <c>dev = "tikz"</c>, you may also use the chunk option
+      <c>cache = TRUE</c> (see <xref ref="cache"/>). </p>
+
+<p> For <xref ref = "fig-dev-tikz"/>, we also used the chunk option
       <c>fig.process = pdf2png</c>, where the function <c>pdf2png</c> is defined in
       <xref ref="fig-process"/> to convert the PDF plot to PNG when the output
-      format is not LaTeX.
+      format is not LaTeX. Without the conversion, you may not be able to view the PDF plot in the online version of this book in the web browser.
     </p>
   </section>
 
