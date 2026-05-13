@@ -1013,8 +1013,7 @@ add_logo = function(path, options) {
   logo = magick::image_read(logo)
   # the default gravity is northwest, and users can change it via the chunk
   # option magick.gravity
-  if (is.null(g &lt;- options$magick.gravity)
-     g = 'northwest'
+  if (is.null(g &lt;- options$magick.gravity)) g = 'northwest'
   # add the logo to the plot
   img = magick::image_composite(img, logo, gravity = g)
   # write out the new image
@@ -1035,16 +1034,24 @@ add_logo = function(path, options) {
     <p>
       Now we apply the above processing function to a code chunk with chunk options
       <c>fig.process = add_logo</c> and <c>magick.gravity = "northeast"</c>, so
-      the logo is added to the upper-right corner.
+      the logo is added to the upper-right corner. See <xref ref="fig-magick-logo"/>
+      for the actual output.
     </p>
 
-<program language="r">
-<input>
+    <program language="r">
+      <input>
 par(mar = c(4, 4, 0.1, 0.1))
 hist(faithful$eruptions, breaks = 30, main = "", col = "gray",
   border = "white")
-</input>
-</program>
+      </input>
+    </program>
+
+    <figure xml:id="fig-magick-logo">
+      <caption>Add the R logo to a plot via the chunk option fig.process.</caption>
+      <image source="images/magick-logo.png" width="70%">
+        <description>A histogram of Old Faithful eruption durations with the R logo added to the upper-right corner using the magick package.</description>
+      </image>
+    </figure>
 
     <p>
       After you get more familiar with the <em>magick</em> package, you may come
@@ -1058,7 +1065,7 @@ hist(faithful$eruptions, breaks = 30, main = "", col = "gray",
       graphical device to generate plots. The problem is that this device generates
       PDF plots, which will not work for non-LaTeX output documents. With the chunk
       options <c>dev = "tikz"</c> and <c>fig.process = pdf2png</c>, we can show
-      the PNG version of the plot.
+      the PNG version of the plot in <xref ref="fig-dev-tikz"/>.
     </p>
 
     <program language="r">
@@ -1117,8 +1124,9 @@ pdf2png = function(path) {
       For PDF output, if you are really picky about the typeface in your plots,
       you may use <c>dev = "tikz"</c>, because it offers native support for LaTeX,
       which means all elements in a plot, including text and symbols, are rendered
-      in high quality through LaTeX. Below is an example of writing LaTeX math
-      expressions in an R plot rendered with <c>dev = "tikz"</c>:
+      in high quality through LaTeX. <xref ref="fig-dev-tikz"/> shows an example
+      of writing LaTeX math expressions in an R plot rendered with
+      <c>dev = "tikz"</c>:
     </p>
 
     <program language="r">
@@ -1130,6 +1138,13 @@ abline(h = 0.3, lty = 2)
 text(0, 0.3, '$y = 0.3$', pos = 4)
       </input>
     </program>
+
+    <figure xml:id="fig-dev-tikz">
+      <caption>A plot rendered via the tikz device.</caption>
+      <image source="images/dev-tikz.png" width="70%">
+        <description>A plot of the density function of N(0,1), with LaTeX math expressions rendered via the tikz device showing the formula phi(x).</description>
+      </image>
+    </figure>
 
     <p>
       Note that base R actually supports math expressions, but they are not rendered
@@ -1194,8 +1209,11 @@ tinytex::tlmgr_install(c('pgf', 'preview', 'xcolor'))
     <p>
       It can be useful to show the intermediate plots, especially for teaching
       purposes. You can set the chunk option <c>fig.keep = 'low'</c> to keep
-      low-level plotting changes. We also assigned different figure captions to
-      them with the chunk option
+      low-level plotting changes. For example, <xref ref="fig-low-plots-1"/> and
+      <xref ref="fig-low-plots-2"/> are from a single code chunk with the chunk
+      option <c>fig.keep = 'low'</c>, although they appear to be from two code
+      chunks. We also assigned different figure captions to them with the chunk
+      option
       <c>fig.cap = c('A scatterplot ...', 'Adding a regression line...')</c>.
     </p>
 
@@ -1203,15 +1221,24 @@ tinytex::tlmgr_install(c('pgf', 'preview', 'xcolor'))
       <input>
 par(mar = c(4, 4, .1, .1))
 plot(cars)
-      </input>
-    </program>
-
-    <program language="r">
-      <input>
 fit = lm(dist ~ speed, data = cars)
 abline(fit)
       </input>
     </program>
+
+    <figure xml:id="fig-low-plots-1">
+      <caption>A scatterplot of the cars data.</caption>
+      <image source="images/low-plots-1.png" width="70%">
+        <description>A scatterplot showing the relationship between car speed (x-axis) and stopping distance (y-axis) from the cars dataset.</description>
+      </image>
+    </figure>
+
+    <figure xml:id="fig-low-plots-2">
+      <caption>Adding a regression line to an existing scatterplot.</caption>
+      <image source="images/low-plots-2.png" width="70%">
+        <description>A scatterplot of the cars data with a fitted regression line added, showing the linear relationship between speed and stopping distance.</description>
+      </image>
+    </figure>
 
     <p>
       If you want to keep modifying a plot in a <em>different</em> code chunk,
