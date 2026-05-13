@@ -1231,10 +1231,10 @@ for (i in 1:2) {
     </figure>
 
     <p>
-      The image format of the animation is GIF, which works well for HTML
-      output, but it is not straightforward to support GIF in LaTeX. For
-      compatibility in this PreTeXt version, <xref ref="fig-pacman"/> shows
-      a static frame from the animation.
+      The original animation is a GIF, which works well for HTML output,
+      but it is not straightforward to support in LaTeX. For compatibility
+      in this PreTeXt version, <xref ref="fig-pacman"/> shows a static PNG
+      frame from the animation.
     </p>
 
     <p>
