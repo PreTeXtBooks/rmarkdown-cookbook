@@ -865,7 +865,7 @@ $primary-color: #00FF00
 
     <p>
       If you are reading
-      <url href="https://bookdown.org/yihui/rmarkdown-cookbook/eng-sass.html">the HTML version of this section</url>,
+      <url href="https://bookdown.org/yihui/rmarkdown-cookbook/eng-sass.html">the Bookdown HTML version of this section</url>,
       you will notice that the font for this page has been changed to Comic Sans,
       which might be surprising, but please do not panic---<url
       href="https://twitter.com/andrewheiss/status/1250438044542361600">you are
