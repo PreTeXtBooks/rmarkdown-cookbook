@@ -429,7 +429,7 @@ xfun::session_info(c(
       Yihui Xie, Christophe Dervieux, and Emily Riederer.
       The original work is available online at
       <url href="https://yihui.org/rmarkdown-cookbook/" visual="https://yihui.org/rmarkdown-cookbook/">https://yihui.org/rmarkdown-cookbook/</url>
-      and was published by CRC Press Taylor & Francis Group Chapman and Hall.
+      and was published by CRC Press, Taylor &amp; Francis Group, Chapman and Hall.
       The original GitHub repository for the book source is at
       <url href="https://github.com/rstudio/rmarkdown-cookbook"
            visual="https://github.com/rstudio/rmarkdown-cookbook">github.com/rstudio/rmarkdown-cookbook</url>.
@@ -440,8 +440,10 @@ xfun::session_info(c(
       <url href="https://github.com/PreTeXtBooks/rmarkdown-cookbook"
            visual="github.com/PreTeXtBooks/rmarkdown-cookbook">the PreTeXtBooks project</url>
       to make the content available in the PreTeXt format, enabling accessible and structured
-      output in HTML, PDF, and other formats. All prose, code examples, figures, and mathematical
-      content are faithful reproductions of the original work.
+      output in HTML, PDF, and other formats.   All prose, code examples, figures, and mathematical content are intended to be 
+  faithful reproductions of the original work, though occasional typographical errors 
+  may have been introduced in the conversion process. Report any issues to our
+  <url href = "https://github.com/PreTeXtBooks/rmarkdown-cookbook/issues">GitHub Issues Page.</url>
     </p>
 
     <p>
