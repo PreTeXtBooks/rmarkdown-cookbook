@@ -816,25 +816,17 @@ This
       output is commented out, it will be easier for you to copy all the code from
       a code chunk in a report and run it by yourself, without worrying about the
       fact that text output is not R code. For example, in the code chunk below,
-      you can copy all four lines of text and run them safely as R code, because
-      the output lines starting with <c>##</c> are treated as comments:
+      you can copy all four lines of text and run them safely as R code:
     </p>
 
     <program language="r">
       <input>
 1 + 1
-2 + 2
-      </input>
-    </program>
-
-    <console>
-      <output>
-1 + 1
 ## [1] 2
 2 + 2
 ## [1] 4
-      </output>
-    </console>
+      </input>
+    </program>
 
     <p>
       If you remove the hashes via <c>comment = ""</c>, it will not be easy for
@@ -845,18 +837,11 @@ This
     <program language="r">
       <input>
 1 + 1
-2 + 2
-      </input>
-    </program>
-
-    <console>
-      <output>
-1 + 1
 [1] 2
 2 + 2
 [1] 4
-      </output>
-    </console>
+      </input>
+    </program>
 
     <p>
       One argument in favor of <c>comment = ""</c> is that it makes the text output
@@ -1012,7 +997,10 @@ lines of output
     </p>
 
     <p>
-      Below we show an example of adding an R logo to a plot using the <em>magick</em> package <xref ref="R-magick"/>. First, we define a function <c>add_logo()</c>:
+      Below we show an example of adding an R logo to a plot using the <em>magick</em>
+      package <xref ref="R-magick"/>. If you are not familiar with this package, we
+      recommend that you read its online documentation or package vignette, which
+      contains lots of examples. First, we define a function <c>add_logo()</c>:
     </p>
 
     <program language="r">
@@ -1025,7 +1013,8 @@ add_logo = function(path, options) {
   logo = magick::image_read(logo)
   # the default gravity is northwest, and users can change it via the chunk
   # option magick.gravity
-  if (is.null(g &lt;- options$magick.gravity)) g = 'northwest'
+  if (is.null(g &lt;- options$magick.gravity)
+     g = 'northwest'
   # add the logo to the plot
   img = magick::image_composite(img, logo, gravity = g)
   # write out the new image
@@ -1048,6 +1037,14 @@ add_logo = function(path, options) {
       <c>fig.process = add_logo</c> and <c>magick.gravity = "northeast"</c>, so
       the logo is added to the upper-right corner.
     </p>
+
+<program language="r">
+<input>
+par(mar = c(4, 4, 0.1, 0.1))
+hist(faithful$eruptions, breaks = 30, main = "", col = "gray",
+  border = "white")
+</input>
+</program>
 
     <p>
       After you get more familiar with the <em>magick</em> package, you may come
@@ -1087,8 +1084,15 @@ pdf2png = function(path) {
       <c>png()</c> device, so <em>knitr</em> will generate PNG plot files, and PDF
       output formats use the <c>pdf()</c> device, etc. If you are not satisfied
       with the quality of the default graphical devices, you can change them via
-      the chunk option <c>dev</c>.
-    </p>
+      the chunk option <c>dev</c>. 
+  All possible devices supported by knitr are: <c>bmp</c>, <c>postscript</c>, 
+  <c>pdf</c>, <c>png</c>, <c>svg</c>, <c>jpeg</c>, <c>pictex</c>, <c>tiff</c>, 
+  <c>win.metafile</c>, <c>cairo_pdf</c>, <c>cairo_ps</c>, <c>quartz_pdf</c>, 
+  <c>quartz_png</c>, <c>quartz_jpeg</c>, <c>quartz_tiff</c>, <c>quartz_gif</c>, 
+  <c>quartz_psd</c>, <c>quartz_bmp</c>, <c>CairoJPEG</c>, <c>CairoPNG</c>, 
+  <c>CairoPS</c>, <c>CairoPDF</c>, <c>CairoSVG</c>, <c>CairoTIFF</c>, 
+  <c>svglite</c>, <c>gridSVG</c>, <c>ragg_png</c>, and <c>tikz</c>.
+</p>
 
     <p>
       Usually a graphical device name is also a function name. For example, you
@@ -1199,6 +1203,11 @@ tinytex::tlmgr_install(c('pgf', 'preview', 'xcolor'))
       <input>
 par(mar = c(4, 4, .1, .1))
 plot(cars)
+      </input>
+    </program>
+
+    <program language="r">
+      <input>
 fit = lm(dist ~ speed, data = cars)
 abline(fit)
       </input>
