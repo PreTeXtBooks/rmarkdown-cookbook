@@ -155,6 +155,11 @@ knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)
 Sys.which('pdfcrop')
     </input></program>
 
+<console><output>
+##                                          pdfcrop 
+## "/home/runner/.TinyTeX/bin/x86_64-linux/pdfcrop"
+</output></console>
+
     <p>
       If you are using the LaTeX distribution TinyTeX (see
       <xref ref="install-latex"/>), and <c>pdfcrop</c> is not available in your
@@ -166,6 +171,7 @@ Sys.which('pdfcrop')
       For non-PDF plot files such as PNG or JPEG files, this hook function calls
       the R package <em>magick</em> <xref ref="R-magick"/> for cropping. You need to make sure this R
       package has been installed.
+      TODO SENTENCE HERE ON FIGURES
     </p>
 
   </section>
@@ -387,22 +393,13 @@ is indented, e.g.,
     </p>
 
     <program language="text"><input>
-- One bullet.
+One bullet.
 
-  ````
-  ```{r, eval=TRUE}
-  ````
-  ```r
-  2 + 2
-  ```
-  ```
-  ## [1] 4
-  ```
-  ````
-  ```
-  ````
-
-- Another bullet.
+```{r, eval=TRUE}
+2 + 2
+## [1] 4
+```
+Another bullet.
     </input></program>
 
     <p>
