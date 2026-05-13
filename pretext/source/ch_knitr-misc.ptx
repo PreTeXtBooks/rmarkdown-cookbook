@@ -702,7 +702,8 @@ res &lt;- xfun::cache_rds({
       The path of the <c>.rds</c> file will be of the form
       <c>input_cache/FORMAT/foo_HASH.rds</c>, where <c>FORMAT</c> is the Pandoc
       output format name (e.g., <c>html</c> or <c>latex</c>), and <c>HASH</c> is
-      an MD5 hash that contains 32 hexadecimal digits.
+      an MD5 hash that contains 32 hexadecimal digits (consisting a-z and 0-9),
+      e.g., <c>input_cache/html/foo_7a3f22c4309d400eff95de0e8bddac71.rds</c>.
     </p>
 
     <p>
@@ -713,9 +714,9 @@ res &lt;- xfun::cache_rds({
       to keep multiple copies of the cache corresponding to different versions of
       the code.
     </p>
-
+<subsection>
+<title> Invalidate the cache by changing code in the expression.</title>
     <p>
-      <em>Invalidate the cache by changing code in the expression.</em>
       When you change the code in <c>cache_rds()</c> (e.g., from
       <c>cache_rds({x + 1})</c> to <c>cache_rds({x + 2})</c>), the cache will
       be automatically invalidated and the expression will be re-evaluated.
@@ -742,7 +743,9 @@ res &lt;- xfun::cache_rds({
 
     <p>
       Hence if you have executed <c>cache_rds()</c> on the first expression, the
-      second expression will be able to take advantage of the cache.
+      second expression will be able to take advantage of the cache. This feature
+      is helpful because it allows you make cosmetic changes in your code without
+      invalidating the cache.
     </p>
 
     <p>
@@ -763,15 +766,25 @@ identical(parse_code({x &lt;- 1}), parse_code({1 -&gt; x}))
       </input>
     </program>
 
+   <console>
+    <output>
+## [1] "{"         "    x + 1" "}"
+## [1] "{"         "    x + 1" "}"
+## [1] TRUE
+</output>
+</console>
+</subsection>
+<subsection>
+      <title>Invalidate the cache by changes in global variables.</title>
     <p>
-      <em>Invalidate the cache by changes in global variables.</em>
       There are two types of variables in an expression: global variables and
       local variables. Global variables are those created outside the expression,
       and local variables are those created inside the expression. If the value
       of a global variable in the expression has changed, your cached result will
       no longer reflect the result that you would obtain by running the expression
       again. For example, in the expression below, if <c>y</c> has changed, you
-      are most likely to want to invalidate the cache and rerun the expression:
+      are most likely to want to invalidate the cache and rerun the expression,
+      otherwise you still get the result from the old value of <c>y</c>:
     </p>
 
     <program language="r"><input>
@@ -856,13 +869,15 @@ res &lt;- xfun::cache_rds({
       completely sure which variables can invalidate the cache.
     </p>
 
+</subsection>
+<subsection>
+      <title>Keep multiple copies of the cache.</title>
     <p>
-      <em>Keep multiple copies of the cache.</em>
       Since the cache is typically used for time-consuming code, perhaps you
       should invalidate it conservatively. You might regret invalidating the
       cache too soon or aggressively, because if you should need an older
       version of the cache again, you would have to wait for a long time for
-      the computing to be redone.
+      the computing to be redone.</p><p>
       The <c>clean</c> argument of <c>cache_rds()</c> allows you to keep older
       copies of the cache if you set it to <c>FALSE</c>. You can also set the
       global R option <c>options(xfun.cache_rds.clean = FALSE)</c> if you want
@@ -888,8 +903,12 @@ model &lt;- xfun::cache_rds({
       or delete this argument (so the default <c>TRUE</c> is used).
     </p>
 
+</subsection>
+<subsection>
+      <title>Comparison with <em>knitr</em>'s caching.</title>
     <p>
-      <em>Comparison with <em>knitr</em>'s caching.</em>
+You may wonder when to use <em>knitr</em>'s caching (i.e., set the chunk option <c>cache = TRUE</c>),
+and when to use <c>xfun::cache_rds()</c> in a <em>knitr</em> source document. 
       The biggest disadvantage of <c>xfun::cache_rds()</c> is that it does not
       cache side effects (but only the value of the expression), whereas
       <em>knitr</em> does. Some side effects may be useful, such as printed output
@@ -953,7 +972,7 @@ mean(x)
       caching the computing, and it works anywhere, whereas <em>knitr</em>'s
       caching only works in <em>knitr</em> documents.
     </p>
-
+   </subsection>
   </section>
 
 </chapter>
