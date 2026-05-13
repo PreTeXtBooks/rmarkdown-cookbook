@@ -233,11 +233,65 @@ knitr::kable(iris2, col.names = gsub('[.]', ' ', names(iris)))
         </input>
       </program>
 
-      <figure>
-        <image source="images/kable-col-names-output.png" width="80%">
-          <description>Screenshot of the first rows of the iris data rendered as a table with spaces in the column names.</description>
-        </image>
-      </figure>
+<table>
+  <title>Iris Dataset (First Six Observations)</title>
+  <tabular>
+    <col halign="right"/>
+    <col halign="right"/>
+    <col halign="right"/>
+    <col halign="right"/>
+    <col halign="left"/>
+    <row header="yes">
+      <cell>Sepal Length</cell>
+      <cell>Sepal Width</cell>
+      <cell>Petal Length</cell>
+      <cell>Petal Width</cell>
+      <cell>Species</cell>
+    </row>
+    <row>
+      <cell>5.1</cell>
+      <cell>3.5</cell>
+      <cell>1.4</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>4.9</cell>
+      <cell>3.0</cell>
+      <cell>1.4</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>4.7</cell>
+      <cell>3.2</cell>
+      <cell>1.3</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>4.6</cell>
+      <cell>3.1</cell>
+      <cell>1.5</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>5.0</cell>
+      <cell>3.6</cell>
+      <cell>1.4</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>5.4</cell>
+      <cell>3.9</cell>
+      <cell>1.7</cell>
+      <cell>0.4</cell>
+      <cell>setosa</cell>
+    </row>
+  </tabular>
+</table>
 
       <p>
         The <c>col.names</c> argument can take an arbitrary character vector
@@ -276,11 +330,65 @@ knitr::kable(iris2, align = 'lccrr')
         </input>
       </program>
 
-      <figure>
-        <image source="images/kable-align-output.png" width="80%">
-          <description>Screenshot of the iris table rendered with left-, center-, and right-aligned columns.</description>
-        </image>
-      </figure>
+<table>
+  <title>Iris Dataset (First Six Observations)</title>
+  <tabular>
+    <col halign="left"/>
+    <col halign="center"/>
+    <col halign="center"/>
+    <col halign="right"/>
+    <col halign="right"/>
+    <row header="yes">
+      <cell>Sepal Length</cell>
+      <cell>Sepal Width</cell>
+      <cell>Petal Length</cell>
+      <cell>Petal Width</cell>
+      <cell>Species</cell>
+    </row>
+    <row>
+      <cell>5.1</cell>
+      <cell>3.5</cell>
+      <cell>1.4</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>4.9</cell>
+      <cell>3.0</cell>
+      <cell>1.4</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>4.7</cell>
+      <cell>3.2</cell>
+      <cell>1.3</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>4.6</cell>
+      <cell>3.1</cell>
+      <cell>1.5</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>5.0</cell>
+      <cell>3.6</cell>
+      <cell>1.4</cell>
+      <cell>0.2</cell>
+      <cell>setosa</cell>
+    </row>
+    <row>
+      <cell>5.4</cell>
+      <cell>3.9</cell>
+      <cell>1.7</cell>
+      <cell>0.4</cell>
+      <cell>setosa</cell>
+    </row>
+  </tabular>
+</table>
 
 
     </subsection>
@@ -338,12 +446,6 @@ format(10000.123, big.mark = ',')
         </output>
       </console>
 
-      <figure>
-        <image source="images/kable-digits-console-output.png" width="80%">
-          <description>Screenshot of console output showing examples of rounding and formatting numeric values in R.</description>
-        </image>
-      </figure>
-
       <p>
         Then we round and format numbers in a table:
       </p>
@@ -361,12 +463,6 @@ knitr::kable(d, digits = 3, format.args = list(scientific = FALSE))
 knitr::kable(d, digits = 3, format.args = list(big.mark = ',', scientific = FALSE))
         </input>
       </program>
-
-      <figure>
-        <image source="images/kable-digits-tables-output.png" width="80%">
-          <description>Screenshot of tables showing numeric columns formatted with different digit and format argument settings.</description>
-        </image>
-      </figure>
     </subsection>
 
     <subsection xml:id="kable-na">
@@ -393,12 +489,6 @@ knitr::kable(d)
 options(opts)  # restore global R options
         </input>
       </program>
-
-      <figure>
-        <image source="images/kable-na-output.png" width="90%">
-          <description>Screenshot of three tables showing missing values displayed as NA, blank cells, and double asterisks.</description>
-        </image>
-      </figure>
     </subsection>
 
     <subsection xml:id="kable-escape">
