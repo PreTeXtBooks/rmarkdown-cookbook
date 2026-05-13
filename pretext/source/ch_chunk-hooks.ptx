@@ -170,9 +170,24 @@ Sys.which('pdfcrop')
     <p>
       For non-PDF plot files such as PNG or JPEG files, this hook function calls
       the R package <em>magick</em> <xref ref="R-magick"/> for cropping. You need to make sure this R
-      package has been installed.
-      TODO SENTENCE HERE ON FIGURES
+      package has been installed. <xref ref="fig-crop-no"/> shows a plot that is
+      not cropped, and <xref ref="fig-crop-yes"/> shows the same plot but
+      cropped.
     </p>
+
+    <figure xml:id="fig-crop-no">
+      <caption>A plot that is not cropped.</caption>
+      <image source="images/crop-no.png" width="70%">
+        <description>A scatterplot with extra gray margins around the plot area.</description>
+      </image>
+    </figure>
+
+    <figure xml:id="fig-crop-yes">
+      <caption>A plot that is cropped.</caption>
+      <image source="images/crop-yes.png" width="70%">
+        <description>The same scatterplot with extra margins removed by cropping.</description>
+      </image>
+    </figure>
 
   </section>
 
