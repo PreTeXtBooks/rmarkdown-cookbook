@@ -1096,6 +1096,12 @@ kable(head(iris, 5), booktabs = TRUE) %>%
   kable_styling(font_size = 8)
         </input>
       </program>
+
+      <figure>
+        <image source="images/kableextra-font-output.png" width="80%">
+          <description>Screenshot of a small-font table created with kableExtra::kable_styling(font_size = 8).</description>
+        </image>
+      </figure>
     </subsection>
 
     <subsection xml:id="kableextra-spec">
@@ -1120,6 +1126,12 @@ kable(head(iris, 5), align = 'c', booktabs = TRUE) %>%
   column_spec(5, strikeout = TRUE)
         </input>
       </program>
+
+      <figure>
+        <image source="images/kableextra-spec-output.png" width="80%">
+          <description>Screenshot of a table with styled rows and a struck-out column created with row_spec() and column_spec().</description>
+        </image>
+      </figure>
 
       <p>
         Similarly, you can style individual cells with the
@@ -1148,6 +1160,12 @@ kable(iris2, booktabs = TRUE) %>%
         </input>
       </program>
 
+      <figure>
+        <image source="images/kableextra-header-output.png" width="80%">
+          <description>Screenshot of a table with grouped column headers created with add_header_above().</description>
+        </image>
+      </figure>
+
       <p>
         For the named vector in <c>add_header_above()</c>, the names are the
         text to be shown in the table header, and the integer values of the
@@ -1169,6 +1187,12 @@ kable(iris3[, 1:4], booktabs = TRUE) %>% pack_rows(
 )
         </input>
       </program>
+
+      <figure>
+        <image source="images/kableextra-pack-rows-output.png" width="80%">
+          <description>Screenshot of a table with grouped rows created with pack_rows().</description>
+        </image>
+      </figure>
     </subsection>
 
     <subsection xml:id="kableextra-scale">
@@ -1190,6 +1214,12 @@ tab %>%
   kable_styling(latex_options = "scale_down")
         </input>
       </program>
+
+      <figure>
+        <image source="images/kableextra-scale-output.png" width="90%">
+          <description>Screenshot of the original wide table and a scaled-down version created with kable_styling(latex_options = "scale_down").</description>
+        </image>
+      </figure>
 
       <p>
         You will not see any differences in the above two tables if you are

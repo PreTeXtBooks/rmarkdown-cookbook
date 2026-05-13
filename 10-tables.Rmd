@@ -74,8 +74,6 @@ iris2 = head(iris)
 knitr::kable(iris2, col.names = gsub('[.]', ' ', names(iris)))
 ```
 
-![Table showing iris data with updated column labels.](https://github.com/user-attachments/assets/16db17c6-a33d-41d1-a933-f55db02cf84f)
-
 The `col.names` argument can take an arbitrary character vector (not necessarily the modified column names via functions like `gsub()`), as long as the length of the vector is equal to the number of columns of the data object, e.g.,
 
 ```{r, eval=FALSE, tidy=FALSE}
@@ -93,8 +91,6 @@ To change the alignment of the table columns, you can use either a vector of val
 # left, center, center, right, right
 knitr::kable(iris2, align = 'lccrr')
 ```
-
-![Table showing iris data with left-, center-, and right-aligned columns.](https://github.com/user-attachments/assets/7e783541-dca9-48fe-9b27-34e2c9bb82fc)
 
 ### Add a table caption {#kable-caption}
 
@@ -118,8 +114,6 @@ format(1000, scientific = TRUE)
 format(10000.123, big.mark = ',')
 ```
 
-![Console output showing examples of number formatting in R.](https://github.com/user-attachments/assets/de0841c0-65b5-4927-8977-1b888222ccc8)
-
 Then we round and format numbers in a table:
 
 ```{r, R.options=list(digits = 7)}
@@ -133,8 +127,6 @@ knitr::kable(d, digits = 3, format.args = list(scientific = FALSE))
 # add commas to big numbers
 knitr::kable(d, digits = 3, format.args = list(big.mark = ',', scientific = FALSE))
 ```
-
-![Tables showing numeric values formatted with different digit settings.](https://github.com/user-attachments/assets/5d7a5ba0-8027-457c-903b-a572faa10289)
 
 ### Display missing values
 
@@ -150,8 +142,6 @@ options(knitr.kable.NA = '**')
 knitr::kable(d)
 options(opts)  # restore global R options
 ```
-
-![Three tables showing different ways to display missing values.](https://github.com/user-attachments/assets/8a384349-3d0a-4d19-8126-22ff1da3b290)
 
 ### Escape special characters
 
