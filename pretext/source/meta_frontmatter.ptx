@@ -22,16 +22,6 @@
   </titlepage>
 
   <abstract>
-    <p>
-      This book showcases short, practical examples of lesser-known tips and
-      tricks to help users get the most out of R Markdown. After reading this
-      book, you will understand how R Markdown documents are transformed from
-      plain text and how you may customize nearly every step of this processing.
-      For example, you will learn how to dynamically create content from R code,
-      reference code in other documents or chunks, control the formatting with
-      custom templates, fine-tune how your code is processed, and incorporate
-      multiple languages into your analysis.
-    </p>
   </abstract>
 
   <preface xml:id="preface">
@@ -236,6 +226,27 @@ xfun::session_info(c(
 ), dependencies = FALSE)
       </input>
     </program>
+<console>
+<output>
+## R version 4.5.2 (2025-10-31)
+## Platform: x86_64-pc-linux-gnu
+## Running under: Ubuntu 24.04.3 LTS
+## 
+## Locale:
+##   LC_CTYPE=C.UTF-8       LC_NUMERIC=C          
+##   LC_TIME=C.UTF-8        LC_COLLATE=C.UTF-8    
+##   LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
+##   LC_PAPER=C.UTF-8       LC_NAME=C             
+##   LC_ADDRESS=C           LC_TELEPHONE=C        
+##   LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+## 
+## Package version:
+##   bookdown_0.46  knitr_1.51.2   rmarkdown_2.30
+##   xfun_0.56     
+## 
+## Pandoc version: 2.17.1.1
+</output>
+</console>
     <p>
       We do not add prompts (<c>&gt;</c> and <c>+</c>) to R source code in
       this book, and we comment out the text output with two hashes <c>##</c>
@@ -389,24 +400,56 @@ xfun::session_info(c(
 
   <preface xml:id="about-authors">
     <title>About the Authors</title>
+<p>
+  Yihui typed out most of the words in this book, which is the only justification for 
+  him being the <q>first</q> author. Christophe has made substantial contribution to 
+  this book by helping Yihui organize all the GitHub issues and occasionally writing a 
+  few sections. Emily was originally a reviewer of this book. Since Yihui was not 
+  patient enough to deal with her lengthy comments, he invited her to become a co-author 
+  of this book (out of revenge) to feel his pain of having to deal with so many 
+  additional things when he thought he was pretty much done! Just kidding<ellipsis/> No, 
+  he invited her out of full appreciation, because her comments were so helpful, yet 
+  Yihui lacked the time to do all the improvements that she suggested.
+</p>
+
+<p>
+  When you see the pronoun <q>I</q> in this book, it refers to Yihui. Using <q>I</q> 
+  instead of <q>We</q> does not mean the co-authors were forgotten, but Yihui wanted 
+  to express certain opinions completely on his own. He certainly wants to appear smart, 
+  but in case he is actually silly, he wants to be silly alone.
+</p>
+  </preface>
+
+  <preface xml:id="preface-ptx-version">
+    <title>Note on This PreTeXt Edition</title>
+
     <p>
-      <em>Yihui Xie</em> typed out most of the words in this book. He is a
-      software engineer at Posit, PBC. He has authored several R packages,
-      including <em>knitr</em>, <em>bookdown</em>, <em>blogdown</em>,
-      <em>xaringan</em>, and <em>tinytex</em>.
+      This is a <url href="https://pretextbook.org/" visual="pretextbook.org">PreTeXt</url>
+      conversion of <em>R Markdown Cookbook</em>, originally written by
+      Yihui Xie, Christophe Dervieux, and Emily Riederer.
+      The original work is available online at
+      <url href="https://yihui.org/rmarkdown-cookbook/" visual="https://yihui.org/rmarkdown-cookbook/">https://yihui.org/rmarkdown-cookbook/</url>
+      and was published by CRC Press Taylor & Francis Group Chapman and Hall.
+      The original GitHub repository for the book source is at
+      <url href="https://github.com/rstudio/rmarkdown-cookbook"
+           visual="https://github.com/rstudio/rmarkdown-cookbook">github.com/rstudio/rmarkdown-cookbook</url>.
     </p>
+
     <p>
-      <em>Christophe Dervieux</em> has made substantial contributions to this
-      book by helping organize all the GitHub issues and writing several
-      sections. He is a software engineer at Posit, PBC.
+      This PreTeXt edition was prepared by
+      <url href="https://github.com/PreTeXtBooks/rmarkdown-cookbook"
+           visual="github.com/PreTeXtBooks/rmarkdown-cookbook">the PreTeXtBooks project</url>
+      to make the content available in the PreTeXt format, enabling accessible and structured
+      output in HTML, PDF, and other formats. All prose, code examples, figures, and mathematical
+      content are faithful reproductions of the original work.
     </p>
+
     <p>
-      <em>Emily Riederer</em> was originally a reviewer of this book and was
-      subsequently invited to become a co-author. Her insightful comments and
-      contributions have greatly improved the book.
-    </p>
-    <p>
-      When you see the pronoun <q>I</q> in this book, it refers to Yihui.
+      The original work by Yihui Xie, Christophe Dervieux, and Emily Riederer licensed under a
+      <url href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
+           visual="creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons
+      Attribution-NonCommercial-ShareAlike 4.0 International License</url>.
     </p>
   </preface>
+
 </frontmatter>
