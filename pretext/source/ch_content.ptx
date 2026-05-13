@@ -1224,18 +1224,17 @@ for (i in 1:2) {
     </program>
 
     <figure xml:id="fig-pacman">
-      <caption>A Pac-man animation.</caption>
-      <image source="images/pacman.gif" width="50%">
-        <description>A Pac-man animation.</description>
+      <caption>A frame from the Pac-man animation.</caption>
+      <image source="images/pacman.png" width="50%">
+        <description>A frame from the Pac-man animation.</description>
       </image>
     </figure>
 
     <p>
       The image format of the animation is GIF, which works well for HTML
-      output, but it is not straightforward to support GIF in LaTeX. That
-      is why you only see two static image frames in <xref ref="fig-pacman"/> if
-      you are reading the PDF or printed version of this book. If you read
-      the online version of this book, you will see the actual animation.
+      output, but it is not straightforward to support GIF in LaTeX. For
+      compatibility in this PreTeXt version, <xref ref="fig-pacman"/> shows
+      a static frame from the animation.
     </p>
 
     <p>
