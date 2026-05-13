@@ -738,7 +738,7 @@ Mazda RX4 Wag        21.0     6    160   110
 </program>
 
 <p>
-  When you assign a caption to a table (see <xref ref="sec-table-captions"/>), 
+  When you assign a caption to a table (see <xref ref="kable-caption"/>), 
   <c>kable()</c> will use the <c>table</c> environment to include the table, i.e.,
 </p>
 
@@ -851,7 +851,7 @@ Mazda RX4 Wag        21.0     6    160   110
 <p>
   Please note that when you need additional LaTeX packages such as <c>booktabs</c> for 
   an R Markdown document, you have to declare these packages in YAML (see 
-  <xref ref="sec-yaml-latex-packages"/> for how).
+  <xref ref="latex-extra-loading"/> for how).
 </p>
 
 <p>
